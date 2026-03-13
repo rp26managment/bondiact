@@ -17,7 +17,7 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 | **Producción** | https://bondiact.io (via Vercel) |
 | **GitHub Pages** | https://rp26managment.github.io/bondiact/ligie/ |
 | **Repo GitHub** | `rp26managment/bondiact` |
-| **Carpeta local Mac** | `~/Desktop/bondiact` (o donde esté el repo clonado) |
+| **Carpeta local Mac** | `~/Documents/GitHub/bondiact` |
 
 ---
 
@@ -71,7 +71,7 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 
 ## Cómo montar esta carpeta en Cowork (sesión nueva)
 Decirle a Claude:
-> *"Monta la carpeta ~/Desktop/bondiact (o donde esté el repo)"*
+> *"Monta ~/Documents/GitHub/bondiact"*
 
 ---
 
