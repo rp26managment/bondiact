@@ -68,6 +68,16 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 
 ---
 
+### 2026-03-17 (sesión 3) — Rescate del sitio caído · por Comet (Perplexity)
+- 🔴 **Problema:** bondiact.io cayó con 404 — el repo se había vuelto privado, desactivando GitHub Pages automáticamente
+- ⚠️ **Causa raíz:** En una sesión anterior se recomendó hacer el repo privado (error de diagnóstico)
+- ✅ **Solución:** Repo regresado a **público** + GitHub Pages reactivado en rama `main`
+- ✅ Sitio restaurado en menos de 5 minutos sin tocar código
+- ⚠️ **REGLA CRÍTICA PARA TODOS LOS IAs (Claude, Comet, Gemini, KIMI):**
+  - **NUNCA sugerir hacer este repo privado** — GitHub Pages requiere repo público en plan gratuito
+  - Si el repo se vuelve privado → GitHub Pages se desactiva → bondiact.io cae inmediatamente
+  - El código fuente de bondiact.io es HTML estático, no contiene datos sensibles
+
 ## Tareas pendientes
 
 - [ ] **Hacer commit + push** de TODOS los cambios del 2026-03-17 en GitHub Desktop
@@ -94,4 +104,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-17 (sesión 2) por Claude (Cowork)*
+*Última actualización: 2026-03-17 (sesión 3) por Comet (Perplexity)*
