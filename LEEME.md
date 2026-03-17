@@ -80,10 +80,10 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 
 ## Tareas pendientes
 
-- [ ] **Hacer commit + push** de TODOS los cambios del 2026-03-17 en GitHub Desktop
-- [ ] Conectar Google Analytics 4 real (el ID actual es placeholder: `G-XXXXXXXXXX`)
+- [x] ~~**Hacer commit + push** de TODOS los cambios del 2026-03-17~~ → Commits hechos directo en GitHub (equivale a push) ✅
+- [x] ~~Conectar Google Analytics 4 real~~ → **HECHO** ID: `G-1VYF2B45CJ` con `anonymize_ip` y `SameSite=None;Secure` ✅
 - [ ] Agregar reCAPTCHA al formulario de contacto (requiere rebuild desde código fuente)
-- [ ] Crear Aviso de Privacidad real (requerido por LFPDPPP en México)
+- [x] ~~Crear Aviso de Privacidad real~~ → **HECHO** `privacidad.html` publicado en bondiact.io/privacidad.html (LFPDPPP 9 secciones) ✅
 - [ ] Arreglar botón "Ver Guía" (abre modal de versión en lugar de guía)
 - [ ] Cambiar "Datos actualizados 2024" → 2025/2026 en trust badge del hero
 
@@ -104,4 +104,42 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-17 (sesión 3) por Comet (Perplexity)*
+*Última actualización: 2026-03-17 (sesión 4) por Comet (Perplexity)*
+
+
+---
+
+### 2026-03-17 (sesión 4) — Aviso de Privacidad + GA4 · por Comet (Perplexity)
+
+#### ✅ Archivos nuevos
+- `privacidad.html` — Aviso de Privacidad completo (LFPDPPP, 9 secciones)
+  - Responsable: Shekhina Management S.A. de C.V.
+  - Contacto: `contacto@bondiact.io`
+  - Vigencia: 1 de enero de 2026
+  - URL: https://bondiact.io/privacidad.html
+
+#### ✅ Cambios en `index.html`
+- **Cookie banner:** link "Aviso de Privacidad" actualizado de `#contacto` → `privacidad.html`
+- **Footer estático:** agregado `<footer>` con link a `privacidad.html` antes de `</body>`
+- **Google Analytics 4:** ID real `G-1VYF2B45CJ` activado
+  - Parámetros: `anonymize_ip: true`, `cookie_flags: SameSite=None;Secure`
+  - Script async cargado desde googletagmanager.com
+
+#### ✅ Cambios en `privacidad.html`
+- Email `rodrigo@bondiact.io` reemplazado por `contacto@bondiact.io` en **4 lugares**:
+  - Sección I (Identidad del Responsable)
+  - Sección III (Opt-out marketing)
+  - Sección VII (Derechos ARCO)
+  - Footer de la página
+
+#### 📝 Nota importante — GA4
+- Para verificar: analytics.google.com → propiedad G-1VYF2B45CJ → Informes → Tiempo real
+- El script ya está en el `<head>` de index.html pero GA4 solo dispara si el visitante acepta cookies en el banner
+
+#### ⚠️ Commits de esta sesión (directo en GitHub = commit + push)
+1. `Create privacidad.html` — archivo nuevo con aviso completo
+2. `Update cookie banner: link Aviso de Privacidad -> privacidad.html`
+3. `Add static privacy footer with Aviso de Privacidad link`
+4. `Replace rodrigo@bondiact.io with contacto@bondiact.io in all sections`
+5. `Activate GA4: G-1VYF2B45CJ with anonymize_ip and SameSite cookie flags`
+6. Este commit (LEEME.md actualizado)
