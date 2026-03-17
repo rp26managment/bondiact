@@ -29,12 +29,27 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 | `og-image.png` | Imagen preview para LinkedIn/WhatsApp (1200×630px) | No borrar |
 | `CNAME` | Le dice a GitHub Pages que el dominio es bondiact.io | **NUNCA BORRAR** — si lo borras el sitio deja de funcionar |
 | `ligie/index.html` | Buscador LIGIE V2.13 (~7.7MB) | **NO TOCAR SIN CLAUDE** |
+| `images/` | Imágenes del sitio (Control Tower concept + ecosystem) | No borrar |
 | `assets/` | CSS y JS del sitio (generados automáticamente) | No editar manualmente |
 | `.gitignore` | Evita subir archivos basura (.DS_Store) | No borrar |
 
 ---
 
 ## Historial de cambios (más reciente arriba)
+
+### 2026-03-17 — Correcciones UX, Seguridad y Diseño (Observaciones Comet)
+- ✅ **Navbar simplificado**: 9 enlaces → 5 (Inicio, Servicios, Control Tower, Cobertura, Contacto)
+- ✅ **Footer limpio**: Eliminados "Blog" y "Carreras" (no existen aún)
+- ✅ **Social links**: Eliminados Facebook, X/Twitter, Instagram — solo LinkedIn (B2B)
+- ✅ **Links legales**: Redirigidos a #contacto (antes apuntaban a # roto)
+- ✅ **Kanban colores corregidos**: Rojo (Por Hacer) → Amarillo (En Progreso/Revisión) → Verde (Completado)
+- ✅ **Control Tower imágenes**: Agregada carpeta `images/` con concept + ecosystem PNG
+- ✅ **ScrumDashboard oculto**: Botón Dashboard removido (sin funcionalidad aún)
+- ✅ **Logo transparente**: Creadas 2 versiones en Desktop (oscuro + blanco) para PDF/firma email
+- ⏳ **Pendiente commit + push** (Rod en GitHub Desktop)
+- ⚠️ **Código fuente** editado también en: `~/Desktop/BondiaCT respaldo/Kimi_Agent_Bondia Control Tower website/app/src/`
+  - Para rebuild limpio futuro: `cd app && npm install && npm run build`
+  - Copiar `dist/` → repo bondiact
 
 ### 2026-03-12 — SEO completo bondiact.io
 - ✅ Agregados a `index.html`: Canonical URL, Open Graph (og:title/description/image/url/type/site_name/locale), Twitter Card, JSON-LD Schema.org (Organization)
@@ -52,9 +67,10 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 
 ## Tareas pendientes
 
-- [ ] **Hacer commit + push** de los cambios SEO (index.html + og-image.png) en GitHub Desktop
+- [ ] **Hacer commit + push** de TODOS los cambios del 2026-03-17 en GitHub Desktop
 - [ ] Conectar Google Analytics 4 real (el ID actual es placeholder: `G-XXXXXXXXXX`)
-- [ ] Crear og-image.png de mejor calidad cuando tengas el logo en SVG/AI
+- [ ] Agregar reCAPTCHA al formulario de contacto (requiere rebuild desde código fuente)
+- [ ] Crear Aviso de Privacidad real (requerido por LFPDPPP en México)
 - [ ] Arreglar botón "Ver Guía" (abre modal de versión en lugar de guía)
 - [ ] Cambiar "Datos actualizados 2024" → 2025/2026 en trust badge del hero
 
@@ -75,4 +91,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-12 por Claude (Cowork)*
+*Última actualización: 2026-03-17 por Claude (Cowork)*
