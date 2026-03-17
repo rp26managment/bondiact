@@ -37,6 +37,9 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 
 ## Historial de cambios (más reciente arriba)
 
+### 2026-03-17 (sesión 2) — CookieBanner + fix form salthub
+- ✅ **CookieBanner vanilla JS**: Inyectado en `index.html` (no requiere rebuild React). Cumple LFPDPPP/GDPR. Opciones: Aceptar todas, Solo esenciales, Rechazar. Guarda preferencia en `localStorage` key `bondiact_cookie_consent`. Aparece 1.5s después de carga, animación suave.
+
 ### 2026-03-17 — Correcciones UX, Seguridad y Diseño (Observaciones Comet)
 - ✅ **Navbar simplificado**: 9 enlaces → 5 (Inicio, Servicios, Control Tower, Cobertura, Contacto)
 - ✅ **Footer limpio**: Eliminados "Blog" y "Carreras" (no existen aún)
@@ -91,4 +94,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-17 por Claude (Cowork)*
+*Última actualización: 2026-03-17 (sesión 2) por Claude (Cowork)*
