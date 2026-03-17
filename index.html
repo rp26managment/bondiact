@@ -126,5 +126,75 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- Cookie Banner · Vanilla JS (no requiere rebuild React) -->
+    <!-- Cumple LFPDPPP (México) y GDPR (UE)                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <script>
+    (function() {
+      'use strict';
+      var STORAGE_KEY = 'bondiact_cookie_consent';
+
+      // Si ya aceptó/rechazó, no mostrar
+      if (localStorage.getItem(STORAGE_KEY)) return;
+
+      // Esperar 1s después de carga para no bloquear render
+      setTimeout(function() {
+        // Crear contenedor
+        var banner = document.createElement('div');
+        banner.id = 'cookie-banner';
+        banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:16px 24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;';
+
+        banner.innerHTML = '' +
+          '<div style="max-width:900px;margin:0 auto;background:rgba(15,20,30,0.97);border:1px solid rgba(45,107,255,0.3);border-radius:16px;padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);">' +
+            '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;">' +
+              // Icono cookie
+              '<div style="width:40px;height:40px;border-radius:50%;background:rgba(45,107,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2D6BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M2 13.4c.5.1 1 .1 1.5.2a4 4 0 0 0 4.8-3.2"/><circle cx="7.5" cy="10.5" r=".5"/><circle cx="12" cy="13.5" r=".5"/><circle cx="16.5" cy="17.5" r=".5"/></svg>' +
+              '</div>' +
+              // Texto
+              '<div style="flex:1;min-width:200px;">' +
+                '<p style="margin:0 0 2px;font-weight:600;font-size:14px;color:#fff;">Privacidad y Cookies</p>' +
+                '<p style="margin:0;font-size:13px;color:#A7B1C6;line-height:1.4;">Utilizamos cookies esenciales para el funcionamiento del sitio y, con tu consentimiento, cookies anal\u00edticas para mejorar tu experiencia. ' +
+                  '<a href="#contacto" style="color:#2D6BFF;text-decoration:none;">Aviso de Privacidad</a></p>' +
+              '</div>' +
+              // Botones
+              '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                '<button id="cb-accept" style="padding:8px 20px;border-radius:8px;border:none;background:#2D6BFF;color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background 0.2s;">Aceptar todas</button>' +
+                '<button id="cb-essential" style="padding:8px 20px;border-radius:8px;border:1px solid rgba(45,107,255,0.4);background:transparent;color:#A7B1C6;font-size:13px;font-weight:500;cursor:pointer;transition:background 0.2s;">Solo esenciales</button>' +
+                '<button id="cb-reject" style="padding:8px 16px;border-radius:8px;border:none;background:transparent;color:#A7B1C6;font-size:18px;cursor:pointer;line-height:1;" title="Rechazar">&times;</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+        document.body.appendChild(banner);
+
+        // Event listeners
+        function closeBanner(choice) {
+          localStorage.setItem(STORAGE_KEY, choice);
+          banner.style.transition = 'opacity 0.3s, transform 0.3s';
+          banner.style.opacity = '0';
+          banner.style.transform = 'translateY(20px)';
+          setTimeout(function() { banner.remove(); }, 300);
+        }
+
+        document.getElementById('cb-accept').addEventListener('click', function() { closeBanner('all'); });
+        document.getElementById('cb-essential').addEventListener('click', function() { closeBanner('essential'); });
+        document.getElementById('cb-reject').addEventListener('click', function() { closeBanner('rejected'); });
+
+        // Animación de entrada
+        banner.style.opacity = '0';
+        banner.style.transform = 'translateY(20px)';
+        banner.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            banner.style.opacity = '1';
+            banner.style.transform = 'translateY(0)';
+          });
+        });
+      }, 1500);
+    })();
+    </script>
   </body>
 </html>
