@@ -112,12 +112,16 @@
     <meta http-equiv="Expires" content="0" />
     
     <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1VYF2B45CJ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
+
+      gtag('config', 'G-1VYF2B45CJ', {
+        'anonymize_ip': true,
+        'cookie_flags': 'SameSite=None;Secure'
+      });
     </script>
     
     <title>Bondiact - Logística Transfronteriza Sin Fronteras</title>
@@ -157,7 +161,7 @@
               '<div style="flex:1;min-width:200px;">' +
                 '<p style="margin:0 0 2px;font-weight:600;font-size:14px;color:#fff;">Privacidad y Cookies</p>' +
                 '<p style="margin:0;font-size:13px;color:#A7B1C6;line-height:1.4;">Utilizamos cookies esenciales para el funcionamiento del sitio y, con tu consentimiento, cookies anal\u00edticas para mejorar tu experiencia. ' +
-                  '<a href="#contacto" style="color:#2D6BFF;text-decoration:none;">Aviso de Privacidad</a></p>' +
+                            '<a href="privacidad.html" style="color:#2D6BFF;text-decoration:none;">Aviso de Privacidad</a></p>' +
               '</div>' +
               // Botones
               '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
@@ -196,5 +200,9 @@
       }, 1500);
     })();
     </script>
+    
+    <!-- AVISO DE PRIVACIDAD FOOTER -->
+    <footer id="privacy-footer" style="position:relative;z-index:10;text-align:center;padding:1rem;background:#0a0f1e;border-top:1px solid rgba(0,212,255,0.15);color:#4a5568;font-size:0.85rem;font-family:system-ui,sans-serif;">
+          <p>&copy; 2026 bondiaCT &nbsp;&middot;&nbsp; <a href="privacidad.html" style="color:#00d4ff;text-decoration:none;">Aviso de Privacidad</a></p>
   </body>
 </html>
