@@ -48,9 +48,13 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Historial de cambios (más reciente arriba)
 
-### 2026-03-18 — CookieBanner + Documento changelog · por Claude (Cowork)
+### 2026-03-18 — CookieBanner + Favicon + LIGIE Access Control · por Claude (Cowork)
 - ✅ **CookieBanner vanilla JS**: Inyectado en `index.html` (no requiere rebuild React). Cumple LFPDPPP/GDPR. Opciones: Aceptar todas, Solo esenciales, Rechazar. Guarda preferencia en `localStorage` key `bondiact_cookie_consent`. Aparece 1.5s después de carga, animación suave.
+- ✅ **Favicon bondiact**: `favicon.svg` agregado con logo "B" estilizado. Referencia actualizada en `index.html` → `href="/favicon.svg"`
 - ✅ **Documento changelog**: `bondiact-changelog-v0.6.docx` — historial completo de desarrollo, arquitectura, tareas y seguridad
+- ✅ **LIGIE Access Control**: Antonio (`antonio@nama.com.mx`) agregado a whitelist en `ligie/index.html` (const ALLOWED_EMAILS)
+  - Sistema: Firebase Authentication + Google Sign-in (cuenta de Gmail)
+  - Nota: Antonio verá aviso de "App no verificada" la primera vez → debe hacer clic en "Configuración avanzada" → "Ir a bondiact.io (no seguro)"
 - ✅ **LEEME.md**: Conflicto de merge resuelto, datos corregidos (producción = GitHub Pages)
 
 ### 2026-03-17 (sesión 4) — Aviso de Privacidad + GA4 · por Comet (Perplexity)
@@ -99,7 +103,11 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 - [x] ~~Hacer commit + push cambios 2026-03-17~~ → ✅ Commits hechos directo en GitHub
 - [x] ~~Conectar Google Analytics 4~~ → ✅ ID: `G-1VYF2B45CJ` activo con anonymize_ip
 - [x] ~~Crear Aviso de Privacidad~~ → ✅ `privacidad.html` publicado (LFPDPPP 9 secciones)
-- [ ] **Hacer commit + push del LEEME.md resuelto** (este archivo, ahora mismo)
+- [x] ~~Agregar favicon~~ → ✅ `favicon.svg` en producción (logo "B")
+- [x] ~~Agregar CookieBanner~~ → ✅ Vanilla JS en `index.html` (LFPDPPP/GDPR)
+- [x] ~~Documento changelog~~ → ✅ `bondiact-changelog-v0.6.docx` completado
+- [x] ~~Agregar cliente a LIGIE~~ → ✅ Antonio (NAMA) en whitelist Firebase
+- [ ] **Hacer commit + push de cambios 2026-03-18** (favicon + LIGIE whitelist + LEEME update)
 - [ ] Agregar reCAPTCHA al formulario de contacto (requiere rebuild desde código fuente)
 - [ ] Arreglar botón "Ver Guía" en LIGIE (abre modal de versión en lugar de guía)
 - [ ] Cambiar "Datos actualizados 2024" → 2025/2026 en trust badge del hero
@@ -122,4 +130,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-18 — Claude (Cowork) resolvió merge conflict con cambios de Comet (Perplexity)*
+*Última actualización: 2026-03-18 — Claude (Cowork) · favicon agregado, Antonio (NAMA) en LIGIE, merge conflict resuelto*
