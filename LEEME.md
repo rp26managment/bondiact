@@ -37,6 +37,16 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 
 ## Historial de cambios (más reciente arriba)
 
+### 2026-03-18 — 404 bondiact.io (issue activo)
+- 🚨 **bondiact.io muestra 404 "There isn't a GitHub Pages site here"**
+  - El dominio está resolviendo a servidores de GitHub Pages en lugar de Vercel
+  - Posibles causas: DNS del dominio apunta a GitHub Pages, o Vercel desconectó el dominio
+  - **Acción requerida por Rod**: Verificar en Vercel → proyecto bondiact → Settings → Domains
+    - Si `bondiact.io` no aparece o tiene error: re-agregar y apuntar DNS a Vercel
+    - DNS correcto para Vercel: A record `76.76.21.21` o CNAME `cname.vercel-dns.com`
+  - **NO es problema del código** — los archivos están correctos localmente
+- ✅ **CookieBanner agregado** a `index.html` (pendiente de push para ver en producción)
+
 ### 2026-03-17 (sesión 2) — CookieBanner + fix form salthub
 - ✅ **CookieBanner vanilla JS**: Inyectado en `index.html` (no requiere rebuild React). Cumple LFPDPPP/GDPR. Opciones: Aceptar todas, Solo esenciales, Rechazar. Guarda preferencia en `localStorage` key `bondiact_cookie_consent`. Aparece 1.5s después de carga, animación suave.
 
@@ -70,7 +80,8 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io`
 
 ## Tareas pendientes
 
-- [ ] **Hacer commit + push** de TODOS los cambios del 2026-03-17 en GitHub Desktop
+- [ ] 🚨 **URGENTE: Resolver 404 bondiact.io** — Verificar Vercel → Settings → Domains
+- [ ] **Hacer commit + push** de TODOS los cambios en GitHub Desktop (CookieBanner + cambios 2026-03-17)
 - [ ] Conectar Google Analytics 4 real (el ID actual es placeholder: `G-XXXXXXXXXX`)
 - [ ] Agregar reCAPTCHA al formulario de contacto (requiere rebuild desde código fuente)
 - [ ] Crear Aviso de Privacidad real (requerido por LFPDPPP en México)
@@ -94,4 +105,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-17 (sesión 2) por Claude (Cowork)*
+*Última actualización: 2026-03-18 por Claude (Cowork)*
