@@ -114,6 +114,24 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ---
 
+## 🔐 ADMINISTRACIÓN DE ACCESOS - LIGIE (VÍA CÓDIGO)
+
+### Ubicación del Portero:
+- Archivo: `ligie/index.html`
+- Variable: `const ALLOWED_EMAILS`
+
+### Procedimiento de Alta:
+1. Abrir `ligie/index.html` en el editor.
+2. Agregar el correo entre comillas: `"antonio@nama.com.mx",`
+3. Guardar, hacer Commit y Push en GitHub Desktop.
+4. GitHub Pages desplegará el cambio en ~1-2 minutos.
+
+### Limitaciones de Producción:
+- Capacidad: Hasta 100 usuarios externos (vía Google Auth).
+- Estatus: "In Production" (No requiere registro en Google Cloud Console).
+
+---
+
 ## Cómo hacer deploy
 
 1. Editar archivos en `~/Documents/GitHub/bondiact/`
