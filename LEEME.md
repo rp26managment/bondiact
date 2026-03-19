@@ -48,6 +48,15 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Historial de cambios (más reciente arriba)
 
+### 2026-03-19 — Security Hardening · por Claude (Cowork)
+- ✅ **CSP (Content Security Policy)**: Meta tag agregado a `ligie/index.html` — bloquea scripts externos no autorizados
+- ✅ **Anti-clickjacking**: `X-Frame-Options: DENY` — previene que el sitio sea embebido en iframes maliciosos
+- ✅ **MIME Sniffing**: `X-Content-Type-Options: nosniff` agregado
+- ✅ **Referrer Policy**: `strict-origin-when-cross-origin` — no revela la URL a sitios externos
+- ✅ **XSS sanitización**: `escHtml()` aplicado a `fc`, `l.code`, `l.note`, `sec`, `r.c`, `r.f`, `r.n` en todos los `innerHTML`
+- ✅ **Error messages**: Mensajes de auth ya no revelan el email del usuario ni detalles técnicos del error
+- ⚠️ **Limitación estructural conocida**: `ALLOWED_EMAILS` vive en el JS del cliente — un atacante con DevTools puede bypassear el login. Los datos LIGIE están en el HTML público. Solución real requiere backend (Firebase Security Rules + API) — pendiente para versión futura.
+
 ### 2026-03-18 — CookieBanner + Favicon + LIGIE Access Control + Fix Ver Guía · por Claude (Cowork)
 - ✅ **Fix botón "Ver Guía"** en LIGIE: La sección `#guia` vive dentro de `#dashboardView` (oculto por defecto). El botón ahora ejecuta `switchView('dashboard')` antes de hacer scroll, para que el contenedor sea visible primero.
 - ✅ **CookieBanner vanilla JS**: Inyectado en `index.html` (no requiere rebuild React). Cumple LFPDPPP/GDPR. Opciones: Aceptar todas, Solo esenciales, Rechazar. Guarda preferencia en `localStorage` key `bondiact_cookie_consent`. Aparece 1.5s después de carga, animación suave.
@@ -112,6 +121,8 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 - [ ] Agregar reCAPTCHA al formulario de contacto (requiere rebuild desde código fuente)
 - [x] ~~Arreglar botón "Ver Guía" en LIGIE~~ → ✅ Fix: switchView('dashboard') antes de scrollIntoView
 - [ ] Cambiar "Datos actualizados 2024" → 2025/2026 en trust badge del hero
+- [x] ~~Security hardening LIGIE~~ → ✅ CSP, anti-clickjacking, MIME sniffing, XSS sanitización (2026-03-19)
+- [ ] **FUTURO — Auth real**: Mover ALLOWED_EMAILS a Firebase Security Rules + backend para eliminar bypass client-side
 
 ---
 
@@ -149,4 +160,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-18 — Claude (Cowork) · fix "Ver Guía" button, favicon, Antonio (NAMA) en LIGIE, merge conflict resuelto*
+*Última actualización: 2026-03-19 — Claude (Cowork) · security hardening: CSP, XSS, anti-clickjacking, error messages*

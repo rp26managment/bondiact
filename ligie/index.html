@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- ══ SECURITY HEADERS ══════════════════════════════════════════════ -->
+  <!-- Previene clickjacking (iframes maliciosos) -->
+  <meta http-equiv="X-Frame-Options" content="DENY"/>
+  <!-- Previene MIME sniffing -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <!-- No revela URL a sitios externos -->
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
+  <!-- CSP: solo permite scripts/estilos de fuentes conocidas y seguras -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://identitytoolkit.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://lh3.googleusercontent.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://securetoken.googleapis.com; frame-src 'none'; object-src 'none';"/>
+  <!-- ════════════════════════════════════════════════════════════════ -->
   <title>LIGIE 2026 — BondiaCT.io | Buscador Arancelario</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -974,7 +984,7 @@ fbAuth.onAuthStateChanged(user => {
       showApp(user);
     } else {
       fbAuth.signOut();
-      showBadge('error', '⛔ Tu correo (' + user.email + ') no tiene acceso. Contacta a bondíaCT.io');
+      showBadge('error', '⛔ Acceso no autorizado. Contacta a bondíaCT para solicitar acceso.');
     }
   } else {
     hideApp();
@@ -984,7 +994,7 @@ fbAuth.onAuthStateChanged(user => {
 function signInWithGoogle() {
   showBadge('info', '⏳ Abriendo login de Google…');
   fbAuth.signInWithPopup(googleProvider).catch(err => {
-    showBadge('error', '❌ Error: ' + err.message);
+    showBadge('error', '❌ No se pudo completar el inicio de sesión. Intenta de nuevo.');
   });
 }
 
@@ -1948,11 +1958,11 @@ function buildCard(r) {
         <div class="card-meta">
           <div class="card-label">Código Arancelario México (10 dígitos)</div>
           <div class="card-code-row">
-            <span class="card-code">${fc}</span>
-            <button class="copy-mini" onclick="event.stopPropagation();copyCode('${fc}')">⎘</button>
+            <span class="card-code">${escHtml(fc)}</span>
+            <button class="copy-mini" onclick="event.stopPropagation();copyCode('${escHtml(fc)}')">⎘</button>
           </div>
           ${hasNico
-            ? `<span class="card-nico">NICO: ${(r.n||'').padStart(2,'0')}</span>`
+            ? `<span class="card-nico">NICO: ${escHtml((r.n||'').padStart(2,'0'))}</span>`
             : `<span style="font-size:.68rem;color:var(--slate);margin-top:3px;display:inline-block">8 dígitos — sin NICO</span>`}
         </div>
       </div>
@@ -2048,21 +2058,21 @@ function openDetail(r) {
   document.getElementById('detailCodeHero').innerHTML = `
     <div style="flex:1;min-width:0">
       <div style="font-size:.7rem;font-weight:700;letter-spacing:.7px;color:var(--gray-400);text-transform:uppercase;margin-bottom:6px">
-        ${emoji} Sección ${sec} · Capítulo ${r.c ? String(r.c).padStart(2,'0') : '—'}
+        ${escHtml(emoji)} Sección ${escHtml(sec)} · Capítulo ${r.c ? escHtml(String(r.c).padStart(2,'0')) : '—'}
       </div>
-      <div class="detail-frac-code">${fc}</div>
+      <div class="detail-frac-code">${escHtml(fc)}</div>
       <div style="font-size:.7rem;color:var(--gray-400);margin-top:3px">
-        Fracción: ${r.f || '—'}
-        ${hasNico ? ` · NICO: <strong style="color:var(--emerald)">${(r.n||'').padStart(2,'0')}</strong>` : ' · sin NICO (8 dígitos)'}
+        Fracción: ${escHtml(r.f || '—')}
+        ${hasNico ? ` · NICO: <strong style="color:var(--emerald)">${escHtml((r.n||'').padStart(2,'0'))}</strong>` : ' · sin NICO (8 dígitos)'}
       </div>
       <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">
-        <span class="detail-pill ${igiCls}">IGI ${fmtRate(igiVal)}</span>
-        <span class="detail-pill ${igeCls}">IGE ${fmtRate(igeVal)}</span>
-        <span class="detail-pill pill-um">UM ${umVal}</span>
+        <span class="detail-pill ${igiCls}">IGI ${escHtml(fmtRate(igiVal))}</span>
+        <span class="detail-pill ${igeCls}">IGE ${escHtml(fmtRate(igeVal))}</span>
+        <span class="detail-pill pill-um">UM ${escHtml(umVal)}</span>
         ${rrnaBadges}
       </div>
     </div>
-    <button class="detail-copy-btn" onclick="copyCode('${fc}')">⎘ Copiar código (10 dígitos)</button>`;
+    <button class="detail-copy-btn" onclick="copyCode('${escHtml(fc)}')">⎘ Copiar código (10 dígitos)</button>`;
 
   // hierarchy — show full 10-digit code as the active level
   const chain = document.getElementById('hierChain');
@@ -2083,7 +2093,7 @@ function openDetail(r) {
     d.innerHTML = `
       <div class="hier-level">${l.level}</div>
       <div style="flex:1;min-width:0">
-        <div class="hier-code">${l.code}${l.note ? ` <span style="font-size:.68rem;font-weight:400;color:var(--slate)">(${l.note})</span>` : ''}</div>
+        <div class="hier-code">${escHtml(l.code)}${l.note ? ` <span style="font-size:.68rem;font-weight:400;color:var(--slate)">(${escHtml(l.note)})</span>` : ''}</div>
         ${l.desc ? `<div class="hier-desc">${escHtml(l.desc)}</div>` : ''}
       </div>`;
     chain.appendChild(d);
@@ -2352,8 +2362,16 @@ function showRRNAToast(code) {
 
 /* ── HTML ESCAPE ──────────────────────────────────── */
 function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#x27;')
+    .replace(/\//g,'&#x2F;');
 }
+/* Alias corto para uso inline */
+const e = escHtml;
 
 /* ── BACK TO TOP ──────────────────────────────────── */
 window.addEventListener('scroll', () => {
