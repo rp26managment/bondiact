@@ -48,7 +48,8 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Historial de cambios (más reciente arriba)
 
-### 2026-03-18 — CookieBanner + Favicon + LIGIE Access Control · por Claude (Cowork)
+### 2026-03-18 — CookieBanner + Favicon + LIGIE Access Control + Fix Ver Guía · por Claude (Cowork)
+- ✅ **Fix botón "Ver Guía"** en LIGIE: La sección `#guia` vive dentro de `#dashboardView` (oculto por defecto). El botón ahora ejecuta `switchView('dashboard')` antes de hacer scroll, para que el contenedor sea visible primero.
 - ✅ **CookieBanner vanilla JS**: Inyectado en `index.html` (no requiere rebuild React). Cumple LFPDPPP/GDPR. Opciones: Aceptar todas, Solo esenciales, Rechazar. Guarda preferencia en `localStorage` key `bondiact_cookie_consent`. Aparece 1.5s después de carga, animación suave.
 - ✅ **Favicon bondiact**: `favicon.svg` agregado con logo "B" estilizado. Referencia actualizada en `index.html` → `href="/favicon.svg"`
 - ✅ **Documento changelog**: `bondiact-changelog-v0.6.docx` — historial completo de desarrollo, arquitectura, tareas y seguridad
@@ -109,7 +110,7 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 - [x] ~~Agregar cliente a LIGIE~~ → ✅ Antonio (NAMA) en whitelist Firebase
 - [ ] **Hacer commit + push de cambios 2026-03-18** (favicon + LIGIE whitelist + LEEME update)
 - [ ] Agregar reCAPTCHA al formulario de contacto (requiere rebuild desde código fuente)
-- [ ] Arreglar botón "Ver Guía" en LIGIE (abre modal de versión en lugar de guía)
+- [x] ~~Arreglar botón "Ver Guía" en LIGIE~~ → ✅ Fix: switchView('dashboard') antes de scrollIntoView
 - [ ] Cambiar "Datos actualizados 2024" → 2025/2026 en trust badge del hero
 
 ---
@@ -148,4 +149,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-18 — Claude (Cowork) · favicon agregado, Antonio (NAMA) en LIGIE, merge conflict resuelto*
+*Última actualización: 2026-03-18 — Claude (Cowork) · fix "Ver Guía" button, favicon, Antonio (NAMA) en LIGIE, merge conflict resuelto*
