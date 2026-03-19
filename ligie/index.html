@@ -1089,7 +1089,7 @@ function showBadge(type, msg) {
       <p class="hero-sub">Sistema inteligente de consulta de la <strong>LIGIE</strong> (Ley de Impuestos Generales de Importación y Exportación). Versión <span class="ver">2.13</span> — 19 de diciembre 2024. Navega desde la Sección hasta tu fracción con NICO.</p>
       <div class="hero-buttons">
         <button class="hero-btn-primary" onclick="document.getElementById('searchInput').focus()">🔍 Iniciar Consulta →</button>
-        <button class="hero-btn-outline" onclick="document.getElementById('guia')?.scrollIntoView({behavior:'smooth'}) || document.getElementById('guia').scrollIntoView({behavior:'smooth'})">📖 Ver Guía</button>
+        <button class="hero-btn-outline" onclick="switchView('dashboard'); setTimeout(function(){ document.getElementById('guia').scrollIntoView({behavior:'smooth'}); }, 150);">📖 Ver Guía</button>
       </div>
       <div class="hero-trust">
         <div class="trust-item"><span class="trust-icon">🛡️</span> Datos actualizados 2024</div>
