@@ -27,7 +27,7 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 | **LIGIE Buscador** | https://bondiact.io/ligie/ |
 | **Aviso de Privacidad** | https://bondiact.io/privacidad.html |
 | **Repo GitHub** | `rp26managment/bondiact` (público) |
-| **Carpeta local Mac** | `~/Documents/GitHub/bondiact` |
+| **Carpeta local Mac** | `~/Desktop/BondiaCT respaldo` (iCloud Desktop — carpeta roja) |
 
 ---
 
@@ -146,7 +146,7 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Cómo hacer deploy
 
-1. Editar archivos en `~/Documents/GitHub/bondiact/`
+1. Editar archivos en `~/Desktop/BondiaCT respaldo/` (iCloud Desktop)
 2. Abrir **GitHub Desktop** → seleccionar repo `bondiact`
 3. Escribir nombre del commit → **Commit to main**
 4. **Push origin**
@@ -156,7 +156,7 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Cómo montar esta carpeta en Cowork (sesión nueva)
 Decirle a Claude:
-> *"Monta ~/Documents/GitHub/bondiact"*
+> *"Monta ~/Desktop/BondiaCT respaldo"*
 
 ---
 
