@@ -48,6 +48,12 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Historial de cambios (más reciente arriba)
 
+### 2026-03-25 — WhatsApp Business + Teléfono + Rutas iCloud · por Claude (Cowork)
+- ✅ **Teléfono actualizado**: `+52 33 2387 6553` (personal) → `+52 33 2200 0539` (WhatsApp Business) en `ligie/index.html` y `assets/index-DWK9QQ0p.js`
+- ✅ **Rutas iCloud corregidas**: `~/Documents/GitHub/bondiact` → `~/Desktop/BondiaCT respaldo` en LEEME.md y secciones de deploy/montar
+- ✅ **Trust badge LIGIE**: "Datos actualizados 2024" → "LIGIE 2026"
+- 📋 **WhatsApp Business**: Configurados catálogo, 6 etiquetas de prospectos, 6 respuestas rápidas, mensaje de bienvenida y ausencia
+
 ### 2026-03-19 — Security Hardening · por Claude (Cowork)
 - ✅ **CSP (Content Security Policy)**: Meta tag agregado a `ligie/index.html` — bloquea scripts externos no autorizados
 - ✅ **Anti-clickjacking**: `X-Frame-Options: DENY` — previene que el sitio sea embebido en iframes maliciosos
@@ -160,4 +166,4 @@ Decirle a Claude:
 
 ---
 
-*Última actualización: 2026-03-19 — Claude (Cowork) · security hardening: CSP, XSS, anti-clickjacking, error messages*
+*Última actualización: 2026-03-25 — Claude (Cowork) · teléfono WA Business, rutas iCloud, LIGIE 2026, security hardening*
