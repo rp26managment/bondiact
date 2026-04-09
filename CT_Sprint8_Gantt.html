@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Sprint 8 — Gantt Chart</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1117; color: #e8e8e8; padding: 24px; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .header h1 { font-size: 22px; font-weight: 700; color: #fff; }
+  .header h1 span { color: #579bfc; }
+  .badge { background: #579bfc22; color: #579bfc; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+  .stats { display: flex; gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 10px; padding: 16px 20px; flex: 1; }
+  .stat-card .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .stat-card .value { font-size: 28px; font-weight: 700; }
+  .stat-card .value.blue { color: #579bfc; }
+  .stat-card .value.green { color: #00c875; }
+  .stat-card .value.orange { color: #fdab3d; }
+  .stat-card .value.purple { color: #9d50dd; }
+
+  .gantt-container { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 12px; overflow: hidden; }
+  .gantt-header { display: grid; grid-template-columns: 320px repeat(14, 1fr); border-bottom: 2px solid #2a2d3a; }
+  .gantt-header .task-col { padding: 12px 16px; font-weight: 600; font-size: 13px; color: #888; background: #15171f; }
+  .gantt-header .day-col { padding: 10px 4px; text-align: center; font-size: 11px; color: #666; background: #15171f; border-left: 1px solid #222; }
+  .gantt-header .day-col.weekend { background: #1a1520; color: #555; }
+  .gantt-header .day-col.today { background: #579bfc15; color: #579bfc; font-weight: 700; }
+
+  .gantt-row { display: grid; grid-template-columns: 320px repeat(14, 1fr); border-bottom: 1px solid #1f222d; transition: background 0.15s; }
+  .gantt-row:hover { background: #1f2230; }
+  .gantt-row:last-child { border-bottom: none; }
+
+  .task-info { padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .task-id { font-size: 11px; font-weight: 700; color: #579bfc; background: #579bfc18; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .task-name { font-size: 13px; color: #ccc; line-height: 1.3; }
+  .task-sp { font-size: 11px; color: #fdab3d; font-weight: 600; margin-left: auto; white-space: nowrap; }
+
+  .day-cell { border-left: 1px solid #1f222d; position: relative; min-height: 44px; }
+  .day-cell.weekend { background: #16131d08; }
+
+  .bar { position: absolute; top: 50%; transform: translateY(-50%); height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #fff; z-index: 2; min-width: 100%; }
+
+  .dep-line { position: absolute; top: 50%; right: -8px; width: 16px; height: 2px; z-index: 3; }
+
+  .legend { display: flex; gap: 20px; margin-top: 16px; justify-content: center; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #888; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .dependencies { margin-top: 24px; background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 12px; padding: 20px; }
+  .dependencies h3 { font-size: 15px; color: #fff; margin-bottom: 12px; }
+  .dep-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #1f222d; font-size: 13px; }
+  .dep-item:last-child { border-bottom: none; }
+  .dep-arrow { color: #579bfc; font-weight: 700; }
+
+  .user-stories { margin-top: 24px; background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 12px; padding: 20px; }
+  .user-stories h3 { font-size: 15px; color: #fff; margin-bottom: 12px; }
+  .story { padding: 12px; margin-bottom: 8px; background: #15171f; border-radius: 8px; border-left: 3px solid #579bfc; }
+  .story:nth-child(odd) .story-id { color: #9d50dd; }
+  .story .story-id { font-size: 11px; font-weight: 700; color: #579bfc; margin-bottom: 4px; }
+  .story .story-text { font-size: 13px; color: #bbb; line-height: 1.5; }
+  .story .story-text em { color: #fdab3d; font-style: normal; font-weight: 600; }
+  .story .acceptance { font-size: 12px; color: #666; margin-top: 6px; padding-top: 6px; border-top: 1px solid #1f222d; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Control Tower — <span>Sprint 8</span> Gantt</h1>
+  <span class="badge">7 Abr — 20 Abr 2026 (2 semanas)</span>
+</div>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="label">Tareas</div>
+    <div class="value blue">5</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Story Points</div>
+    <div class="value orange">23 SP</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Velocity S7</div>
+    <div class="value green">41 SP</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Archivos</div>
+    <div class="value purple">7</div>
+  </div>
+</div>
+
+<div class="gantt-container">
+  <div class="gantt-header">
+    <div class="task-col">Tarea</div>
+    <div class="day-col today">L7</div>
+    <div class="day-col">M8</div>
+    <div class="day-col">X9</div>
+    <div class="day-col">J10</div>
+    <div class="day-col">V11</div>
+    <div class="day-col weekend">S12</div>
+    <div class="day-col weekend">D13</div>
+    <div class="day-col">L14</div>
+    <div class="day-col">M15</div>
+    <div class="day-col">X16</div>
+    <div class="day-col">J17</div>
+    <div class="day-col">V18</div>
+    <div class="day-col weekend">S19</div>
+    <div class="day-col weekend">D20</div>
+  </div>
+
+  <!-- S8-01: LIGIE dataset (8 SP) — Días 1-5 -->
+  <div class="gantt-row">
+    <div class="task-info">
+      <span class="task-id">S8-01</span>
+      <span class="task-name">LIGIE dataset completo</span>
+      <span class="task-sp">8 SP</span>
+    </div>
+    <div class="day-cell"><div class="bar" style="background: linear-gradient(135deg, #579bfc, #3b7ddb); width: 500%; left: 0;">LIGIE Full</div></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+  </div>
+
+  <!-- S8-03: Vercel infra (2 SP) — Día 4-5 (depende de S8-01) -->
+  <div class="gantt-row">
+    <div class="task-info">
+      <span class="task-id">S8-03</span>
+      <span class="task-name">Vercel infra ligie-index.js</span>
+      <span class="task-sp">2 SP</span>
+    </div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"><div class="bar" style="background: linear-gradient(135deg, #fdab3d, #e8932a); width: 200%; left: 0;">Vercel</div></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+  </div>
+
+  <!-- S8-02: Remover fallback (3 SP) — Día 3-4 -->
+  <div class="gantt-row">
+    <div class="task-info">
+      <span class="task-id">S8-02</span>
+      <span class="task-name">Remover PEDIMENTO_REAL fallback</span>
+      <span class="task-sp">3 SP</span>
+    </div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"><div class="bar" style="background: linear-gradient(135deg, #00c875, #00a85e); width: 200%; left: 0;">Cleanup</div></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+  </div>
+
+  <!-- S8-04: G14 fechas OCR (5 SP) — Semana 2: L14-J17 -->
+  <div class="gantt-row">
+    <div class="task-info">
+      <span class="task-id">S8-04</span>
+      <span class="task-name">G14 fechaEmision + fechaRegistro OCR</span>
+      <span class="task-sp">5 SP</span>
+    </div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell"><div class="bar" style="background: linear-gradient(135deg, #9d50dd, #7b3dbf); width: 400%; left: 0;">G14 Fechas</div></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+  </div>
+
+  <!-- S8-05: Modo Forense UI (5 SP) — Semana 2: X16-V18 -->
+  <div class="gantt-row">
+    <div class="task-info">
+      <span class="task-id">S8-05</span>
+      <span class="task-name">Modo Forense UI toggle</span>
+      <span class="task-sp">5 SP</span>
+    </div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"><div class="bar" style="background: linear-gradient(135deg, #ff007f, #d4006a); width: 300%; left: 0;">Forense UI</div></div>
+    <div class="day-cell"></div>
+    <div class="day-cell"></div>
+    <div class="day-cell weekend"></div>
+    <div class="day-cell weekend"></div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#579bfc"></div>Data / LIGIE</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fdab3d"></div>Infra / Vercel</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>Cleanup / Refactor</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9d50dd"></div>OCR Feature</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ff007f"></div>UI Feature</div>
+</div>
+
+<div class="dependencies">
+  <h3>Dependencias</h3>
+  <div class="dep-item"><span class="task-id">S8-01</span> <span class="dep-arrow">→</span> <span class="task-id">S8-03</span> LIGIE dataset debe estar listo antes de validar infra Vercel</div>
+  <div class="dep-item"><span class="task-id">S7-02</span> <span class="dep-arrow">→</span> <span class="task-id">S8-02</span> cantidad OCR (S7) habilita remover fallback</div>
+  <div class="dep-item"><span class="task-id">S7-03</span> <span class="dep-arrow">→</span> <span class="task-id">S8-04</span> fechaEntrada (S7) es base para G14 fechas adicionales</div>
+  <div class="dep-item"><span class="task-id">S7-MVP</span> <span class="dep-arrow">→</span> <span class="task-id">S8-05</span> effTipoOperacion (S7) necesario para toggle Forense</div>
+  <div class="dep-item"><span class="task-id">S5-01</span> + <span class="task-id">S6-01</span> <span class="dep-arrow">→</span> <span class="task-id">S8-01</span> LIGIE Engine + cache son base del dataset completo</div>
+</div>
+
+<div class="user-stories">
+  <h3>Historias de Usuario — Sprint 8</h3>
+
+  <div class="story">
+    <div class="story-id">US-S801 | Epic: LIGIE Compliance</div>
+    <div class="story-text">Como <em>agente aduanal</em>, quiero que el sistema tenga el <em>catálogo LIGIE completo</em> (fracciones + NICO + RRNA + UMC) para que la validación de partidas sea exhaustiva y no dependa de un índice parcial de 8,133 fracciones.</div>
+    <div class="acceptance">AC: window.FRACCIONES disponible con todas las fracciones. RRNA por fracción consultable. UMC validada contra SAT.</div>
+  </div>
+
+  <div class="story">
+    <div class="story-id">US-S802 | Epic: OCR Cleanup</div>
+    <div class="story-text">Como <em>desarrollador</em>, quiero <em>eliminar el fallback PEDIMENTO_REAL</em> del OCRParser para que el código sea limpio y no existan datos hardcodeados que contaminen validaciones reales.</div>
+    <div class="acceptance">AC: Grep "PEDIMENTO_REAL" = 0 resultados. Tests con PDFs reales siguen pasando. tsc --noEmit OK.</div>
+  </div>
+
+  <div class="story">
+    <div class="story-id">US-S803 | Epic: Infra / Deploy</div>
+    <div class="story-text">Como <em>DevOps</em>, quiero <em>confirmar que ligie-index.js</em> se incluye correctamente en el build de Vercel para que el dataset LIGIE esté disponible en producción sin 404.</div>
+    <div class="acceptance">AC: Deploy en Vercel exitoso. /data/ligie-index.js responde 200. Console sin errores LIGIE.</div>
+  </div>
+
+  <div class="story">
+    <div class="story-id">US-S804 | Epic: OCR Extraction</div>
+    <div class="story-text">Como <em>auditor aduanal</em>, quiero que el sistema <em>extraiga automáticamente fechaEmision y fechaRegistro</em> del PDF del pedimento para completar el campo G14 y tener trazabilidad temporal completa.</div>
+    <div class="acceptance">AC: fechaEmision y fechaRegistro en ParsedPedimento. Formato ISO YYYY-MM-DD. null si no detectado (no inferir).</div>
+  </div>
+
+  <div class="story">
+    <div class="story-id">US-S805 | Epic: Forense Mode</div>
+    <div class="story-text">Como <em>usuario de Control Tower</em>, quiero un <em>toggle visual</em> en NuevoPedimento que me permita cambiar entre modo Validación (operativo) y modo Forense (auditoría profunda) para adaptar el nivel de detalle del análisis.</div>
+    <div class="acceptance">AC: Toggle visible en UI. Modo Forense muestra F01/F02 expandido + referencias legales completas. Modo Validación = vista actual.</div>
+  </div>
+</div>
+
+</body>
+</html>

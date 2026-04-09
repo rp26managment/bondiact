@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- ══ SECURITY HEADERS ══════════════════════════════════════════════ -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://wa.me; frame-src 'none'; object-src 'none';"/>
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <title>Control Tower — Auditoría Preventiva de Pedimentos | BondiaCT.io</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --emerald: #10B981;
+      --emerald-dark: #059669;
+      --navy: #0F172A;
+      --navy-light: #1E293B;
+      --slate: #64748B;
+      --white: #FFFFFF;
+      --gray-100: #F1F5F9;
+      --gray-400: #94A3B8;
+      --gray-600: #475569;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -2px rgba(0,0,0,.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.05);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ─── NAVBAR ──────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1400px; margin: 0 auto;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-svg { width: 36px; height: 36px; }
+    .nav-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3rem; font-weight: 900;
+      color: var(--white); letter-spacing: -0.3px;
+    }
+    .nav-name span { color: var(--emerald); }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+    .nav-link {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.95rem; font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .nav-link:hover { color: var(--white); }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .lang-toggle {
+      background: rgba(255,255,255,.08);
+      color: var(--gray-400);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      padding: 8px 12px; font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; transition: all .2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .lang-toggle:hover { background: rgba(255,255,255,.12); color: var(--white); }
+    .nav-cta {
+      background: var(--emerald);
+      color: var(--white);
+      border: none; border-radius: 8px;
+      padding: 10px 22px; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: background .2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .nav-cta:hover { background: var(--emerald-dark); }
+
+    /* ─── HERO ─────────────────────────────────────────────── */
+    .hero {
+      max-width: 1400px; margin: 0 auto;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(16,185,129,.15);
+      color: var(--emerald);
+      border: 1px solid rgba(16,185,129,.3);
+      border-radius: 99px;
+      padding: 8px 16px; font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: var(--white);
+    }
+    .hero-subtitle {
+      font-size: 1.125rem;
+      color: var(--gray-400);
+      max-width: 700px; margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .hero-ctas {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 640px) {
+      .hero-ctas { flex-direction: column; }
+    }
+    .btn-primary {
+      background: var(--emerald);
+      color: var(--white);
+      border: none; border-radius: 10px;
+      padding: 14px 32px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: background .2s;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--emerald-dark); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--emerald);
+      border: 2px solid var(--emerald); border-radius: 10px;
+      padding: 12px 30px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      background: rgba(16,185,129,.1);
+      color: var(--white);
+    }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+    }
+    .stat-card {
+      background: rgba(16,185,129,.08);
+      border: 1px solid rgba(16,185,129,.2);
+      border-radius: 12px;
+      padding: 24px; text-align: center;
+    }
+    .stat-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      color: var(--emerald);
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 0.9rem; color: var(--gray-400);
+    }
+
+    /* ─── PAIN SECTION ─────────────────────────────────────── */
+    .pain {
+      max-width: 1400px; margin: 0 auto;
+      padding: 80px 24px;
+      background: linear-gradient(135deg, rgba(16,185,129,.05) 0%, rgba(16,185,129,0) 100%);
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900;
+      margin-bottom: 16px;
+      text-align: center;
+      color: var(--white);
+    }
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--gray-400);
+      text-align: center;
+      max-width: 700px; margin: 0 auto 48px;
+      line-height: 1.8;
+    }
+    .pain-comparison {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 768px) {
+      .pain-comparison { grid-template-columns: 1fr; }
+    }
+    .comparison-card {
+      background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .comparison-title {
+      font-size: 1.3rem; font-weight: 700;
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .comparison-items {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .comparison-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .comparison-icon {
+      width: 20px; height: 20px; flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ─── FEATURES ─────────────────────────────────────────── */
+    .features {
+      max-width: 1400px; margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all .3s;
+    }
+    .feature-card:hover {
+      border-color: rgba(16,185,129,.3);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .feature-icon {
+      width: 48px; height: 48px;
+      background: rgba(16,185,129,.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+      color: var(--emerald);
+    }
+    .feature-title {
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .feature-desc {
+      font-size: 0.95rem;
+      color: var(--gray-400);
+      line-height: 1.7;
+    }
+
+    /* ─── AUTHORITY ──────────────────────────────────────────── */
+    .authority {
+      max-width: 1400px; margin: 0 auto;
+      padding: 80px 24px;
+      background: linear-gradient(135deg, rgba(16,185,129,.08) 0%, rgba(16,185,129,0) 100%);
+    }
+    .authority-content {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+    }
+    @media (max-width: 768px) {
+      .authority-content { grid-template-columns: 1fr; }
+    }
+    .authority-image {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, rgba(16,185,129,.2), rgba(16,185,129,.05));
+      border-radius: 16px;
+      border: 1px solid rgba(16,185,129,.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray-400);
+    }
+    .authority-bio {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--gray-400);
+      margin-bottom: 24px;
+    }
+    .authority-company {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-bottom: 32px;
+    }
+    .authority-quote {
+      border-left: 4px solid var(--emerald);
+      padding-left: 24px;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--emerald);
+      line-height: 1.8;
+    }
+
+    /* ─── SERVICES ─────────────────────────────────────────── */
+    .services {
+      max-width: 1400px; margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex; flex-direction: column;
+      transition: all .3s;
+    }
+    .service-card:hover {
+      border-color: rgba(16,185,129,.3);
+      box-shadow: var(--shadow-lg);
+    }
+    .service-icon {
+      width: 56px; height: 56px;
+      background: rgba(16,185,129,.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      color: var(--emerald);
+    }
+    .service-name {
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .service-desc {
+      font-size: 0.95rem;
+      color: var(--gray-400);
+      line-height: 1.7;
+      flex-grow: 1;
+    }
+
+    /* ─── HOW IT WORKS ─────────────────────────────────────── */
+    .how-it-works {
+      max-width: 1400px; margin: 0 auto;
+      padding: 80px 24px;
+      background: linear-gradient(135deg, rgba(16,185,129,.05) 0%, rgba(16,185,129,0) 100%);
+    }
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .step-card {
+      text-align: center;
+    }
+    .step-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      color: var(--emerald);
+      margin-bottom: 16px;
+    }
+    .step-title {
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .step-desc {
+      font-size: 0.95rem;
+      color: var(--gray-400);
+      line-height: 1.7;
+    }
+
+    /* ─── FAQ ─────────────────────────────────────────────── */
+    .faq {
+      max-width: 900px; margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 24px 0;
+    }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--white);
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      transition: color .2s;
+    }
+    .faq-question:hover { color: var(--emerald); }
+    .faq-icon {
+      width: 24px; height: 24px;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .faq-answer {
+      margin-top: 16px;
+      color: var(--gray-400);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      display: none;
+    }
+    .faq-answer.open { display: block; }
+
+    /* ─── FINAL CTA ────────────────────────────────────────── */
+    .final-cta {
+      max-width: 800px; margin: 0 auto;
+      padding: 80px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(16,185,129,.1) 0%, rgba(16,185,129,.05) 100%);
+      border: 1px solid rgba(16,185,129,.2);
+      border-radius: 24px;
+      margin-bottom: 80px;
+    }
+    .final-cta-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .final-cta-sub {
+      font-size: 1.1rem;
+      color: var(--gray-400);
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,.06);
+      background: rgba(0,0,0,.3);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 1400px; margin: 0 auto;
+    }
+    .footer-rights {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-bottom: 8px;
+    }
+    .footer-disclaimer {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+    .footer-security {
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    /* ─── UTILITIES ───────────────────────────────────────── */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+    .hidden { display: none !important; }
+    svg { display: block; }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <svg class="nav-logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="16" stroke="#10B981" stroke-width="2"/>
+          <circle cx="18" cy="18" r="10" stroke="#10B981" stroke-width="1.5"/>
+          <circle cx="18" cy="18" r="4" fill="#10B981"/>
+        </svg>
+        <div class="nav-name">Control <span>Tower</span></div>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link" onclick="scrollTo('features'); return false;">Funciones</a>
+        <a href="#services" class="nav-link" onclick="scrollTo('services'); return false;">Servicios</a>
+        <a href="#faq" class="nav-link" onclick="scrollTo('faq'); return false;">FAQ</a>
+      </div>
+      <div class="nav-actions">
+        <button class="lang-toggle" onclick="toggleLanguage()" id="langBtn">EN</button>
+        <button class="nav-cta" onclick="goToWhatsApp()">Solicitar auditoría</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag" id="heroTag">Auditoría preventiva de pedimentos aduanales</div>
+    <h1 class="hero-title" id="heroTitle">Evita multas del SAT en tus pedimentos antes de que lleguen.</h1>
+    <p class="hero-subtitle" id="heroSub">Control Tower analiza cada pedimento contra 40+ reglas con fundamento legal de la Ley Aduanera mexicana. Mándanos tu pedimento y te mostramos tu nivel de riesgo — gratis.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="goToWhatsApp()" id="heroCTA">Solicitar mi auditoría gratis</button>
+      <button class="btn-secondary" onclick="scrollTo('how-it-works')" id="heroSecondary">Ver cómo funciona</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-number">40+</div>
+        <div class="stat-label" id="stat1Label">Reglas de auditoría</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">11,493+</div>
+        <div class="stat-label" id="stat2Label">Fracciones LIGIE</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">&lt;2min</div>
+        <div class="stat-label" id="stat3Label">Por pedimento</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIN -->
+  <section class="pain" id="pain">
+    <h2 class="section-title" id="painTitle">¿Sabías que un error en tu pedimento puede costarte hasta el 150% del valor de la mercancía?</h2>
+    <p class="section-subtitle" id="painSub">Los artículos 176 y 178 de la Ley Aduanera establecen multas que van del 70% al 150% de las contribuciones omitidas. Una fracción mal clasificada, un RRNA faltante o un incrementable no declarado pueden detonar una PAMA.</p>
+    <div class="pain-comparison">
+      <div class="comparison-card">
+        <div class="comparison-title" id="painWithoutTitle">
+          <svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" stroke="#EF4444"/>
+            <line x1="8" y1="8" x2="16" y2="16" stroke="#EF4444"/>
+            <line x1="16" y1="8" x2="8" y2="16" stroke="#EF4444"/>
+          </svg>
+          Sin Control Tower
+        </div>
+        <div class="comparison-items" id="painWithoutItems"></div>
+      </div>
+      <div class="comparison-card">
+        <div class="comparison-title" id="painWithTitle">
+          <svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12" stroke="#10B981"/>
+          </svg>
+          Con Control Tower
+        </div>
+        <div class="comparison-items" id="painWithItems"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <h2 class="section-title" id="featuresTitle">Lo que hace Control Tower por ti</h2>
+    <p class="section-subtitle" id="featuresSub">Motor de auditoría con fundamento legal — no es un checklist genérico.</p>
+    <div class="features-grid" id="featuresGrid"></div>
+  </section>
+
+  <!-- AUTHORITY -->
+  <section class="authority" id="authority">
+    <h2 class="section-title" id="authTitle">Diseñado por un auditor, para auditores</h2>
+    <div class="authority-content">
+      <div class="authority-image">
+        <svg viewBox="0 0 200 200" width="120" height="120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="60" r="30" stroke="#10B981" stroke-width="2"/>
+          <path d="M70 100 Q70 90 80 90 L120 90 Q130 90 130 100 L130 140 Q130 150 120 150 L80 150 Q70 150 70 140 Z" stroke="#10B981" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+      <div>
+        <p class="authority-bio" id="authBio">Con más de 20 años en Comercio Exterior, Aduanas y Strategic Sourcing & Procurement, Cadena de suministro en México, España, Alemania, Suecia, Japón. Desarrollado por Scrum Master certificado. Desarrollamos Control Tower porque sabemos lo que un agente aduanal, un importador o un compliance officer necesita: certeza antes del despacho, no sorpresas después.</p>
+        <p class="authority-company" id="authCompany">Guadalajara, México</p>
+        <p class="authority-quote" id="authQuote">"El mejor momento para detectar un error en tu pedimento es antes de que el SAT lo vea."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <h2 class="section-title" id="servicesTitle">Servicios integrales de comercio exterior</h2>
+    <p class="section-subtitle" id="servicesSub">No solo auditamos. Operamos tu cadena completa.</p>
+    <div class="services-grid" id="servicesGrid"></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works" id="how-it-works">
+    <h2 class="section-title" id="howTitle">¿Cómo funciona?</h2>
+    <div class="steps-grid" id="stepsGrid"></div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <h2 class="section-title" id="faqTitle">Preguntas frecuentes</h2>
+    <div id="faqContainer"></div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="container">
+    <div class="final-cta">
+      <h2 class="final-cta-title" id="ctaTitle">Deja de adivinar y empieza a auditar</h2>
+      <p class="final-cta-sub" id="ctaSub">Mándanos tu pedimento. La primera auditoría es gratis.</p>
+      <button class="btn-primary" onclick="goToWhatsApp()" id="ctaButton">Solicitar mi auditoría gratis</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-rights" id="footerRights">© 2026 BondiaCT.io — Todos los derechos reservados.</div>
+      <div class="footer-disclaimer" id="footerDisclaimer">Control Tower es una herramienta de auditoría preventiva. No sustituye el asesoramiento legal o aduanal profesional.</div>
+      <div class="footer-security">Cifrado de extremo a extremo · Datos protegidos</div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Traducciones ──────────────────────────────────────
+    const copy = {
+      es: {
+        heroTag: 'Auditoría preventiva de pedimentos aduanales',
+        heroTitle: 'Evita multas del SAT en tus pedimentos antes de que lleguen.',
+        heroSub: 'Control Tower analiza cada pedimento contra 40+ reglas con fundamento legal de la Ley Aduanera mexicana. Mándanos tu pedimento y te mostramos tu nivel de riesgo — gratis.',
+        heroCTA: 'Solicitar mi auditoría gratis',
+        heroSecondary: 'Ver cómo funciona',
+        stat1Label: 'Reglas de auditoría',
+        stat2Label: 'Fracciones LIGIE',
+        stat3Label: 'Por pedimento',
+        painTitle: '¿Sabías que un error en tu pedimento puede costarte hasta el 150% del valor de la mercancía?',
+        painSub: 'Los artículos 176 y 178 de la Ley Aduanera establecen multas que van del 70% al 150% de las contribuciones omitidas. Una fracción mal clasificada, un RRNA faltante o un incrementable no declarado pueden detonar una PAMA.',
+        painWithoutTitle: 'Sin Control Tower',
+        painWithoutItems: ['Revisión manual campo por campo', 'Errores detectados después del despacho', 'Multas, PAMA y rectificaciones costosas', 'Dependencia total del agente aduanal', 'Sin evidencia de due diligence'],
+        painWithTitle: 'Con Control Tower',
+        painWithItems: ['Auditoría automática en menos de 2 minutos', 'Errores detectados ANTES del despacho', 'Prevención de multas con fundamento legal', 'Independencia para auditar tus propios pedimentos', 'Reporte PDF como evidencia ante el SAT'],
+        featuresTitle: 'Lo que hace Control Tower por ti',
+        featuresSub: 'Motor de auditoría con fundamento legal — no es un checklist genérico.',
+        features: [
+          { title: 'OCR Inteligente', desc: 'Sube tu pedimento en PDF y extrae automáticamente 25+ campos: fracción, NICO, valor aduana, incoterm, contribuciones y más.' },
+          { title: 'Modo Forense', desc: 'Heatmap de confiabilidad por campo, score de riesgo, y drill-down hasta el fundamento legal de cada hallazgo.' },
+          { title: 'Triple Match', desc: 'Cruza el PDF del pedimento vs. el Data Stage del SAT (DME 501/505/506). Detecta discrepancias que una revisión manual no ve.' },
+          { title: 'LIGIE Integrado', desc: '11,493+ fracciones arancelarias con RRNA, NICOs, aranceles IGI/IGE y unidad de medida — búsqueda instantánea.' },
+          { title: 'Reporte PDF', desc: 'Genera un reporte con hallazgos, fundamento legal y semáforo de cumplimiento. Úsalo como evidencia de due diligence.' },
+          { title: 'Validación RRNA', desc: 'Cruce automático de regulaciones no arancelarias vs. fracciones declaradas. Detecta NOM, permisos COFEPRIS y más.' },
+        ],
+        authTitle: 'Diseñado por un auditor, para auditores',
+        authBio: 'Con más de 20 años en Comercio Exterior, Aduanas y Strategic Sourcing & Procurement, Cadena de suministro en México, España, Alemania, Suecia, Japón. Desarrollado por Scrum Master certificado. Desarrollamos Control Tower porque sabemos lo que un agente aduanal, un importador o un compliance officer necesita: certeza antes del despacho, no sorpresas después.',
+        authCompany: 'Guadalajara, México',
+        authQuote: '"El mejor momento para detectar un error en tu pedimento es antes de que el SAT lo vea."',
+        servicesTitle: 'Servicios integrales de comercio exterior',
+        servicesSub: 'No solo auditamos. Operamos tu cadena completa.',
+        services: [
+          { name: 'Auditoría Preventiva', desc: 'Analizamos tu pedimento con 40+ reglas antes del despacho. Te entregamos un reporte con hallazgos y fundamento legal.', icon: 'shield' },
+          { name: 'Freight Forwarding', desc: 'Coordinamos tu carga puerta a puerta — aéreo, marítimo, terrestre. Cada embarque pasa por Control Tower antes del despacho.', icon: 'truck' },
+          { name: 'Despacho Aduanal', desc: 'Gestión completa ante aduanas con agentes certificados. Clasificación arancelaria, RRNA, y cumplimiento legal.', icon: 'stamp' },
+          { name: 'Consultoría COMEX', desc: 'Asesoría en comercio exterior, padrón de importadores, depósito fiscal, programas IMMEX y optimización arancelaria.', icon: 'consulting' },
+        ],
+        howTitle: '¿Cómo funciona?',
+        steps: [
+          { num: '1', title: '1. Envía tu pedimento', desc: 'Mándanos el PDF de tu último pedimento por WhatsApp o por el formulario. Es gratis y sin compromiso.' },
+          { num: '2', title: '2. Recibe tu auditoría', desc: 'En menos de 24 horas te entregamos un reporte con hallazgos, nivel de riesgo y fundamento legal.' },
+          { num: '3', title: '3. Platicamos tu operación', desc: 'Te explicamos los hallazgos y cómo podemos blindar tus próximas operaciones de comercio exterior.' },
+        ],
+        faqTitle: 'Preguntas frecuentes',
+        faq: [
+          { q: '¿Es seguro enviar mis pedimentos?', a: 'Sí. Tu información se maneja con estricta confidencialidad. Los pedimentos se analizan con tecnología propia y no se comparten con terceros.' },
+          { q: '¿Sustituyen al agente aduanal?', a: 'No. Trabajamos EN CONJUNTO con agentes aduanales certificados. Control Tower es una segunda opinión automatizada que complementa — no reemplaza — al agente. El objetivo es que tu operación esté blindada.' },
+          { q: '¿Qué valida exactamente Control Tower?', a: 'Valida +25 campos del pedimento vs. Data Stage del SAT y regulaciones RRNA. Usa 40+ reglas con fundamento en la Ley Aduanera (Art. 64, 65, 176, 178) — no es un checklist genérico.' },
+          { q: '¿Trabajan importación y exportación?', a: 'Sí. Control Tower detecta automáticamente si es importación o exportación y aplica las reglas correspondientes. Nuestros servicios de freight forwarding cubren ambas operaciones.' },
+          { q: '¿Cuánto cuesta la primera auditoría?', a: 'La primera auditoría de tu pedimento es gratuita y sin compromiso. Te la entregamos en menos de 24 horas para que veas tu nivel de riesgo real.' },
+        ],
+        ctaTitle: 'Deja de adivinar y empieza a auditar',
+        ctaSub: 'Mándanos tu pedimento. La primera auditoría es gratis.',
+        ctaButton: 'Solicitar mi auditoría gratis',
+        footerRights: '© 2026 BondiaCT.io — Todos los derechos reservados.',
+        footerDisclaimer: 'Control Tower es una herramienta de auditoría preventiva. No sustituye el asesoramiento legal o aduanal profesional.',
+      },
+      en: {
+        heroTag: 'Preventive customs pedimento audit',
+        heroTitle: 'Catch customs errors before the SAT does.',
+        heroSub: 'Control Tower analyzes every pedimento against 40+ rules based on Mexican Customs Law. Send us your pedimento and we\'ll show your risk level — free.',
+        heroCTA: 'Request my free audit',
+        heroSecondary: 'See how it works',
+        stat1Label: 'Audit rules',
+        stat2Label: 'LIGIE fractions',
+        stat3Label: 'Per pedimento',
+        painTitle: 'Did you know a single mistake in your pedimento can cost up to 150% of the goods\' value?',
+        painSub: 'Articles 176 and 178 of the Customs Act impose fines from 70% to 150% of omitted contributions. A misclassified fraction, a missing RRNA, or undeclared incrementables can trigger a PAMA seizure.',
+        painWithoutTitle: 'Without Control Tower',
+        painWithoutItems: ['Manual field-by-field review', 'Errors found after customs clearance', 'Fines, seizures, and costly amendments', 'Total dependency on customs broker', 'No due diligence evidence'],
+        painWithTitle: 'With Control Tower',
+        painWithItems: ['Automatic audit in under 2 minutes', 'Errors caught BEFORE clearance', 'Fine prevention with legal basis', 'Independence to audit your own pedimentos', 'PDF report as evidence for SAT'],
+        featuresTitle: 'What Control Tower does for you',
+        featuresSub: 'Audit engine with legal backing — not a generic checklist.',
+        features: [
+          { title: 'Smart OCR', desc: 'Upload your pedimento PDF and automatically extract 25+ fields: fraction, NICO, customs value, incoterm, contributions and more.' },
+          { title: 'Forensic Mode', desc: 'Confidence heatmap by field, risk score, and drill-down to the legal basis of every finding.' },
+          { title: 'Triple Match', desc: 'Cross-check the pedimento PDF vs. SAT\'s Data Stage (DME 501/505/506). Detects discrepancies that manual review misses.' },
+          { title: 'Built-in LIGIE', desc: '11,493+ tariff fractions with RRNA, NICOs, IGI/IGE tariffs and unit of measure — instant search.' },
+          { title: 'PDF Report', desc: 'Generate a report with findings, legal basis, and compliance traffic light. Use it as due diligence evidence.' },
+          { title: 'RRNA Validation', desc: 'Automatic cross-check of non-tariff regulations vs. declared fractions. Detects NOM, COFEPRIS permits and more.' },
+        ],
+        authTitle: 'Designed by an auditor, for auditors',
+        authBio: 'Over 20 years in Foreign Trade, Customs, and Strategic Sourcing & Procurement, Supply Chain across Mexico, Spain, Germany, Sweden, Japan. Built by a certified Scrum Master. We developed Control Tower because we know what a customs broker, importer, or compliance officer needs: certainty before clearance, not surprises after.',
+        authCompany: 'Guadalajara, Mexico',
+        authQuote: '"The best time to catch an error in your pedimento is before the SAT sees it."',
+        servicesTitle: 'End-to-end foreign trade services',
+        servicesSub: 'We don\'t just audit. We operate your full supply chain.',
+        services: [
+          { name: 'Preventive Audit', desc: 'We analyze your pedimento with 40+ rules before clearance. You get a report with findings and legal basis.', icon: 'shield' },
+          { name: 'Freight Forwarding', desc: 'Door-to-door cargo coordination — air, ocean, ground. Every shipment runs through Control Tower before clearance.', icon: 'truck' },
+          { name: 'Customs Clearance', desc: 'Full customs management with certified brokers. Tariff classification, RRNA, and legal compliance.', icon: 'stamp' },
+          { name: 'COMEX Consulting', desc: 'Foreign trade advisory, importer registry, bonded warehousing, IMMEX programs and tariff optimization.', icon: 'consulting' },
+        ],
+        howTitle: 'How does it work?',
+        steps: [
+          { num: '1', title: '1. Send your pedimento', desc: 'Send us the PDF of your last pedimento via WhatsApp or our form. Free, no strings attached.' },
+          { num: '2', title: '2. Get your audit', desc: 'In less than 24 hours you\'ll receive a report with findings, risk level, and legal basis.' },
+          { num: '3', title: '3. Let\'s talk operations', desc: 'We walk you through the findings and how we can protect your next foreign trade operations.' },
+        ],
+        faqTitle: 'Frequently asked questions',
+        faq: [
+          { q: 'Is it safe to send my pedimentos?', a: 'Yes. Your information is handled with strict confidentiality. Pedimentos are analyzed with proprietary technology and never shared with third parties.' },
+          { q: 'Do you replace customs brokers?', a: 'No. We work ALONGSIDE certified customs brokers. Control Tower is an automated second opinion that complements — never replaces — the broker. The goal is to bulletproof your operation.' },
+          { q: 'What exactly does Control Tower validate?', a: 'It validates 25+ pedimento fields vs. SAT\'s Data Stage and RRNA regulations. Uses 40+ rules based on Mexican Customs Law (Art. 64, 65, 176, 178) — not a generic checklist.' },
+          { q: 'Do you handle imports and exports?', a: 'Yes. Control Tower auto-detects import vs. export and applies corresponding rules. Our freight forwarding services cover both operations.' },
+          { q: 'How much does the first audit cost?', a: 'The first audit of your pedimento is free with no strings attached. We deliver it in less than 24 hours so you can see your real risk level.' },
+        ],
+        ctaTitle: 'Stop guessing. Start auditing.',
+        ctaSub: 'Send us your pedimento. The first audit is free.',
+        ctaButton: 'Request my free audit',
+        footerRights: '© 2026 BondiaCT.io — All rights reserved.',
+        footerDisclaimer: 'Control Tower is a preventive audit tool. It does not replace professional legal or customs advice.',
+      },
+    };
+
+    // ── State ──────────────────────────────────────────────
+    let currentLang = localStorage.getItem('ct-lang') || 'es';
+
+    // ── Icon Generators ────────────────────────────────────
+    function getServiceIcon(type) {
+      const icons = {
+        shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7v5c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V7z"/></svg>',
+        truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
+        stamp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2" ry="2"/><path d="M7 15h10M7 11h10M7 7h5"/></svg>',
+        consulting: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c5.523 0 10 3.58 10 8s-4.477 8-10 8S2 14.42 2 10s4.477-8 10-8z"/><circle cx="12" cy="10" r="1"/><circle cx="8" cy="10" r="1"/><circle cx="16" cy="10" r="1"/></svg>',
+      };
+      return icons[type] || icons.shield;
+    }
+
+    // ── Render Functions ───────────────────────────────────
+    function render() {
+      const t = copy[currentLang];
+
+      // Text content
+      document.getElementById('heroTag').textContent = t.heroTag;
+      document.getElementById('heroTitle').textContent = t.heroTitle;
+      document.getElementById('heroSub').textContent = t.heroSub;
+      document.getElementById('heroCTA').textContent = t.heroCTA;
+      document.getElementById('heroSecondary').textContent = t.heroSecondary;
+      document.getElementById('stat1Label').textContent = t.stat1Label;
+      document.getElementById('stat2Label').textContent = t.stat2Label;
+      document.getElementById('stat3Label').textContent = t.stat3Label;
+      document.getElementById('painTitle').textContent = t.painTitle;
+      document.getElementById('painSub').textContent = t.painSub;
+      document.getElementById('painWithoutTitle').textContent = t.painWithoutTitle;
+      document.getElementById('painWithTitle').textContent = t.painWithTitle;
+      document.getElementById('featuresTitle').textContent = t.featuresTitle;
+      document.getElementById('featuresSub').textContent = t.featuresSub;
+      document.getElementById('authTitle').textContent = t.authTitle;
+      document.getElementById('authBio').textContent = t.authBio;
+      document.getElementById('authCompany').textContent = t.authCompany;
+      document.getElementById('authQuote').textContent = t.authQuote;
+      document.getElementById('servicesTitle').textContent = t.servicesTitle;
+      document.getElementById('servicesSub').textContent = t.servicesSub;
+      document.getElementById('howTitle').textContent = t.howTitle;
+      document.getElementById('faqTitle').textContent = t.faqTitle;
+      document.getElementById('ctaTitle').textContent = t.ctaTitle;
+      document.getElementById('ctaSub').textContent = t.ctaSub;
+      document.getElementById('ctaButton').textContent = t.ctaButton;
+      document.getElementById('footerRights').textContent = t.footerRights;
+      document.getElementById('footerDisclaimer').textContent = t.footerDisclaimer;
+
+      // Pain comparison items
+      const painWithoutHtml = t.painWithoutItems.map(item =>
+        `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/><line x1="16" y1="8" x2="8" y2="16"/></svg><span>${item}</span></div>`
+      ).join('');
+      document.getElementById('painWithoutItems').innerHTML = painWithoutHtml;
+
+      const painWithHtml = t.painWithItems.map(item =>
+        `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>${item}</span></div>`
+      ).join('');
+      document.getElementById('painWithItems').innerHTML = painWithHtml;
+
+      // Features grid
+      const featuresHtml = t.features.map(f => `
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">${f.title}</h3>
+          <p class="feature-desc">${f.desc}</p>
+        </div>
+      `).join('');
+      document.getElementById('featuresGrid').innerHTML = featuresHtml;
+
+      // Services grid
+      const servicesHtml = t.services.map(s => `
+        <div class="service-card">
+          <div class="service-icon">${getServiceIcon(s.icon)}</div>
+          <h3 class="service-name">${s.name}</h3>
+          <p class="service-desc">${s.desc}</p>
+        </div>
+      `).join('');
+      document.getElementById('servicesGrid').innerHTML = servicesHtml;
+
+      // Steps
+      const stepsHtml = t.steps.map(s => `
+        <div class="step-card">
+          <div class="step-number">${s.num}</div>
+          <h3 class="step-title">${s.title}</h3>
+          <p class="step-desc">${s.desc}</p>
+        </div>
+      `).join('');
+      document.getElementById('stepsGrid').innerHTML = stepsHtml;
+
+      // FAQ
+      const faqHtml = t.faq.map((item, idx) => `
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(${idx})">
+            <span>${item.q}</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer" id="faq-answer-${idx}">${item.a}</div>
+        </div>
+      `).join('');
+      document.getElementById('faqContainer').innerHTML = faqHtml;
+
+      // Update nav button
+      document.getElementById('langBtn').textContent = currentLang === 'es' ? 'EN' : 'ES';
+
+      // Update page title
+      document.title = currentLang === 'es'
+        ? 'Control Tower — Auditoría Preventiva de Pedimentos | BondiaCT.io'
+        : 'Control Tower — Preventive Pedimento Audit | BondiaCT.io';
+    }
+
+    // ── Functions ──────────────────────────────────────────
+    function toggleLanguage() {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      localStorage.setItem('ct-lang', currentLang);
+      render();
+    }
+
+    function toggleFaq(idx) {
+      const answer = document.getElementById(`faq-answer-${idx}`);
+      if (answer) {
+        answer.classList.toggle('open');
+      }
+    }
+
+    function scrollTo(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function goToWhatsApp() {
+      const waNumber = '523322000539';
+      const msg = encodeURIComponent(
+        currentLang === 'es'
+          ? 'Hola, me interesa una auditoría gratuita de mi pedimento con Control Tower.'
+          : 'Hi, I\'m interested in a free pedimento audit with Control Tower.'
+      );
+      window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
+    }
+
+    // ── Init ───────────────────────────────────────────────
+    render();
+  </script>
+</body>
+</html>
