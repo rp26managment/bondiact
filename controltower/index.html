@@ -14,377 +14,552 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --emerald: #10B981;
-      --emerald-dark: #059669;
-      --navy: #0F172A;
-      --navy-light: #1E293B;
-      --slate: #64748B;
-      --white: #FFFFFF;
-      --gray-100: #F1F5F9;
-      --gray-400: #94A3B8;
-      --gray-600: #475569;
+      --bg: #0a0f1a;
+      --bg-card: #111827;
+      --accent: #00897B;
+      --accent-light: rgba(0, 137, 123, 0.15);
+      --text: #e8f4fd;
+      --text-muted: #9ca3af;
+      --border: rgba(255, 255, 255, 0.06);
+      --red: #ef4444;
+      --red-bg: rgba(239, 68, 68, 0.03);
+      --red-border: rgba(239, 68, 68, 0.15);
+      --red-light-bg: rgba(239, 68, 68, 0.06);
+      --green: #10b981;
+      --green-light-bg: rgba(16, 185, 129, 0.06);
+      --green-border: rgba(16, 185, 129, 0.15);
+      --accent-border-hover: rgba(0, 137, 123, 0.3);
       --radius: 12px;
-      --shadow: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -2px rgba(0,0,0,.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.05);
+      --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.2), 0 4px 6px -4px rgba(0,0,0,.1);
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--navy);
-      color: var(--white);
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
     }
 
-    /* ─── NAVBAR ──────────────────────────────────────────────── */
+    /* ─── NAVBAR ──────────────────────────────────────────────────── */
     nav {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--navy);
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 15, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
       padding: 0 24px;
     }
     .nav-inner {
-      max-width: 1400px; margin: 0 auto;
+      max-width: 1400px;
+      margin: 0 auto;
       height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .nav-logo-svg { width: 36px; height: 36px; }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .nav-logo-svg {
+      width: 32px;
+      height: 32px;
+      color: var(--accent);
+    }
     .nav-name {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.3rem; font-weight: 900;
-      color: var(--white); letter-spacing: -0.3px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.3px;
     }
-    .nav-name span { color: var(--emerald); }
+    .nav-name span {
+      color: var(--accent);
+    }
     .nav-links {
-      display: flex; align-items: center; gap: 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
     }
     @media (max-width: 768px) {
-      .nav-links { display: none; }
+      .nav-links {
+        display: none;
+      }
     }
     .nav-link {
-      color: var(--gray-400);
+      color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.95rem; font-weight: 500;
+      font-size: 0.95rem;
+      font-weight: 500;
       transition: color 0.2s;
       cursor: pointer;
     }
-    .nav-link:hover { color: var(--white); }
-    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .nav-link:hover {
+      color: var(--text);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
     .lang-toggle {
-      background: rgba(255,255,255,.08);
-      color: var(--gray-400);
-      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      padding: 8px 12px; font-size: 0.85rem; font-weight: 500;
-      cursor: pointer; transition: all .2s;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
       font-family: 'Inter', sans-serif;
     }
-    .lang-toggle:hover { background: rgba(255,255,255,.12); color: var(--white); }
+    .lang-toggle:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+    }
     .nav-cta {
-      background: var(--emerald);
-      color: var(--white);
-      border: none; border-radius: 8px;
-      padding: 10px 22px; font-size: 0.95rem; font-weight: 600;
-      cursor: pointer; transition: background .2s;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
       font-family: 'Inter', sans-serif;
     }
-    .nav-cta:hover { background: var(--emerald-dark); }
+    .nav-cta:hover {
+      background: #00a383;
+    }
+    .globe-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
+    }
 
-    /* ─── HERO ─────────────────────────────────────────────── */
+    /* ─── HERO ─────────────────────────────────────────────────── */
     .hero {
-      max-width: 1400px; margin: 0 auto;
-      padding: 80px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 120px 24px 80px;
       text-align: center;
     }
     .hero-tag {
       display: inline-block;
-      background: rgba(16,185,129,.15);
-      color: var(--emerald);
-      border: 1px solid rgba(16,185,129,.3);
-      border-radius: 99px;
-      padding: 8px 16px; font-size: 0.85rem; font-weight: 600;
-      letter-spacing: 0.5px;
+      background: var(--accent-light);
+      border: 1px solid rgba(0, 137, 123, 0.3);
+      color: var(--accent);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
       margin-bottom: 24px;
     }
     .hero-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+      font-size: 3.2rem;
+      font-weight: 900;
       line-height: 1.2;
       margin-bottom: 24px;
-      color: var(--white);
+      color: var(--text);
     }
-    .hero-subtitle {
-      font-size: 1.125rem;
-      color: var(--gray-400);
-      max-width: 700px; margin: 0 auto 40px;
-      line-height: 1.8;
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
     }
-    .hero-ctas {
-      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-      margin-bottom: 60px;
-    }
-    @media (max-width: 640px) {
-      .hero-ctas { flex-direction: column; }
-    }
-    .btn-primary {
-      background: var(--emerald);
-      color: var(--white);
-      border: none; border-radius: 10px;
-      padding: 14px 32px; font-size: 1rem; font-weight: 600;
-      cursor: pointer; transition: background .2s;
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
       font-family: 'Inter', sans-serif;
-      text-decoration: none;
-      display: inline-block;
+      margin-right: 12px;
     }
-    .btn-primary:hover { background: var(--emerald-dark); }
-    .btn-secondary {
+    .hero-cta:hover {
+      background: #00a383;
+    }
+    .hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: transparent;
-      color: var(--emerald);
-      border: 2px solid var(--emerald); border-radius: 10px;
-      padding: 12px 30px; font-size: 1rem; font-weight: 600;
-      cursor: pointer; transition: all .2s;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
       font-family: 'Inter', sans-serif;
-      text-decoration: none;
-      display: inline-block;
     }
-    .btn-secondary:hover {
-      background: rgba(16,185,129,.1);
-      color: var(--white);
+    .hero-secondary:hover {
+      background: rgba(0, 137, 123, 0.1);
     }
+    .arrow-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ─── HERO STATS ──────────────────────────────────────────── */
     .hero-stats {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 32px;
+      margin-top: 64px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .stat-card {
-      background: rgba(16,185,129,.08);
-      border: 1px solid rgba(16,185,129,.2);
-      border-radius: 12px;
-      padding: 24px; text-align: center;
+    .stat-item {
+      text-align: center;
     }
     .stat-number {
       font-family: 'Montserrat', sans-serif;
-      font-size: 2rem; font-weight: 900;
-      color: var(--emerald);
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent);
       margin-bottom: 8px;
     }
     .stat-label {
-      font-size: 0.9rem; color: var(--gray-400);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
-    /* ─── PAIN SECTION ─────────────────────────────────────── */
+    /* ─── PAIN SECTION ─────────────────────────────────────────── */
     .pain {
-      max-width: 1400px; margin: 0 auto;
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 80px 24px;
-      background: linear-gradient(135deg, rgba(16,185,129,.05) 0%, rgba(16,185,129,0) 100%);
+      background: var(--red-bg);
     }
-    .section-title {
+    .pain-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .pain-alert-icon {
+      width: 48px;
+      height: 48px;
+      color: var(--red);
+      margin: 0 auto 16px;
+    }
+    .pain-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900;
+      font-size: 2.2rem;
+      font-weight: 900;
       margin-bottom: 16px;
-      text-align: center;
-      color: var(--white);
+      color: var(--text);
     }
-    .section-subtitle {
-      font-size: 1.1rem;
-      color: var(--gray-400);
-      text-align: center;
-      max-width: 700px; margin: 0 auto 48px;
-      line-height: 1.8;
+    .pain-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
     }
     .pain-comparison {
-      display: grid; grid-template-columns: 1fr 1fr;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 32px;
     }
     @media (max-width: 768px) {
-      .pain-comparison { grid-template-columns: 1fr; }
+      .pain-comparison {
+        grid-template-columns: 1fr;
+      }
     }
     .comparison-card {
-      background: var(--navy-light);
-      border: 1px solid rgba(255,255,255,.1);
       border-radius: 16px;
       padding: 32px;
     }
+    .comparison-card.without {
+      background: var(--red-light-bg);
+      border: 1px solid var(--red-border);
+    }
+    .comparison-card.with {
+      background: var(--green-light-bg);
+      border: 1px solid var(--green-border);
+    }
     .comparison-title {
-      font-size: 1.3rem; font-weight: 700;
+      font-size: 1.3rem;
+      font-weight: 700;
       margin-bottom: 24px;
-      display: flex; align-items: center; gap: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .comparison-items {
-      display: flex; flex-direction: column; gap: 16px;
+    .comparison-card.without .comparison-title {
+      color: var(--red);
     }
-    .comparison-item {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 0.95rem;
-      line-height: 1.6;
+    .comparison-card.with .comparison-title {
+      color: var(--green);
     }
     .comparison-icon {
-      width: 20px; height: 20px; flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .comparison-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .comparison-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .comparison-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
       margin-top: 2px;
     }
 
-    /* ─── FEATURES ─────────────────────────────────────────── */
+    /* ─── FEATURES ─────────────────────────────────────────────── */
     .features {
-      max-width: 1400px; margin: 0 auto;
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 80px 24px;
     }
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
     .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 24px;
     }
     .feature-card {
-      background: var(--navy-light);
-      border: 1px solid rgba(255,255,255,.08);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 32px;
-      transition: all .3s;
+      transition: all 0.3s;
     }
     .feature-card:hover {
-      border-color: rgba(16,185,129,.3);
+      border-color: var(--accent-border-hover);
       transform: translateY(-4px);
       box-shadow: var(--shadow-lg);
     }
     .feature-icon {
-      width: 48px; height: 48px;
-      background: rgba(16,185,129,.15);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 16px;
-      color: var(--emerald);
+      color: var(--accent);
+    }
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
     }
     .feature-title {
-      font-size: 1.2rem; font-weight: 700;
+      font-size: 1.2rem;
+      font-weight: 700;
       margin-bottom: 12px;
-      color: var(--white);
+      color: var(--text);
     }
     .feature-desc {
       font-size: 0.95rem;
-      color: var(--gray-400);
+      color: var(--text-muted);
       line-height: 1.7;
     }
 
     /* ─── AUTHORITY ──────────────────────────────────────────── */
     .authority {
-      max-width: 1400px; margin: 0 auto;
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 80px 24px;
-      background: linear-gradient(135deg, rgba(16,185,129,.08) 0%, rgba(16,185,129,0) 100%);
+      background: rgba(0, 137, 123, 0.04);
     }
     .authority-content {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 48px; align-items: center;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
     }
-    @media (max-width: 768px) {
-      .authority-content { grid-template-columns: 1fr; }
+    .authority-icon {
+      width: 56px;
+      height: 56px;
+      color: var(--accent);
+      margin: 0 auto 24px;
     }
-    .authority-image {
+    .authority-icon svg {
       width: 100%;
-      height: 400px;
-      background: linear-gradient(135deg, rgba(16,185,129,.2), rgba(16,185,129,.05));
-      border-radius: 16px;
-      border: 1px solid rgba(16,185,129,.2);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gray-400);
-    }
-    .authority-bio {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--gray-400);
-      margin-bottom: 24px;
-    }
-    .authority-company {
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      margin-bottom: 32px;
+      height: 100%;
+      stroke: currentColor;
+      fill: none;
     }
     .authority-quote {
-      border-left: 4px solid var(--emerald);
-      padding-left: 24px;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-style: italic;
-      color: var(--emerald);
+      color: var(--accent);
+      margin-bottom: 24px;
       line-height: 1.8;
     }
+    .authority-bio {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .authority-location {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
-    /* ─── SERVICES ─────────────────────────────────────────── */
+    /* ─── SERVICES ─────────────────────────────────────────────── */
     .services {
-      max-width: 1400px; margin: 0 auto;
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 80px 24px;
     }
     .services-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 24px;
     }
     .service-card {
-      background: var(--navy-light);
-      border: 1px solid rgba(255,255,255,.08);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 32px;
-      display: flex; flex-direction: column;
-      transition: all .3s;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
     }
     .service-card:hover {
-      border-color: rgba(16,185,129,.3);
+      border-color: var(--accent-border-hover);
       box-shadow: var(--shadow-lg);
     }
     .service-icon {
-      width: 56px; height: 56px;
-      background: rgba(16,185,129,.15);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 20px;
-      color: var(--emerald);
+      color: var(--accent);
+    }
+    .service-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
     }
     .service-name {
-      font-size: 1.2rem; font-weight: 700;
+      font-size: 1.2rem;
+      font-weight: 700;
       margin-bottom: 12px;
-      color: var(--white);
+      color: var(--text);
     }
     .service-desc {
       font-size: 0.95rem;
-      color: var(--gray-400);
+      color: var(--text-muted);
       line-height: 1.7;
       flex-grow: 1;
     }
 
     /* ─── HOW IT WORKS ─────────────────────────────────────── */
     .how-it-works {
-      max-width: 1400px; margin: 0 auto;
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 80px 24px;
-      background: linear-gradient(135deg, rgba(16,185,129,.05) 0%, rgba(16,185,129,0) 100%);
     }
     .steps-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 48px;
       margin-top: 48px;
     }
     .step-card {
       text-align: center;
     }
-    .step-number {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 3rem; font-weight: 900;
-      color: var(--emerald);
-      margin-bottom: 16px;
+    .step-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--accent-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      color: var(--accent);
+    }
+    .step-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: currentColor;
+      fill: none;
     }
     .step-title {
-      font-size: 1.2rem; font-weight: 700;
+      font-size: 1.2rem;
+      font-weight: 700;
       margin-bottom: 12px;
-      color: var(--white);
+      color: var(--text);
     }
     .step-desc {
       font-size: 0.95rem;
-      color: var(--gray-400);
+      color: var(--text-muted);
       line-height: 1.7;
     }
 
     /* ─── FAQ ─────────────────────────────────────────────── */
     .faq {
-      max-width: 900px; margin: 0 auto;
+      max-width: 900px;
+      margin: 0 auto;
       padding: 80px 24px;
     }
     .faq-item {
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid var(--border);
       padding: 24px 0;
     }
     .faq-question {
@@ -395,156 +570,241 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: var(--white);
+      color: var(--text);
       font-size: 1.05rem;
       font-weight: 600;
       text-align: left;
       padding: 0;
       font-family: 'Inter', sans-serif;
-      transition: color .2s;
     }
-    .faq-question:hover { color: var(--emerald); }
+    .faq-question:hover {
+      color: var(--accent);
+    }
     .faq-icon {
-      width: 24px; height: 24px;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
-      margin-left: 16px;
+      margin-left: 12px;
+      transition: transform 0.3s;
+      color: var(--accent);
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
     }
     .faq-answer {
-      margin-top: 16px;
-      color: var(--gray-400);
-      font-size: 0.95rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      color: var(--text-muted);
       line-height: 1.7;
-      display: none;
+      font-size: 0.95rem;
+      margin-top: 0;
     }
-    .faq-answer.open { display: block; }
+    .faq-answer.open {
+      max-height: 500px;
+      margin-top: 16px;
+    }
 
     /* ─── FINAL CTA ────────────────────────────────────────── */
     .final-cta {
-      max-width: 800px; margin: 0 auto;
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 80px 24px;
+      background: linear-gradient(135deg, var(--accent) 0%, #004d40 100%);
+      border-radius: 16px;
       text-align: center;
-      background: linear-gradient(135deg, rgba(16,185,129,.1) 0%, rgba(16,185,129,.05) 100%);
-      border: 1px solid rgba(16,185,129,.2);
-      border-radius: 24px;
-      margin-bottom: 80px;
+      color: white;
     }
     .final-cta-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900;
+      font-size: 2.4rem;
+      font-weight: 900;
       margin-bottom: 16px;
+    }
+    .final-cta-zap {
+      width: 48px;
+      height: 48px;
+      color: white;
+      margin: 0 auto 16px;
+    }
+    .final-cta-zap svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      fill: white;
     }
     .final-cta-sub {
       font-size: 1.1rem;
-      color: var(--gray-400);
       margin-bottom: 32px;
-      line-height: 1.8;
+      line-height: 1.7;
+      opacity: 0.95;
+    }
+    .btn-final {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      color: var(--accent);
+      border: none;
+      border-radius: 8px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-final:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
     }
 
     /* ─── FOOTER ───────────────────────────────────────────── */
     footer {
-      border-top: 1px solid rgba(255,255,255,.06);
-      background: rgba(0,0,0,.3);
-      padding: 40px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
       text-align: center;
     }
     .footer-inner {
-      max-width: 1400px; margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .footer-logo {
+      width: 24px;
+      height: 24px;
+      color: var(--accent);
+    }
+    .footer-brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--text);
     }
     .footer-rights {
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
     .footer-disclaimer {
       font-size: 0.85rem;
-      color: var(--gray-600);
+      color: var(--text-muted);
       line-height: 1.6;
     }
     .footer-security {
-      font-size: 0.8rem;
-      color: var(--gray-600);
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,.06);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .lock-icon {
+      width: 16px;
+      height: 16px;
+    }
+    .footer-whatsapp {
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 8px;
     }
 
-    /* ─── UTILITIES ───────────────────────────────────────── */
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
-    .hidden { display: none !important; }
-    svg { display: block; }
+    /* ─── CONTAINER ────────────────────────────────────────── */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
   </style>
 </head>
 <body>
   <!-- NAVBAR -->
   <nav>
     <div class="nav-inner">
-      <a href="#" class="nav-brand">
-        <svg class="nav-logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="18" cy="18" r="16" stroke="#10B981" stroke-width="2"/>
-          <circle cx="18" cy="18" r="10" stroke="#10B981" stroke-width="1.5"/>
-          <circle cx="18" cy="18" r="4" fill="#10B981"/>
+      <a class="nav-brand" onclick="scrollToSection('hero')">
+        <svg class="nav-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
         </svg>
-        <div class="nav-name">Control <span>Tower</span></div>
+        <div class="nav-name">Bondia<span>CT</span></div>
       </a>
       <div class="nav-links">
-        <a href="#features" class="nav-link" onclick="scrollTo('features'); return false;">Funciones</a>
-        <a href="#services" class="nav-link" onclick="scrollTo('services'); return false;">Servicios</a>
-        <a href="#faq" class="nav-link" onclick="scrollTo('faq'); return false;">FAQ</a>
+        <a class="nav-link" onclick="scrollToSection('features')"><span id="navFeatures">Funciones</span></a>
+        <a class="nav-link" onclick="scrollToSection('services')"><span id="navServices">Servicios</span></a>
+        <a class="nav-link" onclick="scrollToSection('faq')"><span id="navFaq">FAQ</span></a>
       </div>
       <div class="nav-actions">
-        <button class="lang-toggle" onclick="toggleLanguage()" id="langBtn">EN</button>
-        <button class="nav-cta" onclick="goToWhatsApp()">Solicitar auditoría</button>
+        <button class="lang-toggle" onclick="toggleLanguage()">
+          <svg class="globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span id="langBtn">EN</span>
+        </button>
+        <button class="nav-cta" onclick="goToWhatsApp()" id="navCTA">Solicitar auditoría</button>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero-tag" id="heroTag">Auditoría preventiva de pedimentos aduanales</div>
     <h1 class="hero-title" id="heroTitle">Evita multas del SAT en tus pedimentos antes de que lleguen.</h1>
-    <p class="hero-subtitle" id="heroSub">Control Tower analiza cada pedimento contra 40+ reglas con fundamento legal de la Ley Aduanera mexicana. Mándanos tu pedimento y te mostramos tu nivel de riesgo — gratis.</p>
-    <div class="hero-ctas">
-      <button class="btn-primary" onclick="goToWhatsApp()" id="heroCTA">Solicitar mi auditoría gratis</button>
-      <button class="btn-secondary" onclick="scrollTo('how-it-works')" id="heroSecondary">Ver cómo funciona</button>
-    </div>
+    <p class="hero-sub" id="heroSub">Control Tower analiza cada pedimento contra 40+ reglas con fundamento legal de la Ley Aduanera mexicana. Mándanos tu pedimento y te mostramos tu nivel de riesgo — gratis.</p>
+    <button class="hero-cta" onclick="goToWhatsApp()" id="heroCTA">Solicitar mi auditoría gratis</button>
+    <button class="hero-secondary" onclick="scrollToSection('how-it-works')" id="heroSecondary">
+      Ver cómo funciona
+      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </button>
     <div class="hero-stats">
-      <div class="stat-card">
+      <div class="stat-item">
         <div class="stat-number">40+</div>
-        <div class="stat-label" id="stat1Label">Reglas de auditoría</div>
+        <div class="stat-label" id="stat1">Reglas de auditoría</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number">11,493+</div>
-        <div class="stat-label" id="stat2Label">Fracciones LIGIE</div>
+      <div class="stat-item">
+        <div class="stat-number">11,493</div>
+        <div class="stat-label" id="stat2">Fracciones LIGIE</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number">&lt;2min</div>
-        <div class="stat-label" id="stat3Label">Por pedimento</div>
+      <div class="stat-item">
+        <div class="stat-number">2 min</div>
+        <div class="stat-label" id="stat3">Por pedimento</div>
       </div>
     </div>
   </section>
 
-  <!-- PAIN -->
+  <!-- PAIN/RISK SECTION -->
   <section class="pain" id="pain">
-    <h2 class="section-title" id="painTitle">¿Sabías que un error en tu pedimento puede costarte hasta el 150% del valor de la mercancía?</h2>
-    <p class="section-subtitle" id="painSub">Los artículos 176 y 178 de la Ley Aduanera establecen multas que van del 70% al 150% de las contribuciones omitidas. Una fracción mal clasificada, un RRNA faltante o un incrementable no declarado pueden detonar una PAMA.</p>
+    <div class="pain-header">
+      <svg class="pain-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <h2 class="pain-title" id="painTitle">¿Sabías que un error en tu pedimento puede costarte hasta el 150% del valor de la mercancía?</h2>
+      <p class="pain-sub" id="painSub">Los artículos 176 y 178 de la Ley Aduanera establecen multas que van del 70% al 150% de las contribuciones omitidas. Una fracción mal clasificada, un RRNA faltante o un incrementable no declarado pueden detonar una PAMA.</p>
+    </div>
     <div class="pain-comparison">
-      <div class="comparison-card">
-        <div class="comparison-title" id="painWithoutTitle">
-          <svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" stroke="#EF4444"/>
-            <line x1="8" y1="8" x2="16" y2="16" stroke="#EF4444"/>
-            <line x1="16" y1="8" x2="8" y2="16" stroke="#EF4444"/>
+      <div class="comparison-card without">
+        <div class="comparison-title">
+          <svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
           </svg>
-          Sin Control Tower
+          <span id="painWithoutTitle">Sin Control Tower</span>
         </div>
         <div class="comparison-items" id="painWithoutItems"></div>
       </div>
-      <div class="comparison-card">
-        <div class="comparison-title" id="painWithTitle">
-          <svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12" stroke="#10B981"/>
+      <div class="comparison-card with">
+        <div class="comparison-title">
+          <svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
           </svg>
-          Con Control Tower
+          <span id="painWithTitle">Con Control Tower</span>
         </div>
         <div class="comparison-items" id="painWithItems"></div>
       </div>
@@ -553,8 +813,10 @@
 
   <!-- FEATURES -->
   <section class="features" id="features">
-    <h2 class="section-title" id="featuresTitle">Lo que hace Control Tower por ti</h2>
-    <p class="section-subtitle" id="featuresSub">Motor de auditoría con fundamento legal — no es un checklist genérico.</p>
+    <div class="section-header">
+      <h2 class="section-title" id="featuresTitle">Lo que hace Control Tower por ti</h2>
+      <p class="section-subtitle" id="featuresSub">Motor de auditoría con fundamento legal — no es un checklist genérico.</p>
+    </div>
     <div class="features-grid" id="featuresGrid"></div>
   </section>
 
@@ -562,30 +824,29 @@
   <section class="authority" id="authority">
     <h2 class="section-title" id="authTitle">Diseñado por un auditor, para auditores</h2>
     <div class="authority-content">
-      <div class="authority-image">
-        <svg viewBox="0 0 200 200" width="120" height="120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="100" cy="60" r="30" stroke="#10B981" stroke-width="2"/>
-          <path d="M70 100 Q70 90 80 90 L120 90 Q130 90 130 100 L130 140 Q130 150 120 150 L80 150 Q70 150 70 140 Z" stroke="#10B981" stroke-width="2" fill="none"/>
-        </svg>
-      </div>
-      <div>
-        <p class="authority-bio" id="authBio">Con más de 20 años en Comercio Exterior, Aduanas y Strategic Sourcing & Procurement, Cadena de suministro en México, España, Alemania, Suecia, Japón. Desarrollado por Scrum Master certificado. Desarrollamos Control Tower porque sabemos lo que un agente aduanal, un importador o un compliance officer necesita: certeza antes del despacho, no sorpresas después.</p>
-        <p class="authority-company" id="authCompany">Guadalajara, México</p>
-        <p class="authority-quote" id="authQuote">"El mejor momento para detectar un error en tu pedimento es antes de que el SAT lo vea."</p>
-      </div>
+      <svg class="authority-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      <p class="authority-quote" id="authQuote">"El mejor momento para detectar un error en tu pedimento es antes de que el SAT lo vea."</p>
+      <p class="authority-bio" id="authBio">Con más de 20 años en Comercio Exterior, Aduanas y Strategic Sourcing & Procurement, Cadena de suministro en México, España, Alemania, Suecia, Japón. Desarrollado por Scrum Master certificado. Desarrollamos Control Tower porque sabemos lo que un agente aduanal, un importador o un compliance officer necesita: certeza antes del despacho, no sorpresas después.</p>
+      <p class="authority-location" id="authCompany">Guadalajara, México</p>
     </div>
   </section>
 
   <!-- SERVICES -->
   <section class="services" id="services">
-    <h2 class="section-title" id="servicesTitle">Servicios integrales de comercio exterior</h2>
-    <p class="section-subtitle" id="servicesSub">No solo auditamos. Operamos tu cadena completa.</p>
+    <div class="section-header">
+      <h2 class="section-title" id="servicesTitle">Servicios integrales de comercio exterior</h2>
+      <p class="section-subtitle" id="servicesSub">No solo auditamos. Operamos tu cadena completa.</p>
+    </div>
     <div class="services-grid" id="servicesGrid"></div>
   </section>
 
   <!-- HOW IT WORKS -->
   <section class="how-it-works" id="how-it-works">
-    <h2 class="section-title" id="howTitle">¿Cómo funciona?</h2>
+    <div class="section-header">
+      <h2 class="section-title" id="howTitle">¿Cómo funciona?</h2>
+    </div>
     <div class="steps-grid" id="stepsGrid"></div>
   </section>
 
@@ -598,23 +859,38 @@
   <!-- FINAL CTA -->
   <section class="container">
     <div class="final-cta">
+      <svg class="final-cta-zap" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
       <h2 class="final-cta-title" id="ctaTitle">Deja de adivinar y empieza a auditar</h2>
       <p class="final-cta-sub" id="ctaSub">Mándanos tu pedimento. La primera auditoría es gratis.</p>
-      <button class="btn-primary" onclick="goToWhatsApp()" id="ctaButton">Solicitar mi auditoría gratis</button>
+      <button class="btn-final" onclick="goToWhatsApp()" id="ctaButton">Solicitar mi auditoría gratis</button>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
+      <div class="footer-brand">
+        <svg class="footer-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+        </svg>
+        <div class="footer-brand-name">BondiaCT</div>
+      </div>
       <div class="footer-rights" id="footerRights">© 2026 BondiaCT.io — Todos los derechos reservados.</div>
       <div class="footer-disclaimer" id="footerDisclaimer">Control Tower es una herramienta de auditoría preventiva. No sustituye el asesoramiento legal o aduanal profesional.</div>
-      <div class="footer-security">Cifrado de extremo a extremo · Datos protegidos</div>
+      <div class="footer-security">
+        <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        Cifrado de extremo a extremo · Datos protegidos
+      </div>
+      <div class="footer-whatsapp" id="footerWhatsapp">WhatsApp: +52 33 2200 0539</div>
     </div>
   </footer>
 
   <script>
-    // ── Traducciones ──────────────────────────────────────
+    // ── Translations ──────────────────────────────────────
     const copy = {
       es: {
         heroTag: 'Auditoría preventiva de pedimentos aduanales',
@@ -634,12 +910,12 @@
         featuresTitle: 'Lo que hace Control Tower por ti',
         featuresSub: 'Motor de auditoría con fundamento legal — no es un checklist genérico.',
         features: [
-          { title: 'OCR Inteligente', desc: 'Sube tu pedimento en PDF y extrae automáticamente 25+ campos: fracción, NICO, valor aduana, incoterm, contribuciones y más.' },
-          { title: 'Modo Forense', desc: 'Heatmap de confiabilidad por campo, score de riesgo, y drill-down hasta el fundamento legal de cada hallazgo.' },
-          { title: 'Triple Match', desc: 'Cruza el PDF del pedimento vs. el Data Stage del SAT (DME 501/505/506). Detecta discrepancias que una revisión manual no ve.' },
-          { title: 'LIGIE Integrado', desc: '11,493+ fracciones arancelarias con RRNA, NICOs, aranceles IGI/IGE y unidad de medida — búsqueda instantánea.' },
-          { title: 'Reporte PDF', desc: 'Genera un reporte con hallazgos, fundamento legal y semáforo de cumplimiento. Úsalo como evidencia de due diligence.' },
-          { title: 'Validación RRNA', desc: 'Cruce automático de regulaciones no arancelarias vs. fracciones declaradas. Detecta NOM, permisos COFEPRIS y más.' },
+          { title: 'OCR Inteligente', desc: 'Sube tu pedimento en PDF y extrae automáticamente 25+ campos: fracción, NICO, valor aduana, incoterm, contribuciones y más.', icon: 'filesearch' },
+          { title: 'Modo Forense', desc: 'Heatmap de confiabilidad por campo, score de riesgo, y drill-down hasta el fundamento legal de cada hallazgo.', icon: 'eye' },
+          { title: 'Triple Match', desc: 'Cruza el PDF del pedimento vs. el Data Stage del SAT (DME 501/505/506). Detecta discrepancias que una revisión manual no ve.', icon: 'layers' },
+          { title: 'LIGIE Integrado', desc: '11,493+ fracciones arancelarias con RRNA, NICOs, aranceles IGI/IGE y unidad de medida — búsqueda instantánea.', icon: 'barchart' },
+          { title: 'Reporte PDF', desc: 'Genera un reporte con hallazgos, fundamento legal y semáforo de cumplimiento. Úsalo como evidencia de due diligence.', icon: 'filetext' },
+          { title: 'Validación RRNA', desc: 'Cruce automático de regulaciones no arancelarias vs. fracciones declaradas. Detecta NOM, permisos COFEPRIS y más.', icon: 'shield' },
         ],
         authTitle: 'Diseñado por un auditor, para auditores',
         authBio: 'Con más de 20 años en Comercio Exterior, Aduanas y Strategic Sourcing & Procurement, Cadena de suministro en México, España, Alemania, Suecia, Japón. Desarrollado por Scrum Master certificado. Desarrollamos Control Tower porque sabemos lo que un agente aduanal, un importador o un compliance officer necesita: certeza antes del despacho, no sorpresas después.',
@@ -649,15 +925,15 @@
         servicesSub: 'No solo auditamos. Operamos tu cadena completa.',
         services: [
           { name: 'Auditoría Preventiva', desc: 'Analizamos tu pedimento con 40+ reglas antes del despacho. Te entregamos un reporte con hallazgos y fundamento legal.', icon: 'shield' },
-          { name: 'Freight Forwarding', desc: 'Coordinamos tu carga puerta a puerta — aéreo, marítimo, terrestre. Cada embarque pasa por Control Tower antes del despacho.', icon: 'truck' },
-          { name: 'Despacho Aduanal', desc: 'Gestión completa ante aduanas con agentes certificados. Clasificación arancelaria, RRNA, y cumplimiento legal.', icon: 'stamp' },
-          { name: 'Consultoría COMEX', desc: 'Asesoría en comercio exterior, padrón de importadores, depósito fiscal, programas IMMEX y optimización arancelaria.', icon: 'consulting' },
+          { name: 'Freight Forwarding', desc: 'Coordinamos tu carga puerta a puerta — aéreo, marítimo, terrestre. Cada embarque pasa por Control Tower antes del despacho.', icon: 'layers' },
+          { name: 'Despacho Aduanal', desc: 'Gestión completa ante aduanas con agentes certificados. Clasificación arancelaria, RRNA, y cumplimiento legal.', icon: 'filesearch' },
+          { name: 'Consultoría COMEX', desc: 'Asesoría en comercio exterior, padrón de importadores, depósito fiscal, programas IMMEX y optimización arancelaria.', icon: 'barchart' },
         ],
         howTitle: '¿Cómo funciona?',
         steps: [
-          { num: '1', title: '1. Envía tu pedimento', desc: 'Mándanos el PDF de tu último pedimento por WhatsApp o por el formulario. Es gratis y sin compromiso.' },
-          { num: '2', title: '2. Recibe tu auditoría', desc: 'En menos de 24 horas te entregamos un reporte con hallazgos, nivel de riesgo y fundamento legal.' },
-          { num: '3', title: '3. Platicamos tu operación', desc: 'Te explicamos los hallazgos y cómo podemos blindar tus próximas operaciones de comercio exterior.' },
+          { title: '1. Envía tu pedimento', desc: 'Mándanos el PDF de tu último pedimento por WhatsApp o por el formulario. Es gratis y sin compromiso.', icon: 'filetext' },
+          { title: '2. Recibe tu auditoría', desc: 'En menos de 24 horas te entregamos un reporte con hallazgos, nivel de riesgo y fundamento legal.', icon: 'eye' },
+          { title: '3. Platicamos tu operación', desc: 'Te explicamos los hallazgos y cómo podemos blindar tus próximas operaciones de comercio exterior.', icon: 'users' },
         ],
         faqTitle: 'Preguntas frecuentes',
         faq: [
@@ -670,8 +946,12 @@
         ctaTitle: 'Deja de adivinar y empieza a auditar',
         ctaSub: 'Mándanos tu pedimento. La primera auditoría es gratis.',
         ctaButton: 'Solicitar mi auditoría gratis',
+        navFeatures: 'Funciones',
+        navServices: 'Servicios',
+        navFaq: 'FAQ',
         footerRights: '© 2026 BondiaCT.io — Todos los derechos reservados.',
         footerDisclaimer: 'Control Tower es una herramienta de auditoría preventiva. No sustituye el asesoramiento legal o aduanal profesional.',
+        footerWhatsapp: 'WhatsApp: +52 33 2200 0539',
       },
       en: {
         heroTag: 'Preventive customs pedimento audit',
@@ -691,12 +971,12 @@
         featuresTitle: 'What Control Tower does for you',
         featuresSub: 'Audit engine with legal backing — not a generic checklist.',
         features: [
-          { title: 'Smart OCR', desc: 'Upload your pedimento PDF and automatically extract 25+ fields: fraction, NICO, customs value, incoterm, contributions and more.' },
-          { title: 'Forensic Mode', desc: 'Confidence heatmap by field, risk score, and drill-down to the legal basis of every finding.' },
-          { title: 'Triple Match', desc: 'Cross-check the pedimento PDF vs. SAT\'s Data Stage (DME 501/505/506). Detects discrepancies that manual review misses.' },
-          { title: 'Built-in LIGIE', desc: '11,493+ tariff fractions with RRNA, NICOs, IGI/IGE tariffs and unit of measure — instant search.' },
-          { title: 'PDF Report', desc: 'Generate a report with findings, legal basis, and compliance traffic light. Use it as due diligence evidence.' },
-          { title: 'RRNA Validation', desc: 'Automatic cross-check of non-tariff regulations vs. declared fractions. Detects NOM, COFEPRIS permits and more.' },
+          { title: 'Smart OCR', desc: 'Upload your pedimento PDF and automatically extract 25+ fields: fraction, NICO, customs value, incoterm, contributions and more.', icon: 'filesearch' },
+          { title: 'Forensic Mode', desc: 'Confidence heatmap by field, risk score, and drill-down to the legal basis of every finding.', icon: 'eye' },
+          { title: 'Triple Match', desc: 'Cross-check the pedimento PDF vs. SAT\'s Data Stage (DME 501/505/506). Detects discrepancies that manual review misses.', icon: 'layers' },
+          { title: 'Built-in LIGIE', desc: '11,493+ tariff fractions with RRNA, NICOs, IGI/IGE tariffs and unit of measure — instant search.', icon: 'barchart' },
+          { title: 'PDF Report', desc: 'Generate a report with findings, legal basis, and compliance traffic light. Use it as due diligence evidence.', icon: 'filetext' },
+          { title: 'RRNA Validation', desc: 'Automatic cross-check of non-tariff regulations vs. declared fractions. Detects NOM, COFEPRIS permits and more.', icon: 'shield' },
         ],
         authTitle: 'Designed by an auditor, for auditors',
         authBio: 'Over 20 years in Foreign Trade, Customs, and Strategic Sourcing & Procurement, Supply Chain across Mexico, Spain, Germany, Sweden, Japan. Built by a certified Scrum Master. We developed Control Tower because we know what a customs broker, importer, or compliance officer needs: certainty before clearance, not surprises after.',
@@ -706,15 +986,15 @@
         servicesSub: 'We don\'t just audit. We operate your full supply chain.',
         services: [
           { name: 'Preventive Audit', desc: 'We analyze your pedimento with 40+ rules before clearance. You get a report with findings and legal basis.', icon: 'shield' },
-          { name: 'Freight Forwarding', desc: 'Door-to-door cargo coordination — air, ocean, ground. Every shipment runs through Control Tower before clearance.', icon: 'truck' },
-          { name: 'Customs Clearance', desc: 'Full customs management with certified brokers. Tariff classification, RRNA, and legal compliance.', icon: 'stamp' },
-          { name: 'COMEX Consulting', desc: 'Foreign trade advisory, importer registry, bonded warehousing, IMMEX programs and tariff optimization.', icon: 'consulting' },
+          { name: 'Freight Forwarding', desc: 'Door-to-door cargo coordination — air, ocean, ground. Every shipment runs through Control Tower before clearance.', icon: 'layers' },
+          { name: 'Customs Clearance', desc: 'Full customs management with certified brokers. Tariff classification, RRNA, and legal compliance.', icon: 'filesearch' },
+          { name: 'COMEX Consulting', desc: 'Foreign trade advisory, importer registry, bonded warehousing, IMMEX programs and tariff optimization.', icon: 'barchart' },
         ],
         howTitle: 'How does it work?',
         steps: [
-          { num: '1', title: '1. Send your pedimento', desc: 'Send us the PDF of your last pedimento via WhatsApp or our form. Free, no strings attached.' },
-          { num: '2', title: '2. Get your audit', desc: 'In less than 24 hours you\'ll receive a report with findings, risk level, and legal basis.' },
-          { num: '3', title: '3. Let\'s talk operations', desc: 'We walk you through the findings and how we can protect your next foreign trade operations.' },
+          { title: '1. Send your pedimento', desc: 'Send us the PDF of your last pedimento via WhatsApp or our form. Free, no strings attached.', icon: 'filetext' },
+          { title: '2. Get your audit', desc: 'In less than 24 hours you\'ll receive a report with findings, risk level, and legal basis.', icon: 'eye' },
+          { title: '3. Let\'s talk operations', desc: 'We walk you through the findings and how we can protect your next foreign trade operations.', icon: 'users' },
         ],
         faqTitle: 'Frequently asked questions',
         faq: [
@@ -727,8 +1007,12 @@
         ctaTitle: 'Stop guessing. Start auditing.',
         ctaSub: 'Send us your pedimento. The first audit is free.',
         ctaButton: 'Request my free audit',
+        navFeatures: 'Features',
+        navServices: 'Services',
+        navFaq: 'FAQ',
         footerRights: '© 2026 BondiaCT.io — All rights reserved.',
         footerDisclaimer: 'Control Tower is a preventive audit tool. It does not replace professional legal or customs advice.',
+        footerWhatsapp: 'WhatsApp: +52 33 2200 0539',
       },
     };
 
@@ -736,76 +1020,86 @@
     let currentLang = localStorage.getItem('ct-lang') || 'es';
 
     // ── Icon Generators ────────────────────────────────────
-    function getServiceIcon(type) {
+    function getFeatureIcon(type) {
       const icons = {
-        shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7v5c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V7z"/></svg>',
-        truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
-        stamp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2" ry="2"/><path d="M7 15h10M7 11h10M7 7h5"/></svg>',
-        consulting: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c5.523 0 10 3.58 10 8s-4.477 8-10 8S2 14.42 2 10s4.477-8 10-8z"/><circle cx="12" cy="10" r="1"/><circle cx="8" cy="10" r="1"/><circle cx="16" cy="10" r="1"/></svg>',
+        filesearch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v3"/><polyline points="14 2 14 8 20 8"/><path d="M5 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="m9 18-1.5-1.5"/></svg>',
+        eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+        layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+        barchart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>',
+        filetext: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>',
+        shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
       };
       return icons[type] || icons.shield;
+    }
+
+    function getServiceIcon(type) {
+      return getFeatureIcon(type);
+    }
+
+    function getStepIcon(type) {
+      const icons = {
+        filetext: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>',
+        eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+        users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      };
+      return icons[type] || icons.filetext;
     }
 
     // ── Render Functions ───────────────────────────────────
     function render() {
       const t = copy[currentLang];
 
-      // Text content
+      // Hero
       document.getElementById('heroTag').textContent = t.heroTag;
       document.getElementById('heroTitle').textContent = t.heroTitle;
       document.getElementById('heroSub').textContent = t.heroSub;
       document.getElementById('heroCTA').textContent = t.heroCTA;
-      document.getElementById('heroSecondary').textContent = t.heroSecondary;
-      document.getElementById('stat1Label').textContent = t.stat1Label;
-      document.getElementById('stat2Label').textContent = t.stat2Label;
-      document.getElementById('stat3Label').textContent = t.stat3Label;
+      document.getElementById('heroSecondary').innerHTML = t.heroSecondary + ' <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+      document.getElementById('stat1').textContent = t.stat1Label;
+      document.getElementById('stat2').textContent = t.stat2Label;
+      document.getElementById('stat3').textContent = t.stat3Label;
+
+      // Nav
+      document.getElementById('navFeatures').textContent = t.navFeatures;
+      document.getElementById('navServices').textContent = t.navServices;
+      document.getElementById('navFaq').textContent = t.navFaq;
+      document.getElementById('navCTA').textContent = t.heroCTA;
+
+      // Pain
       document.getElementById('painTitle').textContent = t.painTitle;
       document.getElementById('painSub').textContent = t.painSub;
       document.getElementById('painWithoutTitle').textContent = t.painWithoutTitle;
       document.getElementById('painWithTitle').textContent = t.painWithTitle;
-      document.getElementById('featuresTitle').textContent = t.featuresTitle;
-      document.getElementById('featuresSub').textContent = t.featuresSub;
-      document.getElementById('authTitle').textContent = t.authTitle;
-      document.getElementById('authBio').textContent = t.authBio;
-      document.getElementById('authCompany').textContent = t.authCompany;
-      document.getElementById('authQuote').textContent = t.authQuote;
-      document.getElementById('servicesTitle').textContent = t.servicesTitle;
-      document.getElementById('servicesSub').textContent = t.servicesSub;
-      document.getElementById('howTitle').textContent = t.howTitle;
-      document.getElementById('faqTitle').textContent = t.faqTitle;
-      document.getElementById('ctaTitle').textContent = t.ctaTitle;
-      document.getElementById('ctaSub').textContent = t.ctaSub;
-      document.getElementById('ctaButton').textContent = t.ctaButton;
-      document.getElementById('footerRights').textContent = t.footerRights;
-      document.getElementById('footerDisclaimer').textContent = t.footerDisclaimer;
-
-      // Pain comparison items
       const painWithoutHtml = t.painWithoutItems.map(item =>
-        `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/><line x1="16" y1="8" x2="8" y2="16"/></svg><span>${item}</span></div>`
+        `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span>${item}</span></div>`
       ).join('');
       document.getElementById('painWithoutItems').innerHTML = painWithoutHtml;
-
       const painWithHtml = t.painWithItems.map(item =>
-        `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>${item}</span></div>`
+        `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>${item}</span></div>`
       ).join('');
       document.getElementById('painWithItems').innerHTML = painWithHtml;
 
-      // Features grid
+      // Features
+      document.getElementById('featuresTitle').textContent = t.featuresTitle;
+      document.getElementById('featuresSub').textContent = t.featuresSub;
       const featuresHtml = t.features.map(f => `
         <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 7v5l3 2"/>
-            </svg>
-          </div>
+          <div class="feature-icon">${getFeatureIcon(f.icon)}</div>
           <h3 class="feature-title">${f.title}</h3>
           <p class="feature-desc">${f.desc}</p>
         </div>
       `).join('');
       document.getElementById('featuresGrid').innerHTML = featuresHtml;
 
-      // Services grid
+      // Authority
+      document.getElementById('authTitle').textContent = t.authTitle;
+      document.getElementById('authBio').textContent = t.authBio;
+      document.getElementById('authCompany').textContent = t.authCompany;
+      document.getElementById('authQuote').textContent = t.authQuote;
+
+      // Services
+      document.getElementById('servicesTitle').textContent = t.servicesTitle;
+      document.getElementById('servicesSub').textContent = t.servicesSub;
       const servicesHtml = t.services.map(s => `
         <div class="service-card">
           <div class="service-icon">${getServiceIcon(s.icon)}</div>
@@ -816,9 +1110,10 @@
       document.getElementById('servicesGrid').innerHTML = servicesHtml;
 
       // Steps
+      document.getElementById('howTitle').textContent = t.howTitle;
       const stepsHtml = t.steps.map(s => `
         <div class="step-card">
-          <div class="step-number">${s.num}</div>
+          <div class="step-icon">${getStepIcon(s.icon)}</div>
           <h3 class="step-title">${s.title}</h3>
           <p class="step-desc">${s.desc}</p>
         </div>
@@ -826,12 +1121,13 @@
       document.getElementById('stepsGrid').innerHTML = stepsHtml;
 
       // FAQ
+      document.getElementById('faqTitle').textContent = t.faqTitle;
       const faqHtml = t.faq.map((item, idx) => `
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFaq(${idx})">
             <span>${item.q}</span>
-            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="6 9 12 15 18 9"></polyline>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
             </svg>
           </button>
           <div class="faq-answer" id="faq-answer-${idx}">${item.a}</div>
@@ -839,10 +1135,20 @@
       `).join('');
       document.getElementById('faqContainer').innerHTML = faqHtml;
 
-      // Update nav button
+      // Final CTA
+      document.getElementById('ctaTitle').textContent = t.ctaTitle;
+      document.getElementById('ctaSub').textContent = t.ctaSub;
+      document.getElementById('ctaButton').textContent = t.ctaButton;
+
+      // Footer
+      document.getElementById('footerRights').textContent = t.footerRights;
+      document.getElementById('footerDisclaimer').textContent = t.footerDisclaimer;
+      document.getElementById('footerWhatsapp').textContent = t.footerWhatsapp;
+
+      // Lang button
       document.getElementById('langBtn').textContent = currentLang === 'es' ? 'EN' : 'ES';
 
-      // Update page title
+      // Page title
       document.title = currentLang === 'es'
         ? 'Control Tower — Auditoría Preventiva de Pedimentos | BondiaCT.io'
         : 'Control Tower — Preventive Pedimento Audit | BondiaCT.io';
@@ -857,12 +1163,14 @@
 
     function toggleFaq(idx) {
       const answer = document.getElementById(`faq-answer-${idx}`);
+      const item = answer.parentElement;
       if (answer) {
         answer.classList.toggle('open');
+        item.classList.toggle('open');
       }
     }
 
-    function scrollTo(id) {
+    function scrollToSection(id) {
       const el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
