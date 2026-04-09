@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/controltower",
+      "destination": "https://control-tower-kohl.vercel.app/controltower"
+    },
+    {
+      "source": "/controltower/:path*",
+      "destination": "https://control-tower-kohl.vercel.app/controltower/:path*"
+    }
+  ]
+}
