@@ -1426,6 +1426,11 @@
     }
 
     // ── Lead Form: Config ────────────────────────────────
+    // ⚠️ SEGURIDAD V01 — PENDIENTE URGENTE:
+    // Este webhook URL es visible públicamente. Para protegerlo:
+    // 1. En Make.com → webhook settings → agregar "IP restrictions" o "Basic Auth"
+    // 2. O crear proxy en Vercel: /api/submit-lead.js que valide y reenvíe
+    // TODO Sprint 18: mover a Vercel env var + API route server-side
     const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/hbiqsiezwcdclsgvxmam44cqlbo93';
     const WA_NUMBER = '523322000539';
 
