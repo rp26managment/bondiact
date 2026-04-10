@@ -142,6 +142,24 @@
     .nav-cta:hover {
       background: #00a383;
     }
+    .nav-login {
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      margin-left: 6px;
+    }
+    .nav-login:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
     .globe-icon {
       width: 20px;
       height: 20px;
@@ -892,6 +910,7 @@
           <span id="langBtn">EN</span>
         </button>
         <button class="nav-cta" onclick="goToWhatsApp()" id="navCTA">Solicitar auditoría</button>
+        <a href="https://ct.bondiact.io" class="nav-login" id="navLogin">Acceder</a>
       </div>
     </div>
   </nav>
@@ -1286,6 +1305,7 @@
       document.getElementById('navServices').textContent = t.navServices;
       document.getElementById('navFaq').textContent = t.navFaq;
       document.getElementById('navCTA').textContent = t.heroCTA;
+      document.getElementById('navLogin').textContent = currentLang === 'es' ? 'Acceder' : 'Login';
 
       // Pain
       document.getElementById('painTitle').textContent = t.painTitle;
