@@ -6,12 +6,14 @@
   <!-- ══ SECURITY HEADERS ══════════════════════════════════════════════ -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
   <meta name="referrer" content="strict-origin-when-cross-origin"/>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://wa.me; frame-src 'none'; object-src 'none';"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none';"/>
   <!-- ════════════════════════════════════════════════════════════════ -->
   <title>Control Tower — Auditoría Preventiva de Pedimentos | BondiaCT.io</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <!-- S18-SEC-05 · DOMPurify — sanitiza innerHTML para prevenir XSS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js" integrity="sha512-jB0TkTBeQC9ZSkBqDhdmfTv1qdfbWpGE72yJ/01Srq6hEzZISTCoeUbBzSJ2sUDYEMKMGR5cOAYtYjOH1Kv1Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     :root {
       --bg: #0a0f1a;
@@ -1301,7 +1303,7 @@
       document.getElementById('heroTitle').textContent = t.heroTitle;
       document.getElementById('heroSub').textContent = t.heroSub;
       document.getElementById('heroCTA').textContent = t.heroCTA;
-      document.getElementById('heroSecondary').innerHTML = t.heroSecondary + ' <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+      document.getElementById('heroSecondary').innerHTML = DOMPurify.sanitize(t.heroSecondary + ' <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>', { USE_PROFILES: { svg: true } });
       document.getElementById('stat1').textContent = t.stat1Label;
       document.getElementById('stat2').textContent = t.stat2Label;
       document.getElementById('stat3').textContent = t.stat3Label;
@@ -1321,11 +1323,11 @@
       const painWithoutHtml = t.painWithoutItems.map(item =>
         `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span>${item}</span></div>`
       ).join('');
-      document.getElementById('painWithoutItems').innerHTML = painWithoutHtml;
+      document.getElementById('painWithoutItems').innerHTML = DOMPurify.sanitize(painWithoutHtml, { USE_PROFILES: { svg: true } });
       const painWithHtml = t.painWithItems.map(item =>
         `<div class="comparison-item"><svg class="comparison-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>${item}</span></div>`
       ).join('');
-      document.getElementById('painWithItems').innerHTML = painWithHtml;
+      document.getElementById('painWithItems').innerHTML = DOMPurify.sanitize(painWithHtml, { USE_PROFILES: { svg: true } });
 
       // Features
       document.getElementById('featuresTitle').textContent = t.featuresTitle;
@@ -1337,7 +1339,7 @@
           <p class="feature-desc">${f.desc}</p>
         </div>
       `).join('');
-      document.getElementById('featuresGrid').innerHTML = featuresHtml;
+      document.getElementById('featuresGrid').innerHTML = DOMPurify.sanitize(featuresHtml, { USE_PROFILES: { svg: true } });
 
       // Authority
       document.getElementById('authTitle').textContent = t.authTitle;
@@ -1355,7 +1357,7 @@
           <p class="service-desc">${s.desc}</p>
         </div>
       `).join('');
-      document.getElementById('servicesGrid').innerHTML = servicesHtml;
+      document.getElementById('servicesGrid').innerHTML = DOMPurify.sanitize(servicesHtml, { USE_PROFILES: { svg: true } });
 
       // Steps
       document.getElementById('howTitle').textContent = t.howTitle;
@@ -1366,7 +1368,7 @@
           <p class="step-desc">${s.desc}</p>
         </div>
       `).join('');
-      document.getElementById('stepsGrid').innerHTML = stepsHtml;
+      document.getElementById('stepsGrid').innerHTML = DOMPurify.sanitize(stepsHtml, { USE_PROFILES: { svg: true } });
 
       // FAQ
       document.getElementById('faqTitle').textContent = t.faqTitle;
@@ -1381,7 +1383,7 @@
           <div class="faq-answer" id="faq-answer-${idx}">${item.a}</div>
         </div>
       `).join('');
-      document.getElementById('faqContainer').innerHTML = faqHtml;
+      document.getElementById('faqContainer').innerHTML = DOMPurify.sanitize(faqHtml, { USE_PROFILES: { svg: true } });
 
       // Final CTA
       document.getElementById('ctaTitle').textContent = t.ctaTitle;
@@ -1426,12 +1428,9 @@
     }
 
     // ── Lead Form: Config ────────────────────────────────
-    // ⚠️ SEGURIDAD V01 — PENDIENTE URGENTE:
-    // Este webhook URL es visible públicamente. Para protegerlo:
-    // 1. En Make.com → webhook settings → agregar "IP restrictions" o "Basic Auth"
-    // 2. O crear proxy en Vercel: /api/submit-lead.js que valide y reenvíe
-    // TODO Sprint 18: mover a Vercel env var + API route server-side
-    const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/hbiqsiezwcdclsgvxmam44cqlbo93';
+    // S18-SEC-04 ✅ — Webhook URL movido a Vercel env var (MAKE_WEBHOOK_URL).
+    // El form ahora llama a /api/submit-lead que valida y reenvía server-side.
+    const LEAD_API_URL = '/api/submit-lead';
     const WA_NUMBER = '523322000539';
 
     const BLOCKED_DOMAINS = [
@@ -1484,7 +1483,7 @@
       document.getElementById('labelEmail').textContent = (t.labelEmail || 'Correo Corporativo') + ' *';
       document.getElementById('labelPhone').textContent = (t.labelPhone || 'Tel. Oficina') + ' *';
       const waLabel = document.getElementById('labelWhatsapp');
-      waLabel.innerHTML = (t.labelWhatsapp || 'WhatsApp') + ' <span class="optional">(' + (t.labelOptional || 'Opcional') + ')</span>';
+      waLabel.innerHTML = DOMPurify.sanitize((t.labelWhatsapp || 'WhatsApp') + ' <span class="optional">(' + (t.labelOptional || 'Opcional') + ')</span>');
       document.getElementById('submitText').textContent = t.submitText || 'Solicitar auditoría';
       document.getElementById('trustText').textContent = t.trustText || 'Tu información es confidencial y no se comparte con terceros.';
       document.getElementById('emailError').textContent = t.emailError || 'Por seguridad de la información aduanera, requerimos un correo corporativo válido.';
@@ -1563,14 +1562,12 @@
       };
 
       try {
-        // Step 1: Send to Make webhook
-        if (MAKE_WEBHOOK_URL) {
-          await fetch(MAKE_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          });
-        }
+        // Step 1: Send to server-side API route (S18-SEC-04)
+        await fetch(LEAD_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
 
         // Step 2: Redirect to WhatsApp
         const waMsg = encodeURIComponent(
