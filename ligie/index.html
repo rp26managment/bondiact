@@ -991,11 +991,20 @@ fbAuth.onAuthStateChanged(user => {
 });
 
 function signInWithGoogle() {
-  showBadge('info', '⏳ Abriendo login de Google…');
-  fbAuth.signInWithPopup(googleProvider).catch(err => {
+  showBadge('info', '⏳ Redirigiendo a Google…');
+  fbAuth.signInWithRedirect(googleProvider).catch(err => {
     showBadge('error', '❌ No se pudo completar el inicio de sesión. Intenta de nuevo.');
   });
 }
+
+// Recuperar resultado del redirect al volver de Google
+fbAuth.getRedirectResult().then(result => {
+  // El onAuthStateChanged lo maneja — no se necesita acción aquí
+}).catch(err => {
+  if (err.code !== 'auth/no-current-user') {
+    showBadge('error', '❌ Error al regresar de Google. Intenta de nuevo.');
+  }
+});
 
 function firebaseSignOut() {
   fbAuth.signOut();
