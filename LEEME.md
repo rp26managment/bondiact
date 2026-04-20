@@ -48,6 +48,15 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Historial de cambios (más reciente arriba)
 
+### 2026-04-20 — Sprint 28: Mobile responsive + i18n completo /controltower · por Claude (Cowork)
+- ✅ **Mobile responsive** `controltower/index.html`: breakpoints 768px y 480px — hero title escala, botones apilan, grids 1 col, nav compacto en móvil
+- ✅ **Fix i18n footer**: `"Cifrado de extremo a extremo · Datos protegidos"` no tenía id → siempre en español. Corregido con `span#footerSecurity` + `render()`
+- ✅ **Fix i18n mensaje WhatsApp**: form submit mandaba mensaje hardcodeado en español. Ahora respeta idioma activo (ES/EN)
+- ✅ **Fix DOMPurify USE_PROFILES**: `{svg:true}` stripeaba `<div>/<span>/<h3>/<p>` del HTML dinámico → features/servicios/pasos/FAQ no traducían. Reemplazado por `PURIFY_OPTS` con `ADD_TAGS+ADD_ATTR`
+- ✅ **Fix DOMPurify integrity hash**: hash SHA-512 incorrecto en `<script>` → browser bloqueaba DOMPurify → `render()` crasheaba → solo hero title/sub/tag traducían. Hash removido (CSP `script-src` ya restringe a `cdnjs.cloudflare.com`)
+- 📋 **Diagnóstico**: bondiact.io corre en **Vercel** (no GitHub Pages como indica LEEME anterior). `vercel.json` activo con rewrites y headers CSP
+- ⚠️ **Nota arquitectura**: `controltower/index.html` es una landing page estática. La app CT React corre en `ct.bondiact.io` (repo Control-Tower separado)
+
 ### 2026-03-25 — WhatsApp Business + Teléfono + Rutas iCloud · por Claude (Cowork)
 - ✅ **Teléfono actualizado**: `+52 33 2387 6553` (personal) → `+52 33 2200 0539` (WhatsApp Business) en `ligie/index.html` y `assets/index-DWK9QQ0p.js`
 - ✅ **Rutas iCloud corregidas**: `~/Documents/GitHub/bondiact` → `~/Desktop/BondiaCT respaldo` en LEEME.md y secciones de deploy/montar
