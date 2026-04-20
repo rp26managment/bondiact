@@ -1,0 +1,99 @@
+# Memory — bondíaCT / Control Tower
+
+> Última actualización: 2026-04-20 (Sprint 28 kickoff)
+
+---
+
+## Yo
+**Rod** (Rodrigo Pardo) — Scrum Master / PM · Lightman Freight Forwarding & Customs Brokerage, Guadalajara, Jalisco, México.  
+Email: rodrigo@bondiact.io / rodrigopardo6537@gmail.com  
+WhatsApp Business: +52 33 2200 0539
+
+---
+
+## El Proyecto Principal: bondíaCT / Control Tower
+
+**Producto**: CT (Control Tower) — SaaS de auditoría de pedimentos de importación.  
+**Stack**: React + TypeScript + Supabase + Vercel (staging: ct.bondiact.io)  
+**Modelo de negocio (Fase I)**: Venta directa Rod-operado. $2,500/pedimento individual, $20k paquete 10. Cliente NO usa la app — Rod audita y entrega PDF por WhatsApp/email en 24-48h.  
+**Objetivo Fase I**: 10+ clientes pagando → validar Motor Comercial → escalar a self-serve SaaS (Fase II).
+
+---
+
+## Sitio Web: bondiact.io
+
+- **Producción**: https://bondiact.io (GitHub Pages, repo público OBLIGATORIO)
+- **Repo**: `rp26managment/bondiact` (GitHub, rama `main`)
+- **Carpeta local**: `~/Desktop/BondiaCT respaldo` (iCloud Desktop, carpeta roja)
+- **Deploy**: GitHub Desktop → Commit to main → Push origin → auto (~1-2 min)
+- **REGLA CRÍTICA**: NUNCA hacer el repo privado — cae bondiact.io
+
+---
+
+## Términos Clave
+
+| Término | Significado |
+|---------|-------------|
+| **CT** | Control Tower — la app SaaS de auditoría |
+| **Pedimento** | Documento aduanal de importación en México |
+| **AA** | Agente Aduanal |
+| **DME** | Data Stage — archivo XLSX con datos de la operación |
+| **OCR** | Parser de PDF de pedimentos |
+| **T-MEC** | Tratado México-EE.UU.-Canadá (=USMCA/CUSMA) |
+| **DTA** | Derecho de Trámite Aduanero |
+| **IGI** | Impuesto General de Importación (arancel) |
+| **IVA** | Impuesto al Valor Agregado |
+| **LIGIE** | Lista de Insumos, Grupos, Importaciones y Exportaciones (arancel MX) |
+| **F03** | Hallazgo tipo 3 — discrepancia en contribuciones calculadas vs declaradas |
+| **I01/I04** | Tipos de incidencias en la auditoría |
+| **R1 / 701_R1** | Rectificación de pedimento |
+| **Fase I** | Motor Comercial — Rod opera CT manualmente, venta directa |
+| **Fase II** | SaaS self-serve, multi-tenant, billing Stripe/Conekta |
+| **Motor Comercial** | Épica MC-FASE-I — la maquinaria de venta Fase I |
+| **Design Partners** | Clientes beta pagando con acceso especial (Opción 2) |
+
+---
+
+## Personas
+
+| Quién | Rol |
+|-------|-----|
+| **Verónica Enríquez** | Contacto frecuente (Monday) |
+| **Antonio** | Cliente — antonio@nama.com.mx — NAMA — acceso LIGIE whitelist |
+
+---
+
+## Épicas Activas (Monday — CT Sprints Board ID: 18407662134)
+
+| Épica | Nombre | Estado | Puntos |
+|-------|--------|--------|--------|
+| **MC-FASE-I** | La Caja Registradora 💰 | Sin status | 55 pts |
+| **SaaS-01** | La Columna Vertebral (multi-tenant) | Detenido | 34 pts |
+| **SaaS-02** | El Pulso (NPS/feedback) | Detenido | 13 pts |
+| **SaaS-03** | La Renta (billing Stripe) | Detenido | 21 pts |
+| **SaaS-04** | El Clasificador R1 | Detenido | 13 pts |
+| **LIGIE-APP** | La Lupa Móvil 🔍 (iOS/Android) | Sin status | 34 pts |
+| **S19-ÉPICA** | Dashboard datos reales (Supabase) | Detenido | 34 pts |
+| **S18-I18N** | i18n ES/EN/CA/EU/VA | En curso | 13 pts |
+
+---
+
+## Historial de Sprints (más reciente primero)
+
+| Sprint | Tema | Estado |
+|--------|------|--------|
+| **S27** | Motor Comercial: pricing page, checkout, contrato, email intake, calibración OCR, template reporte | Sin status (creado 2026-04-17) |
+| **S26** | DataStage XLSX 13 tablas, crossCheck DME, Dashboard importador, PDF expediente, Kanban charts | ✅ Listo |
+| **S25** | PWA manifest, service worker, iconos, vercel.json rewrites | ✅ Listo |
+| **S24** | Incoterms real OCR, HF IVA/proveedor/destinoOrigen, cierre pendiente | 🟡 En curso (cierre) |
+| **S23** | T-MEC auto-detección, dropdown trato arancelario, fix DTA, F03 inteligente | ✅ Listo |
+| **S21-22** | Motor DTA/IGI/IVA, PDF bilingüe 7 idiomas, multi-file upload, CSP fix | ✅ Listo |
+
+---
+
+## Reglas de Trabajo
+
+- Sprints cortos (1-3 días), enfocados por tema
+- Archivos críticos: NUNCA tocar sin Claude → `ligie/index.html`, `CNAME`, `index.html`
+- Deploy: siempre via GitHub Desktop desde `~/Desktop/BondiaCT respaldo`
+- Convención items Monday: `SXX-NN: descripción técnica`
