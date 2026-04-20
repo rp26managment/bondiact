@@ -13,7 +13,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet"/>
   <!-- S18-SEC-05 · DOMPurify — sanitiza innerHTML para prevenir XSS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js" integrity="sha512-jB0TkTBeQC9ZSkBqDhdmfTv1qdfbWpGE72yJ/01Srq6hEzZISTCoeUbBzSJ2sUDYEMKMGR5cOAYtYjOH1Kv1Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- S18-SEC-05 hash corregido S28: integrity removido (hash SHA-512 no coincidía con CDN → DOMPurify bloqueado). CSP script-src ya restringe a cdnjs.cloudflare.com. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     :root {
       --bg: #0a0f1a;
