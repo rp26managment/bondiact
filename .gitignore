@@ -1,3 +1,15 @@
 .DS_Store
 *.DS_Store
 Thumbs.db
+
+# Variables de entorno — NUNCA subir al repo
+.env
+.env.local
+.env.production
+.env.development
+.env*.local
+
+# Certificados y llaves privadas
+*.pem
+*.key
+*.p12
