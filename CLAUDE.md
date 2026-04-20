@@ -1,6 +1,6 @@
 # Memory — bondíaCT / Control Tower
 
-> Última actualización: 2026-04-20 (Sprint 28 kickoff)
+> Última actualización: 2026-04-20 (Sprint 28 ✅ cerrado)
 
 ---
 
@@ -22,11 +22,14 @@ WhatsApp Business: +52 33 2200 0539
 
 ## Sitio Web: bondiact.io
 
-- **Producción**: https://bondiact.io (GitHub Pages, repo público OBLIGATORIO)
-- **Repo**: `rp26managment/bondiact` (GitHub, rama `main`)
+- **Producción**: https://bondiact.io — desplegado en **Vercel** (no GitHub Pages como decía LEEME anterior)
+- **Repo**: `rp26managment/bondiact` (GitHub, rama `main`, debe ser PÚBLICO)
 - **Carpeta local**: `~/Desktop/BondiaCT respaldo` (iCloud Desktop, carpeta roja)
-- **Deploy**: GitHub Desktop → Commit to main → Push origin → auto (~1-2 min)
+- **Deploy**: GitHub Desktop → Commit to main → Push origin → Vercel auto-deploy (~1 min)
 - **REGLA CRÍTICA**: NUNCA hacer el repo privado — cae bondiact.io
+- **`vercel.json`**: activo — rewrites `/controltower` → CT app, headers CSP, HSTS
+- **`controltower/index.html`**: landing page estática de CT (Vanilla JS, i18n ES/EN, DOMPurify)
+- **App CT React**: repo separado `Control-Tower`, dominio `ct.bondiact.io`
 
 ---
 
@@ -82,6 +85,7 @@ WhatsApp Business: +52 33 2200 0539
 
 | Sprint | Tema | Estado |
 |--------|------|--------|
+| **S28** | Mobile responsive + i18n completo /controltower (DOMPurify integrity fix) | ✅ Listo (2026-04-20) |
 | **S27** | Motor Comercial: pricing page, checkout, contrato, email intake, calibración OCR, template reporte | Sin status (creado 2026-04-17) |
 | **S26** | DataStage XLSX 13 tablas, crossCheck DME, Dashboard importador, PDF expediente, Kanban charts | ✅ Listo |
 | **S25** | PWA manifest, service worker, iconos, vercel.json rewrites | ✅ Listo |

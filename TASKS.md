@@ -1,6 +1,16 @@
-# TASKS — bondíaCT · Sprint 28
+# TASKS — bondíaCT · Sprint 29
 
 > Actualizado: 2026-04-20
+
+---
+
+## ✅ Sprint 28 — CERRADO (2026-04-20)
+
+- [x] Mobile responsive `controltower/index.html` — breakpoints 768px/480px
+- [x] Fix i18n footer security text (`span#footerSecurity`)
+- [x] Fix mensaje WhatsApp form respeta idioma activo
+- [x] Fix DOMPurify `USE_PROFILES:{svg:true}` → `PURIFY_OPTS` (7 calls)
+- [x] Fix DOMPurify integrity hash SHA-512 incorrecto → hash removido
 
 ---
 
