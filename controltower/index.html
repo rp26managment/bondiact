@@ -529,6 +529,124 @@
       flex-grow: 1;
     }
 
+    /* ─── PRICING ──────────────────────────────────────────── */
+    .pricing {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .price-card:hover {
+      border-color: var(--accent-border-hover);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+    .price-card.featured {
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), var(--shadow-lg);
+    }
+    .price-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+    .price-plan {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .price-amount {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .price-currency {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .price-per-ped {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .price-includes {
+      list-style: none;
+      text-align: left;
+      padding: 0;
+      margin: 0 0 24px 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .price-includes li {
+      padding-left: 22px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .price-includes li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .price-cta {
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      margin-top: auto;
+    }
+    .price-cta:hover { opacity: 0.9; }
+    .price-footnote {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 28px;
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     /* ─── HOW IT WORKS ─────────────────────────────────────── */
     .how-it-works {
       max-width: 1400px;
@@ -1009,6 +1127,7 @@
       <div class="nav-links">
         <a class="nav-link" onclick="scrollToSection('features')"><span id="navFeatures">Funciones</span></a>
         <a class="nav-link" onclick="scrollToSection('services')"><span id="navServices">Servicios</span></a>
+        <a class="nav-link" onclick="scrollToSection('pricing')"><span id="navPricing">Precios</span></a>
         <a class="nav-link" onclick="scrollToSection('faq')"><span id="navFaq">FAQ</span></a>
       </div>
       <div class="nav-actions">
@@ -1112,6 +1231,59 @@
       <p class="section-subtitle" id="servicesSub">No solo auditamos. Operamos tu cadena completa.</p>
     </div>
     <div class="services-grid" id="servicesGrid"></div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="section-header">
+      <h2 class="section-title" id="pricingTitle">Paquetes Control Tower</h2>
+      <p class="section-subtitle" id="pricingSub">Precios públicos. Pago por uso. Sin amarre de meses.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-plan" id="pricePlan1">Individual</div>
+        <div class="price-amount">$2,500</div>
+        <div class="price-currency" id="priceCurr1">MXN por pedimento</div>
+        <div class="price-per-ped" id="pricePer1">1 auditoría puntual</div>
+        <ul class="price-includes" id="priceInc1">
+          <li>PDF con sello digital y QR escaneable</li>
+          <li>Fundamento legal por hallazgo</li>
+          <li>Reporte en 24–48 h</li>
+          <li>Sin amarre</li>
+        </ul>
+        <button class="price-cta" onclick="openModal()" id="priceCta1">Quiero este</button>
+      </div>
+      <div class="price-card">
+        <div class="price-plan" id="pricePlan2">Paquete 5</div>
+        <div class="price-amount">$10,000</div>
+        <div class="price-currency" id="priceCurr2">MXN · $2,000 por pedimento</div>
+        <div class="price-per-ped" id="pricePer2">20% más económico</div>
+        <ul class="price-includes" id="priceInc2">
+          <li>5 auditorías sin vencimiento</li>
+          <li>Mismos entregables que Individual</li>
+          <li>Soporte por WhatsApp Business</li>
+          <li>Sin amarre de meses</li>
+        </ul>
+        <button class="price-cta" onclick="openModal()" id="priceCta2">Quiero este</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge" id="priceBadge">Más elegido</div>
+        <div class="price-plan" id="pricePlan3">Paquete 10</div>
+        <div class="price-amount">$17,500</div>
+        <div class="price-currency" id="priceCurr3">MXN · $1,750 por pedimento</div>
+        <div class="price-per-ped" id="pricePer3">30% más económico</div>
+        <ul class="price-includes" id="priceInc3">
+          <li>10 auditorías sin vencimiento</li>
+          <li>Mismos entregables que Individual</li>
+          <li>Soporte por WhatsApp Business</li>
+          <li>Sin amarre de meses</li>
+        </ul>
+        <button class="price-cta" onclick="openModal()" id="priceCta3">Quiero este</button>
+      </div>
+    </div>
+    <p class="price-footnote" id="priceFootnote">
+      Planes recurrentes (mensual, anual) y auditoría retrospectiva de 5 años (Art. 67 CFF) se negocian por conversación directa. Agenda una videollamada de 10 minutos y armamos propuesta a tu medida.
+    </p>
   </section>
 
   <!-- HOW IT WORKS -->
@@ -1257,6 +1429,23 @@
         authQuote: '"El mejor momento para detectar un error en tu pedimento es antes de que el SAT lo vea."',
         servicesTitle: 'Servicios integrales de comercio exterior',
         servicesSub: 'No solo auditamos. Operamos tu cadena completa.',
+        pricingTitle: 'Paquetes Control Tower',
+        pricingSub: 'Precios públicos. Pago por uso. Sin amarre de meses.',
+        pricePlan1: 'Individual',
+        priceCurr1: 'MXN por pedimento',
+        pricePer1: '1 auditoría puntual',
+        priceInc1: ['PDF con sello digital y QR escaneable','Fundamento legal por hallazgo','Reporte en 24–48 h','Sin amarre'],
+        pricePlan2: 'Paquete 5',
+        priceCurr2: 'MXN · $2,000 por pedimento',
+        pricePer2: '20% más económico',
+        priceInc2: ['5 auditorías sin vencimiento','Mismos entregables que Individual','Soporte por WhatsApp Business','Sin amarre de meses'],
+        pricePlan3: 'Paquete 10',
+        priceCurr3: 'MXN · $1,750 por pedimento',
+        pricePer3: '30% más económico',
+        priceInc3: ['10 auditorías sin vencimiento','Mismos entregables que Individual','Soporte por WhatsApp Business','Sin amarre de meses'],
+        priceBadge: 'Más elegido',
+        priceCta: 'Quiero este',
+        priceFootnote: 'Planes recurrentes (mensual, anual) y auditoría retrospectiva de 5 años (Art. 67 CFF) se negocian por conversación directa. Agenda una videollamada de 10 minutos y armamos propuesta a tu medida.',
         services: [
           { name: 'Auditoría Preventiva', desc: 'Analizamos tu pedimento con 40+ reglas antes del despacho. Te entregamos un reporte con hallazgos y fundamento legal.', icon: 'shield' },
           { name: 'Freight Forwarding', desc: 'Coordinamos tu carga puerta a puerta — aéreo, marítimo, terrestre. Cada embarque pasa por Control Tower antes del despacho.', icon: 'layers' },
@@ -1283,6 +1472,7 @@
         ctaButton: 'Solicitar mi auditoría gratis',
         navFeatures: 'Funciones',
         navServices: 'Servicios',
+        navPricing: 'Precios',
         navFaq: 'FAQ',
         footerRights: '© 2026 BondiaCT.io — Todos los derechos reservados.',
         footerDisclaimer: 'Control Tower es una herramienta de auditoría preventiva. No sustituye el asesoramiento legal o aduanal profesional.',
@@ -1332,6 +1522,23 @@
         authQuote: '"The best time to catch an error in your pedimento is before the SAT sees it."',
         servicesTitle: 'End-to-end foreign trade services',
         servicesSub: 'We don\'t just audit. We operate your full supply chain.',
+        pricingTitle: 'Control Tower Packages',
+        pricingSub: 'Public pricing. Pay as you go. No monthly lock-in.',
+        pricePlan1: 'Individual',
+        priceCurr1: 'MXN per pedimento',
+        pricePer1: '1 one-off audit',
+        priceInc1: ['PDF with digital seal and scannable QR','Legal citation per finding','Report within 24–48 h','No lock-in'],
+        pricePlan2: 'Pack 5',
+        priceCurr2: 'MXN · $2,000 per pedimento',
+        pricePer2: '20% more affordable',
+        priceInc2: ['5 audits with no expiry','Same deliverables as Individual','Support via WhatsApp Business','No monthly lock-in'],
+        pricePlan3: 'Pack 10',
+        priceCurr3: 'MXN · $1,750 per pedimento',
+        pricePer3: '30% more affordable',
+        priceInc3: ['10 audits with no expiry','Same deliverables as Individual','Support via WhatsApp Business','No monthly lock-in'],
+        priceBadge: 'Most chosen',
+        priceCta: 'I want this',
+        priceFootnote: 'Recurring plans (monthly, annual) and 5-year retrospective audits (Article 67 of the Mexican Federal Fiscal Code) are negotiated in a direct conversation. Book a 10-minute call and we tailor a proposal.',
         services: [
           { name: 'Preventive Audit', desc: 'We analyze your pedimento with 40+ rules before clearance. You get a report with findings and legal basis.', icon: 'shield' },
           { name: 'Freight Forwarding', desc: 'Door-to-door cargo coordination — air, ocean, ground. Every shipment runs through Control Tower before clearance.', icon: 'layers' },
@@ -1358,6 +1565,7 @@
         ctaButton: 'Request my free audit',
         navFeatures: 'Features',
         navServices: 'Services',
+        navPricing: 'Pricing',
         navFaq: 'FAQ',
         footerRights: '© 2026 BondiaCT.io — All rights reserved.',
         footerDisclaimer: 'Control Tower is a preventive audit tool. It does not replace professional legal or customs advice.',
@@ -1424,6 +1632,7 @@
       // Nav
       document.getElementById('navFeatures').textContent = t.navFeatures;
       document.getElementById('navServices').textContent = t.navServices;
+      document.getElementById('navPricing').textContent = t.navPricing;
       document.getElementById('navFaq').textContent = t.navFaq;
       document.getElementById('navCTA').textContent = t.heroCTA;
       document.getElementById('navLogin').textContent = currentLang === 'es' ? 'Acceder' : 'Login';
@@ -1463,6 +1672,27 @@
       // Services
       document.getElementById('servicesTitle').textContent = t.servicesTitle;
       document.getElementById('servicesSub').textContent = t.servicesSub;
+
+      // Pricing
+      document.getElementById('pricingTitle').textContent = t.pricingTitle;
+      document.getElementById('pricingSub').textContent = t.pricingSub;
+      document.getElementById('pricePlan1').textContent = t.pricePlan1;
+      document.getElementById('priceCurr1').textContent = t.priceCurr1;
+      document.getElementById('pricePer1').textContent = t.pricePer1;
+      document.getElementById('priceInc1').innerHTML = DOMPurify.sanitize(t.priceInc1.map(i=>`<li>${i}</li>`).join(''), PURIFY_OPTS);
+      document.getElementById('pricePlan2').textContent = t.pricePlan2;
+      document.getElementById('priceCurr2').textContent = t.priceCurr2;
+      document.getElementById('pricePer2').textContent = t.pricePer2;
+      document.getElementById('priceInc2').innerHTML = DOMPurify.sanitize(t.priceInc2.map(i=>`<li>${i}</li>`).join(''), PURIFY_OPTS);
+      document.getElementById('pricePlan3').textContent = t.pricePlan3;
+      document.getElementById('priceCurr3').textContent = t.priceCurr3;
+      document.getElementById('pricePer3').textContent = t.pricePer3;
+      document.getElementById('priceInc3').innerHTML = DOMPurify.sanitize(t.priceInc3.map(i=>`<li>${i}</li>`).join(''), PURIFY_OPTS);
+      document.getElementById('priceBadge').textContent = t.priceBadge;
+      document.getElementById('priceCta1').textContent = t.priceCta;
+      document.getElementById('priceCta2').textContent = t.priceCta;
+      document.getElementById('priceCta3').textContent = t.priceCta;
+      document.getElementById('priceFootnote').textContent = t.priceFootnote;
       const servicesHtml = t.services.map(s => `
         <div class="service-card">
           <div class="service-icon">${getServiceIcon(s.icon)}</div>
