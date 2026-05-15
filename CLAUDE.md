@@ -101,3 +101,22 @@ WhatsApp Business: +52 33 2200 0539
 - Archivos críticos: NUNCA tocar sin Claude → `ligie/index.html`, `CNAME`, `index.html`
 - Deploy: siempre via GitHub Desktop desde `~/Desktop/BondiaCT respaldo`
 - Convención items Monday: `SXX-NN: descripción técnica`
+
+---
+
+## Sprint 36+ — 12-May-2026 · LIGIE V2.14 sincronizado
+
+**ligie/index.html actualizado al 100% con LIGIE V2.14:**
+- 11,493 → **11,494 NICOs** (fracción nueva: 7219.34.01 Acero inoxidable laminado, IGI 25%)
+- **1,605 NICOs con IGI actualizado** por Decreto Sheinbaum (DOF 5777376, vigor 1-Ene-2026)
+- **7 fracciones de Sprint 35** confirmadas (DOF 5785818, vigor 24-Abr-2026)
+- Cero referencias remanentes a V2.13 — todo el UI (splash, nav, footer, KPIs, modal "Acerca de") en V2.14
+- Tags `r` mantienen taxonomía canónica V2.13 (CUP, IM_SEN, PS4, EMB, NOM, etc.) — sin tags inventados
+
+**Pre-commit hook instalado** (`.git/hooks/pre-commit`):
+- Apunta al Vacunador del repo Control-Tower (`tools/ligie/validar_dataset.py`)
+- Cuando hagas commit a `ligie/index.html` desde GitHub Desktop, dispara automático
+- Si CT y bondiact se desincronizan, bloquea el commit
+- Detalle en `Control Tower interior/LIGIE_CHANGELOG.md` línea 619+
+
+**Sprint anterior pendiente desde Sprint 37 cerrado.**
