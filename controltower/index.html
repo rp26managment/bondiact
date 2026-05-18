@@ -287,6 +287,58 @@
       line-height: 1.6;
       margin: 0;
     }
+
+    /* ─── ÁREAS QUE CUBRE EL MODO FORENSE ────────────────── */
+    .forense-areas {
+      max-width: 900px;
+      margin: 48px auto 0;
+      padding: 28px 32px;
+      background: rgba(0, 137, 123, 0.06);
+      border-left: 3px solid var(--accent);
+      border-radius: 12px;
+      text-align: left;
+    }
+    .forense-areas-title {
+      color: var(--accent);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .forense-areas-sub {
+      color: var(--text-muted);
+      margin: 0 0 18px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    .forense-areas-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .forense-areas-list li {
+      position: relative;
+      padding: 10px 0 10px 26px;
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .forense-areas-list li:last-child {
+      border-bottom: none;
+    }
+    .forense-areas-list li:before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .forense-areas-list li strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
     .hero-cta {
       display: inline-flex;
       align-items: center;
@@ -1281,18 +1333,33 @@
       <div class="modo-card">
         <h3 class="modo-card-title" id="modo1Title">Modo Captura Pre-despacho</h3>
         <p class="modo-card-when" id="modo1When">Antes de que salga la carga del proveedor</p>
-        <p class="modo-card-desc" id="modo1Desc">Si nos compartes desde temprano la proforma y documentos del embarque, validamos mientras todavía hay tiempo de corregir antes de la salida del buque, avión o camión. La detección más temprana posible — acorta tiempos y previene devoluciones en frontera.</p>
+        <p class="modo-card-desc" id="modo1Desc">Si nos compartes desde temprano la factura proforma y documentos del embarque, validamos mientras todavía hay tiempo de corregir antes de la salida del buque, avión o camión. La detección más temprana posible — acorta tiempos y previene devoluciones en frontera.</p>
       </div>
       <div class="modo-card">
         <h3 class="modo-card-title" id="modo2Title">Modo Operación</h3>
         <p class="modo-card-when" id="modo2When">Antes del pago al SAT</p>
-        <p class="modo-card-desc" id="modo2Desc">El Agente Aduanal prepara el pedimento. Nosotros lo auditamos en menos de 2 minutos. Si detectamos un error crítico, te lo señalamos para que tu AA lo corrija antes del despacho. Prevención real — evitas la multa por completo.</p>
+        <p class="modo-card-desc" id="modo2Desc">El Agente Aduanal prepara el pedimento. Nosotros lo auditamos en menos de 2 minutos. Si detectamos un error crítico, te lo señalamos para que tu Agente Aduanal lo corrija antes del despacho. Prevención real — evitas la multa por completo.</p>
       </div>
       <div class="modo-card">
         <h3 class="modo-card-title" id="modo3Title">Modo Forense</h3>
         <p class="modo-card-when" id="modo3When">Después del pago al SAT</p>
-        <p class="modo-card-desc" id="modo3Desc">Auditoría retroactiva con regla de no-retroactividad: pedimentos pre-2026 se evalúan con el marco vigente a su fecha, no con la Reforma 2026. Para defensa documental y due diligence, no para prevenir.</p>
+        <p class="modo-card-desc" id="modo3Desc">Auditoría Electrónica (GLOSA) y Auditoría Preventiva en materia de Comercio Exterior. Cubre obligaciones fiscales del Agente Aduanal, RRNA, INCOTERMS, gastos incrementables, Tratados Internacionales, Certificados de Origen y cálculo correcto de contribuciones, derechos y gravámenes. Para defensa documental y due diligence — no para prevenir.</p>
       </div>
+    </div>
+
+    <!-- ÁREAS QUE CUBRE EL MODO FORENSE (texto literal Rod, organizado en lista) -->
+    <div class="forense-areas">
+      <h3 class="forense-areas-title" id="forenseAreasTitle">Áreas que cubre el Modo Forense</h3>
+      <p class="forense-areas-sub" id="forenseAreasSub">Auditoría Electrónica (GLOSA) y Auditoría Preventiva en materia de Comercio Exterior, con el siguiente alcance:</p>
+      <ul class="forense-areas-list" id="forenseAreasList">
+        <li><strong id="forenseArea1Title">Obligaciones fiscales</strong> <span id="forenseArea1Desc">de la Agencia Aduanal.</span></li>
+        <li><strong id="forenseArea2Title">Regulaciones no arancelarias (RRNA)</strong> <span id="forenseArea2Desc">de la Secretaría de Economía.</span></li>
+        <li><strong id="forenseArea3Title">Aplicación correcta de INCOTERMS</strong> <span id="forenseArea3Desc">y vinculación con gastos incrementables — para evitar cargos duplicados.</span></li>
+        <li><strong id="forenseArea4Title">Obligaciones comerciales internacionales</strong> <span id="forenseArea4Desc">por los INCOTERMS declarados en los documentos.</span></li>
+        <li><strong id="forenseArea5Title">Tratados Internacionales y Acuerdos Comerciales</strong> <span id="forenseArea5Desc">— aplicación correcta.</span></li>
+        <li><strong id="forenseArea6Title">Certificados de Origen</strong> <span id="forenseArea6Desc">(controlados y de libre expedición): formatos oficiales, particularidades de llenado, e implicaciones legales y fiscales por incorrecta emisión o aplicación.</span></li>
+        <li><strong id="forenseArea7Title">Cálculo y determinación de contribuciones, derechos y gravámenes</strong> <span id="forenseArea7Desc">— marco legal, base gravable de importación y exportación, determinación y pago de Impuestos de Comercio Exterior, otros impuestos, derechos, gravámenes, actualizaciones y recargos.</span></li>
+      </ul>
     </div>
   </section>
 
@@ -1519,7 +1586,7 @@
       ADD_TAGS: ['svg','path','circle','line','polyline','polygon','rect','g','ellipse','use','defs'],
       ADD_ATTR: ['viewBox','fill','stroke','stroke-width','stroke-linecap','stroke-linejoin',
                  'points','cx','cy','r','x1','y1','x2','y2','d','width','height','transform',
-                 'class','style','id','aria-label']
+                 'class','style','id','aria-label','data-faq-idx','type','aria-expanded']
     };
 
     // ── Translations ──────────────────────────────────────
@@ -1538,13 +1605,29 @@
         queEsModesIntro: 'Trabajamos en tres modos según el momento de tu operación. Tú eliges cuál(es) usar:',
         modo1Title: 'Modo Captura Pre-despacho',
         modo1When: 'Antes de que salga la carga del proveedor',
-        modo1Desc: 'Si nos compartes desde temprano la proforma y documentos del embarque, validamos mientras todavía hay tiempo de corregir antes de la salida del buque, avión o camión. La detección más temprana posible — acorta tiempos y previene devoluciones en frontera.',
+        modo1Desc: 'Si nos compartes desde temprano la factura proforma y documentos del embarque, validamos mientras todavía hay tiempo de corregir antes de la salida del buque, avión o camión. La detección más temprana posible — acorta tiempos y previene devoluciones en frontera.',
         modo2Title: 'Modo Operación',
         modo2When: 'Antes del pago al SAT',
-        modo2Desc: 'El Agente Aduanal prepara el pedimento. Nosotros lo auditamos en menos de 2 minutos. Si detectamos un error crítico, te lo señalamos para que tu AA lo corrija antes del despacho. Prevención real — evitas la multa por completo.',
+        modo2Desc: 'El Agente Aduanal prepara el pedimento. Nosotros lo auditamos en menos de 2 minutos. Si detectamos un error crítico, te lo señalamos para que tu Agente Aduanal lo corrija antes del despacho. Prevención real — evitas la multa por completo.',
         modo3Title: 'Modo Forense',
         modo3When: 'Después del pago al SAT',
-        modo3Desc: 'Auditoría retroactiva con regla de no-retroactividad: pedimentos pre-2026 se evalúan con el marco vigente a su fecha, no con la Reforma 2026. Para defensa documental y due diligence, no para prevenir.',
+        modo3Desc: 'Auditoría Electrónica (GLOSA) y Auditoría Preventiva en materia de Comercio Exterior. Cubre obligaciones fiscales del Agente Aduanal, RRNA, INCOTERMS, gastos incrementables, Tratados Internacionales, Certificados de Origen y cálculo correcto de contribuciones, derechos y gravámenes. Para defensa documental y due diligence — no para prevenir.',
+        forenseAreasTitle: 'Áreas que cubre el Modo Forense',
+        forenseAreasSub: 'Auditoría Electrónica (GLOSA) y Auditoría Preventiva en materia de Comercio Exterior, con el siguiente alcance:',
+        forenseArea1Title: 'Obligaciones fiscales',
+        forenseArea1Desc: 'de la Agencia Aduanal.',
+        forenseArea2Title: 'Regulaciones no arancelarias (RRNA)',
+        forenseArea2Desc: 'de la Secretaría de Economía.',
+        forenseArea3Title: 'Aplicación correcta de INCOTERMS',
+        forenseArea3Desc: 'y vinculación con gastos incrementables — para evitar cargos duplicados.',
+        forenseArea4Title: 'Obligaciones comerciales internacionales',
+        forenseArea4Desc: 'por los INCOTERMS declarados en los documentos.',
+        forenseArea5Title: 'Tratados Internacionales y Acuerdos Comerciales',
+        forenseArea5Desc: '— aplicación correcta.',
+        forenseArea6Title: 'Certificados de Origen',
+        forenseArea6Desc: '(controlados y de libre expedición): formatos oficiales, particularidades de llenado, e implicaciones legales y fiscales por incorrecta emisión o aplicación.',
+        forenseArea7Title: 'Cálculo y determinación de contribuciones, derechos y gravámenes',
+        forenseArea7Desc: '— marco legal, base gravable de importación y exportación, determinación y pago de Impuestos de Comercio Exterior, otros impuestos, derechos, gravámenes, actualizaciones y recargos.',
         painContext: 'México está en proceso de transformar el proceso aduanero y todo el papeleo asociado. La autoridad ahora exige trazabilidad, transparencia y — sobre todo — Control y Cumplimiento. Ya no basta con asumir que como el pedimento está pagado, está bien. El SAT, ANAM y SE no dejan espacio para inconsistencias, porque por unos perdemos todos.',
         modoOperacionLabel: 'Modo Operación · ANTES de pagar al SAT',
         modoOperacionText: 'Antes de pagar tu pedimento de importación o exportación, si nos compartes el borrador de la proforma y los documentos del embarque, lo auditamos. Si detectamos un error crítico, te lo señalamos para que tu Agente Aduanal lo corrija ANTES del despacho — evitas la multa por completo. No es post-mortem, es prevención real. Una vez pagado, el error queda declarado y solo te queda rectificación (más cara, y solo si tu Agente Aduanal está de acuerdo) o esperar a que el SAT te encuentre. Hoy por hoy, ya no basta con que el pedimento esté pagado para asumir que está correcto.',
@@ -1646,13 +1729,29 @@
         queEsModesIntro: 'We work in three modes depending on the timing of your operation. You choose which one(s) to use:',
         modo1Title: 'Pre-clearance Capture Mode',
         modo1When: 'Before the cargo leaves the supplier',
-        modo1Desc: 'If you share the proforma and shipment documents early, we validate while there is still time to fix things before the vessel, plane, or truck departs. The earliest possible detection — shortens lead times and prevents border returns.',
+        modo1Desc: 'If you share the commercial proforma invoice and shipment documents early, we validate while there is still time to fix things before the vessel, plane, or truck departs. The earliest possible detection — shortens lead times and prevents border returns.',
         modo2Title: 'Operation Mode',
         modo2When: 'Before paying the SAT',
-        modo2Desc: 'Your Customs Broker prepares the pedimento. We audit it in under 2 minutes. If we detect a critical error, we flag it so your broker can fix it before clearance. Real prevention — you avoid the fine entirely.',
+        modo2Desc: 'Your Customs Broker prepares the pedimento. We audit it in under 2 minutes. If we detect a critical error, we flag it so your Customs Broker can fix it before clearance. Real prevention — you avoid the fine entirely.',
         modo3Title: 'Forensic Mode',
         modo3When: 'After paying the SAT',
-        modo3Desc: 'Retroactive audit with a non-retroactivity rule: pre-2026 pedimentos are evaluated under the framework in force at their date, not under the 2026 Reform. For documentary defense and due diligence — not prevention.',
+        modo3Desc: 'Electronic Audit (GLOSA) and Preventive Audit in foreign trade matters. Covers Customs Broker fiscal obligations, RRNA, INCOTERMS, dutiable additions, International Treaties, Certificates of Origin, and correct calculation of duties, taxes and charges. For documentary defense and due diligence — not prevention.',
+        forenseAreasTitle: 'Areas covered by Forensic Mode',
+        forenseAreasSub: 'Electronic Audit (GLOSA) and Preventive Audit in foreign trade matters, with the following scope:',
+        forenseArea1Title: 'Fiscal obligations',
+        forenseArea1Desc: 'of the Customs Brokerage Agency.',
+        forenseArea2Title: 'Non-tariff regulations (RRNA)',
+        forenseArea2Desc: 'from the Ministry of Economy.',
+        forenseArea3Title: 'Correct INCOTERMS application',
+        forenseArea3Desc: 'and linkage with dutiable additions — to avoid duplicated charges.',
+        forenseArea4Title: 'International commercial obligations',
+        forenseArea4Desc: 'arising from the INCOTERMS declared in the shipping documents.',
+        forenseArea5Title: 'International Treaties and Trade Agreements',
+        forenseArea5Desc: '— correct application.',
+        forenseArea6Title: 'Certificates of Origin',
+        forenseArea6Desc: '(controlled and freely issued): official formats, filling particularities, and legal/fiscal implications of incorrect issuance or application.',
+        forenseArea7Title: 'Calculation and determination of duties, taxes, and charges',
+        forenseArea7Desc: '— legal framework, import/export taxable base, determination and payment of foreign trade taxes, other taxes, duties, charges, adjustments and surcharges.',
         painContext: 'Mexico is in the process of transforming the customs process and all the associated paperwork. The authority now demands traceability, transparency, and — above all — Control and Compliance. It is no longer enough to assume that because the pedimento is paid, it is fine. The SAT, ANAM, and SE leave no room for inconsistencies — because when a few fail, everyone loses.',
         modoOperacionLabel: 'Operation Mode · BEFORE paying the SAT',
         modoOperacionText: 'Before paying your import or export pedimento, if you share the draft proforma and shipment documents with us, we audit them. If we detect a critical error, we flag it so your Customs Broker can fix it BEFORE clearance — you prevent the fine entirely. Not post-mortem, real prevention. Once paid, the error is declared on record and your only options become rectification (more expensive, and only if your broker agrees) or waiting for the SAT to find it. Today, it is no longer enough to assume a pedimento is correct just because it has been paid.',
@@ -1797,6 +1896,14 @@
       document.getElementById('modo3When').textContent = t.modo3When;
       document.getElementById('modo3Desc').textContent = t.modo3Desc;
 
+      // Forense areas (texto literal Rod, organizado en lista)
+      document.getElementById('forenseAreasTitle').textContent = t.forenseAreasTitle;
+      document.getElementById('forenseAreasSub').textContent = t.forenseAreasSub;
+      for (let i = 1; i <= 7; i++) {
+        document.getElementById(`forenseArea${i}Title`).textContent = t[`forenseArea${i}Title`];
+        document.getElementById(`forenseArea${i}Desc`).textContent = ' ' + t[`forenseArea${i}Desc`];
+      }
+
       // Pain context
       document.getElementById('painContext').textContent = t.painContext;
       document.getElementById('heroSecondary').innerHTML = DOMPurify.sanitize(t.heroSecondary + ' <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>', PURIFY_OPTS);
@@ -1892,7 +1999,7 @@
       document.getElementById('faqTitle').textContent = t.faqTitle;
       const faqHtml = t.faq.map((item, idx) => `
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(${idx})">
+          <button class="faq-question" type="button" data-faq-idx="${idx}" aria-expanded="false">
             <span>${item.q}</span>
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"/>
@@ -1901,7 +2008,17 @@
           <div class="faq-answer" id="faq-answer-${idx}">${item.a}</div>
         </div>
       `).join('');
-      document.getElementById('faqContainer').innerHTML = DOMPurify.sanitize(faqHtml, PURIFY_OPTS);
+      const faqContainer = document.getElementById('faqContainer');
+      faqContainer.innerHTML = DOMPurify.sanitize(faqHtml, PURIFY_OPTS);
+      // Event delegation: addEventListener tras render (DOMPurify strip-ea onclick inline)
+      faqContainer.querySelectorAll('.faq-question[data-faq-idx]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = btn.getAttribute('data-faq-idx');
+          toggleFaq(idx);
+          btn.setAttribute('aria-expanded',
+            btn.parentElement.classList.contains('open') ? 'true' : 'false');
+        });
+      });
 
       // Final CTA
       document.getElementById('ctaTitle').textContent = t.ctaTitle;
