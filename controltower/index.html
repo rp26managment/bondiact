@@ -199,8 +199,93 @@
       font-size: 1.1rem;
       color: var(--text-muted);
       max-width: 700px;
-      margin: 0 auto 32px;
+      margin: 0 auto 24px;
       line-height: 1.7;
+    }
+    .hero-highlight {
+      max-width: 720px;
+      margin: 0 auto 32px;
+      padding: 16px 20px;
+      background: rgba(0, 137, 123, 0.10);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      text-align: left;
+      line-height: 1.55;
+    }
+    .hero-highlight-label {
+      display: block;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      letter-spacing: 0.01em;
+    }
+    .hero-highlight-text {
+      color: var(--text);
+      font-size: 0.97rem;
+    }
+
+    /* ─── ¿QUÉ ES CT? + 3 MODOS ──────────────────────────── */
+    .que-es-ct {
+      padding: 80px 24px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .que-es-title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .que-es-sub {
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 12px;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+    .que-es-modes-intro {
+      color: var(--text);
+      max-width: 760px;
+      margin: 24px auto 32px;
+      line-height: 1.6;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .modos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+      text-align: left;
+    }
+    .modo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .modo-card-title {
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .modo-card-when {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.78rem;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.85;
+    }
+    .modo-card-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
     }
     .hero-cta {
       display: inline-flex;
@@ -286,6 +371,18 @@
       height: 48px;
       color: var(--red);
       margin: 0 auto 16px;
+    }
+    .pain-context {
+      max-width: 760px;
+      margin: 0 auto 24px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.04);
+      border-left: 3px solid var(--text-muted);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.97rem;
+      line-height: 1.65;
+      text-align: left;
     }
     .pain-title {
       font-family: 'Montserrat', sans-serif;
@@ -733,14 +830,14 @@
     .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease-out;
+      transition: max-height 0.4s ease-out;
       color: var(--text-muted);
       line-height: 1.7;
       font-size: 0.95rem;
       margin-top: 0;
     }
     .faq-answer.open {
-      max-height: 500px;
+      max-height: 1400px;
       margin-top: 16px;
     }
 
@@ -1148,6 +1245,10 @@
     <div class="hero-tag" id="heroTag">Auditoría preventiva bajo el Marco Aduanero 2026</div>
     <h1 class="hero-title" id="heroTitle">La Reforma 2026 subió tus multas al 300%. Detéctalas antes que el SAT.</h1>
     <p class="hero-sub" id="heroSub">Desde el 1 de enero de 2026, una fracción mal clasificada, un COVE incompleto o mercancía del Capítulo 50-64 en RFE pueden detonar multas del 250-300% del valor comercial, baja del Padrón y cancelación de la patente del Agente Aduanal. Control Tower audita cada pedimento contra 40+ reglas tradicionales más 12 verificaciones nuevas que cubren toda la Reforma Aduanera 2026. Manda tu pedimento y te mostramos tu nivel de riesgo — gratis.</p>
+    <div class="hero-highlight">
+      <span class="hero-highlight-label" id="modoOperacionLabel">Modo Operación · ANTES de pagar al SAT</span>
+      <span class="hero-highlight-text" id="modoOperacionText">Antes de pagar tu pedimento de importación o exportación, si nos compartes el borrador de la proforma y los documentos del embarque, lo auditamos. Si detectamos un error crítico, te lo señalamos para que tu Agente Aduanal lo corrija ANTES del despacho — evitas la multa por completo. No es post-mortem, es prevención real. Una vez pagado, el error queda declarado y solo te queda rectificación (más cara, y solo si tu Agente Aduanal está de acuerdo) o esperar a que el SAT te encuentre. Hoy por hoy, ya no basta con que el pedimento esté pagado para asumir que está correcto.</span>
+    </div>
     <button class="hero-cta" onclick="goToWhatsApp()" id="heroCTA">Solicitar mi auditoría gratis</button>
     <button class="hero-secondary" onclick="scrollToSection('how-it-works')" id="heroSecondary">
       Ver cómo funciona
@@ -1171,12 +1272,37 @@
     </div>
   </section>
 
+  <!-- ¿QUÉ ES CONTROL TOWER? + 3 MODOS -->
+  <section class="que-es-ct" id="que-es-ct">
+    <h2 class="que-es-title" id="queEsTitle">¿Qué es Control Tower?</h2>
+    <p class="que-es-sub" id="queEsSub">Control Tower es un SaaS de auditoría preventiva de comercio exterior. Auditamos pedimentos de importación y exportación contra 40+ reglas tradicionales más 12 verificaciones nuevas de la Reforma Aduanera 2026 — con fundamento legal artículo por artículo y trazabilidad bajo lineamientos ISO/IEC 27000.</p>
+    <p class="que-es-modes-intro" id="queEsModesIntro">Trabajamos en tres modos según el momento de tu operación. Tú eliges cuál(es) usar:</p>
+    <div class="modos-grid">
+      <div class="modo-card">
+        <h3 class="modo-card-title" id="modo1Title">Modo Captura Pre-despacho</h3>
+        <p class="modo-card-when" id="modo1When">Antes de que salga la carga del proveedor</p>
+        <p class="modo-card-desc" id="modo1Desc">Si nos compartes desde temprano la proforma y documentos del embarque, validamos mientras todavía hay tiempo de corregir antes de la salida del buque, avión o camión. La detección más temprana posible — acorta tiempos y previene devoluciones en frontera.</p>
+      </div>
+      <div class="modo-card">
+        <h3 class="modo-card-title" id="modo2Title">Modo Operación</h3>
+        <p class="modo-card-when" id="modo2When">Antes del pago al SAT</p>
+        <p class="modo-card-desc" id="modo2Desc">El Agente Aduanal prepara el pedimento. Nosotros lo auditamos en menos de 2 minutos. Si detectamos un error crítico, te lo señalamos para que tu AA lo corrija antes del despacho. Prevención real — evitas la multa por completo.</p>
+      </div>
+      <div class="modo-card">
+        <h3 class="modo-card-title" id="modo3Title">Modo Forense</h3>
+        <p class="modo-card-when" id="modo3When">Después del pago al SAT</p>
+        <p class="modo-card-desc" id="modo3Desc">Auditoría retroactiva con regla de no-retroactividad: pedimentos pre-2026 se evalúan con el marco vigente a su fecha, no con la Reforma 2026. Para defensa documental y due diligence, no para prevenir.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- PAIN/RISK SECTION -->
   <section class="pain" id="pain">
     <div class="pain-header">
       <svg class="pain-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
       </svg>
+      <p class="pain-context" id="painContext">México está en proceso de transformar el proceso aduanero y todo el papeleo asociado. La autoridad ahora exige trazabilidad, transparencia y — sobre todo — Control y Cumplimiento. Ya no basta con asumir que como el pedimento está pagado, está bien. El SAT, ANAM y SE no dejan espacio para inconsistencias, porque por unos perdemos todos.</p>
       <h2 class="pain-title" id="painTitle">¿Sabías que un solo hallazgo crítico bajo la Reforma 2026 puede costarte el 300% del valor comercial — más la baja del Padrón?</h2>
       <p class="pain-sub" id="painSub">El régimen sancionador subió del 70-100% al 250-300% (RGCE 2026 Fracc. XLIX/L/XXI modificada). El Art. 54 de la Ley Aduanera 2026 estableció corresponsabilidad sin excluyentes — el Agente Aduanal responde solidariamente sin atenuantes. El Anexo 29 RGCE 2026 prohíbe 940 fracciones textil/calzado en Recinto Fiscalizado Estratégico. El Art. 108 prohíbe expresamente petrolíferos en IMMEX. Una sola operación mal armada detona PAMA, cancelación de patente (Art. 159-Bis) y casos extremos de contrabando penal con 5-8 años de prisión.</p>
     </div>
@@ -1407,6 +1533,21 @@
         stat1Label: 'Reglas (40 tradicionales + 12 Reforma 2026)',
         stat2Label: 'Fracciones LIGIE V2.14',
         stat3Label: 'Por pedimento',
+        queEsTitle: '¿Qué es Control Tower?',
+        queEsSub: 'Control Tower es un SaaS de auditoría preventiva de comercio exterior. Auditamos pedimentos de importación y exportación contra 40+ reglas tradicionales más 12 verificaciones nuevas de la Reforma Aduanera 2026 — con fundamento legal artículo por artículo y trazabilidad bajo lineamientos ISO/IEC 27000.',
+        queEsModesIntro: 'Trabajamos en tres modos según el momento de tu operación. Tú eliges cuál(es) usar:',
+        modo1Title: 'Modo Captura Pre-despacho',
+        modo1When: 'Antes de que salga la carga del proveedor',
+        modo1Desc: 'Si nos compartes desde temprano la proforma y documentos del embarque, validamos mientras todavía hay tiempo de corregir antes de la salida del buque, avión o camión. La detección más temprana posible — acorta tiempos y previene devoluciones en frontera.',
+        modo2Title: 'Modo Operación',
+        modo2When: 'Antes del pago al SAT',
+        modo2Desc: 'El Agente Aduanal prepara el pedimento. Nosotros lo auditamos en menos de 2 minutos. Si detectamos un error crítico, te lo señalamos para que tu AA lo corrija antes del despacho. Prevención real — evitas la multa por completo.',
+        modo3Title: 'Modo Forense',
+        modo3When: 'Después del pago al SAT',
+        modo3Desc: 'Auditoría retroactiva con regla de no-retroactividad: pedimentos pre-2026 se evalúan con el marco vigente a su fecha, no con la Reforma 2026. Para defensa documental y due diligence, no para prevenir.',
+        painContext: 'México está en proceso de transformar el proceso aduanero y todo el papeleo asociado. La autoridad ahora exige trazabilidad, transparencia y — sobre todo — Control y Cumplimiento. Ya no basta con asumir que como el pedimento está pagado, está bien. El SAT, ANAM y SE no dejan espacio para inconsistencias, porque por unos perdemos todos.',
+        modoOperacionLabel: 'Modo Operación · ANTES de pagar al SAT',
+        modoOperacionText: 'Antes de pagar tu pedimento de importación o exportación, si nos compartes el borrador de la proforma y los documentos del embarque, lo auditamos. Si detectamos un error crítico, te lo señalamos para que tu Agente Aduanal lo corrija ANTES del despacho — evitas la multa por completo. No es post-mortem, es prevención real. Una vez pagado, el error queda declarado y solo te queda rectificación (más cara, y solo si tu Agente Aduanal está de acuerdo) o esperar a que el SAT te encuentre. Hoy por hoy, ya no basta con que el pedimento esté pagado para asumir que está correcto.',
         painTitle: '¿Sabías que un solo hallazgo crítico bajo la Reforma 2026 puede costarte el 300% del valor comercial — más la baja del Padrón?',
         painSub: 'El régimen sancionador subió del 70-100% al 250-300% (RGCE 2026 Fracc. XLIX/L/XXI modificada). El Art. 54 de la Ley Aduanera 2026 estableció corresponsabilidad sin excluyentes — el Agente Aduanal responde solidariamente sin atenuantes. El Anexo 29 RGCE 2026 prohíbe 940 fracciones textil/calzado en Recinto Fiscalizado Estratégico. El Art. 108 prohíbe expresamente petrolíferos en IMMEX. Una sola operación mal armada detona PAMA, cancelación de patente (Art. 159-Bis) y casos extremos de contrabando penal con 5-8 años de prisión.',
         painWithoutTitle: 'Sin Control Tower',
@@ -1424,7 +1565,7 @@
           { title: 'Validación RRNA + Marco 2026', desc: 'Cruce automático de regulaciones no arancelarias vs. fracciones declaradas (NOM, COFEPRIS, permisos) más las 12 verificaciones nuevas del Marco 2026 (COVE E2, Anexo 29 RFE, Art. 108 IMMEX, SARA, Triángulo).', icon: 'shield' },
         ],
         authTitle: 'Diseñado por un auditor, para auditores',
-        authBio: 'Con más de 20 años en Comercio Exterior, Aduanas y Strategic Sourcing & Procurement, cadena de suministro en México, España, Alemania, Suecia y Japón. Desarrollado por Scrum Master certificado. Construimos Control Tower porque conocemos lo que un Agente Aduanal solidario, un importador titular del Padrón y un compliance officer necesitan bajo el Marco 2026: certeza antes del despacho, no sorpresas después.',
+        authBio: 'Contacto de Implementación personalizada: Rodrigo Pardo · 20+ años en Comercio Exterior · México, Estados Unidos, Canadá, España, Alemania y Suecia. Desarrollado por Scrum Master certificado. Construimos Control Tower porque conocemos lo que un Agente Aduanal solidario, un importador titular del Padrón y un compliance officer necesitan bajo el Marco 2026: certeza antes del despacho, no sorpresas después.',
         authCompany: 'Guadalajara, México',
         authQuote: '"El mejor momento para detectar un error es antes de que el SAT lo vea — y bajo la Reforma 2026, ese momento vale 300% del valor comercial."',
         servicesTitle: 'Servicios integrales de comercio exterior',
@@ -1460,12 +1601,12 @@
         ],
         faqTitle: 'Preguntas frecuentes',
         faq: [
-          { q: '¿Es seguro enviar mis pedimentos?', a: 'Sí. Tus pedimentos se procesan en infraestructura cifrada (TLS + Supabase + Vercel), nunca se comparten con terceros y solo tú ves los reportes. El PDF lleva sello SHA-256 anti-fraude para que puedas comprobar integridad ante cualquier autoridad.' },
-          { q: '¿Sustituyen al agente aduanal?', a: 'No. Control Tower es una segunda capa de validación preventiva. Bajo el Art. 54 de la Ley Aduanera 2026, el Agente Aduanal sigue siendo responsable solidario SIN EXCLUYENTES de la operación. Nosotros detectamos los errores antes del pago para que no detonen el régimen sancionador 2026 (multas 250-300% + baja del Padrón + cancelación de patente).' },
-          { q: '¿Qué valida exactamente Control Tower?', a: '40+ reglas tradicionales (Art. 64, 65, 176, 178 LA · DTA · IGI · IVA · INCOTERMS · RRNA) más 12 verificaciones nuevas que cubren toda la Reforma Aduanera 2026: COVE electrónico E2, Padrón vigente, Materialidad (Regla 3.1.42 RGCE), coherencia CFDI ↔ pedimento, Anexo 29 RFE (940 fracciones prohibidas textil/calzado), garantía de tránsito, plazos de depósito fiscal, prohibición petrolíferos en IMMEX, patente del Agente Aduanal vigente, régimen sancionador, sistema SARA y Triángulo de Cumplimiento.' },
-          { q: '¿Qué pasa con mis pedimentos viejos (antes del 2026)?', a: 'Control Tower tiene Modo Forense con regla de no-retroactividad. Si auditas un pedimento con fechaPagoReal anterior al 1-Ene-2026, las 12 verificaciones nuevas de la Reforma 2026 NO se aplican — solo las reglas vigentes a la fecha del pedimento. El PDF incluye disclaimer explícito del marco normativo aplicado.' },
-          { q: '¿Trabajan importación y exportación?', a: 'Ambos. El motor distingue regímenes IMD (importación definitiva), EXP (exportación), AF/IM (IMMEX), BF/BH/BM/BO (depósito fiscal), T1/T3 (tránsito) y H1/H8 (RFE), y aplica las reglas específicas de cada uno bajo el marco normativo vigente a la fecha del pedimento.' },
-          { q: '¿Cuánto cuesta la primera auditoría?', a: 'Tu primer pedimento es gratis, sin tarjeta ni compromiso. Comparativo: una sola multa por COVE incompleto bajo Reforma 2026 cuesta $53,500-$106,970 MXN. Un hallazgo crítico de coherencia detona régimen sancionador del 250-300% del valor comercial. CT cuesta una fracción mínima de un solo evento evitado.' },
+          { q: '¿Sustituyen al agente aduanal?', a: 'No. Bajo el Art. 54 LA 2026 el AA sigue siendo responsable solidario SIN EXCLUYENTES. CT es segunda capa de validación preventiva — detecta errores antes del pago.' },
+          { q: '¿Qué pasa con mis pedimentos viejos?', a: 'Modo Forense con regla de no-retroactividad. Si fechaPagoReal < 1-Ene-2026, solo las reglas vigentes a la fecha del pedimento y su ley aplicable en su fecha histórica.' },
+          { q: '¿Bondia Control Tower puede importar a su nombre?', a: 'Somos Operadores Logísticos pero también se dan los servicios de Comercializadora si son solicitados, siempre y cuando no se necesite un Padrón Sectorial energético o textil.' },
+          { q: '¿Es seguro enviar mis pedimentos?', a: 'Sí. Infraestructura cifrada, nunca compartido con terceros. El reporte de auditoría así como la Auditoría Forense que se genera (PDF con sellos digitales y firma electrónica) son anti-fraude SHA-256. Operamos bajo lineamientos ISO/IEC 27000.' },
+          { q: '¿Qué necesito para usar Control Tower?', a: 'Tres cosas: PDF del pedimento — Proforma o borrador si aún no se ha pagado, o con el sello de validación del Agente Aduanal si ya se pagó el pedimento (y/o XML DODA) — factura comercial + CFDI del cliente final, y navegador. Sin instalación.' },
+          { q: '¿Cuándo audita Control Tower? ¿Antes o después del pago al SAT?', a: 'Lo ideal es ANTES del pago — en Modo Captura Pre-despacho o Modo Operación. Si nos compartes la proforma y los documentos del embarque a tiempo, te señalamos cualquier error crítico para que tu Agente Aduanal lo corrija antes del despacho. Evitas la multa por completo. Si el pedimento ya está pagado, usamos Modo Forense para auditoría retroactiva — para defensa documental, no prevención.' },
         ],
         ctaTitle: 'La Reforma 2026 ya está en vigor. ¿Cuánto llevas operando sin la red de seguridad?',
         ctaSub: 'Manda tu pedimento más reciente. La primera auditoría es gratis y te muestra tu exposición real bajo el Marco 2026.',
@@ -1475,7 +1616,7 @@
         navPricing: 'Precios',
         navFaq: 'FAQ',
         footerRights: '© 2026 BondiaCT.io — Todos los derechos reservados.',
-        footerDisclaimer: 'Control Tower es una herramienta de auditoría preventiva bajo el Marco Aduanero 2026. No sustituye el asesoramiento legal o aduanal profesional ni la responsabilidad solidaria del Agente Aduanal (Art. 54 LA).',
+        footerDisclaimer: 'Control Tower es una herramienta de Validación Preventiva bajo el Marco Aduanero 2026. No sustituye el asesoramiento legal o aduanal profesional ni la responsabilidad solidaria del Agente Aduanal (Art. 54 LA).',
         footerWhatsapp: 'WhatsApp: +52 33 2200 0539',
         footerSecurity: 'Cifrado de extremo a extremo · Datos protegidos',
         // Modal Lead Form
@@ -1500,6 +1641,21 @@
         stat1Label: 'Rules (40 traditional + 12 from 2026 Reform)',
         stat2Label: 'LIGIE fractions V2.14',
         stat3Label: 'Per pedimento',
+        queEsTitle: 'What is Control Tower?',
+        queEsSub: 'Control Tower is a foreign-trade preventive audit SaaS. We audit import and export pedimentos against 40+ traditional rules plus 12 new checks from the 2026 Customs Reform — with article-by-article legal basis and traceability under ISO/IEC 27000 guidelines.',
+        queEsModesIntro: 'We work in three modes depending on the timing of your operation. You choose which one(s) to use:',
+        modo1Title: 'Pre-clearance Capture Mode',
+        modo1When: 'Before the cargo leaves the supplier',
+        modo1Desc: 'If you share the proforma and shipment documents early, we validate while there is still time to fix things before the vessel, plane, or truck departs. The earliest possible detection — shortens lead times and prevents border returns.',
+        modo2Title: 'Operation Mode',
+        modo2When: 'Before paying the SAT',
+        modo2Desc: 'Your Customs Broker prepares the pedimento. We audit it in under 2 minutes. If we detect a critical error, we flag it so your broker can fix it before clearance. Real prevention — you avoid the fine entirely.',
+        modo3Title: 'Forensic Mode',
+        modo3When: 'After paying the SAT',
+        modo3Desc: 'Retroactive audit with a non-retroactivity rule: pre-2026 pedimentos are evaluated under the framework in force at their date, not under the 2026 Reform. For documentary defense and due diligence — not prevention.',
+        painContext: 'Mexico is in the process of transforming the customs process and all the associated paperwork. The authority now demands traceability, transparency, and — above all — Control and Compliance. It is no longer enough to assume that because the pedimento is paid, it is fine. The SAT, ANAM, and SE leave no room for inconsistencies — because when a few fail, everyone loses.',
+        modoOperacionLabel: 'Operation Mode · BEFORE paying the SAT',
+        modoOperacionText: 'Before paying your import or export pedimento, if you share the draft proforma and shipment documents with us, we audit them. If we detect a critical error, we flag it so your Customs Broker can fix it BEFORE clearance — you prevent the fine entirely. Not post-mortem, real prevention. Once paid, the error is declared on record and your only options become rectification (more expensive, and only if your broker agrees) or waiting for the SAT to find it. Today, it is no longer enough to assume a pedimento is correct just because it has been paid.',
         painTitle: 'A single critical finding under the 2026 Reform can cost you 300% of commercial value — plus removal from the Importers Registry.',
         painSub: 'The sanctions regime jumped from 70-100% to 250-300% (RGCE 2026 Fr. XLIX/L/XXI as amended). Art. 54 of the 2026 Customs Law imposed joint liability without exclusions — the Customs Broker is solidarily liable with no mitigators. Annex 29 RGCE 2026 prohibits 940 textile/footwear classifications in Strategic Bonded Facilities. Art. 108 expressly bans petroleum products under IMMEX. A single poorly-built operation triggers PAMA seizure, patent cancellation (Art. 159-Bis), and extreme cases of criminal smuggling with 5-8 years imprisonment.',
         painWithoutTitle: 'Without Control Tower',
@@ -1553,12 +1709,12 @@
         ],
         faqTitle: 'Frequently asked questions',
         faq: [
-          { q: 'Is it safe to send my pedimentos?', a: 'Yes. Your pedimentos are processed on encrypted infrastructure (TLS + Supabase + Vercel), never shared with third parties, and only you see the reports. The PDF carries a SHA-256 anti-fraud seal so you can verify integrity before any authority.' },
-          { q: 'Do you replace customs brokers?', a: 'No. Control Tower is a second layer of preventive validation. Under Art. 54 of the 2026 Customs Law, the Customs Broker remains solidarily liable WITHOUT EXCLUSIONS for the operation. We catch errors before payment so they don\'t trigger the 2026 sanctions regime (250-300% fines + Registry removal + patent cancellation).' },
-          { q: 'What exactly does Control Tower validate?', a: '40+ traditional rules (Art. 64, 65, 176, 178 Customs Law · DTA · IGI · IVA · INCOTERMS · RRNA) plus 12 new checks covering the entire 2026 Customs Reform: E2 Electronic COVE, active Importers Registry, Materiality (Rule 3.1.42 RGCE), CFDI ↔ pedimento coherence, Annex 29 RFE (940 prohibited textile/footwear classifications), transit guarantee, bonded warehouse deadlines, prohibition of petroleum in IMMEX, active Customs Broker patent, sanctions regime, SARA system, and Compliance Triangle.' },
-          { q: 'What about my old pedimentos (before 2026)?', a: 'Control Tower has Forensic Mode with a non-retroactivity rule. If you audit a pedimento with fechaPagoReal prior to Jan-1-2026, the 12 new 2026 Reform checks are NOT applied — only the rules in force at the pedimento date. The PDF includes an explicit disclaimer of the regulatory framework applied.' },
-          { q: 'Do you handle imports and exports?', a: 'Both. The engine distinguishes regimes IMD (definitive import), EXP (export), AF/IM (IMMEX), BF/BH/BM/BO (bonded warehouse), T1/T3 (transit), and H1/H8 (RFE), and applies the specific rules of each under the regulatory framework in force at the pedimento date.' },
-          { q: 'How much does the first audit cost?', a: 'Your first pedimento is free, no card or commitment required. For comparison: a single penalty for incomplete COVE under the 2026 Reform costs MXN 53,500-106,970. A critical coherence finding triggers a sanctions regime of 250-300% of commercial value. CT costs a tiny fraction of a single avoided event.' },
+          { q: 'Do you replace customs brokers?', a: 'No. Under Art. 54 of the 2026 Customs Law, the broker remains solidarily liable WITHOUT EXCLUSIONS. CT is a second layer of preventive validation — catches errors before payment.' },
+          { q: 'What about my old pedimentos?', a: 'Forensic Mode with non-retroactivity rule. If fechaPagoReal < Jan-1-2026, only the rules in force at the pedimento date apply, under the law historically applicable at that time.' },
+          { q: 'Can Bondia Control Tower import under its own name?', a: 'We are Logistics Operators, but Trading Company services are also available upon request — provided the operation does not require a Sectoral Padrón (energy or textile).' },
+          { q: 'Is it safe to send my pedimentos?', a: 'Yes. Encrypted infrastructure, never shared with third parties. The audit report and Forensic Audit reports generated (PDF with digital seals and electronic signature) are SHA-256 anti-fraud sealed. We operate under ISO/IEC 27000 guidelines.' },
+          { q: 'What do I need to use Control Tower?', a: 'Three things: pedimento PDF — proforma or draft if not yet paid, or with the Customs Broker validation seal if already paid (and/or DODA XML) — commercial invoice + end-customer CFDI, and a browser. No install.' },
+          { q: 'When does Control Tower audit? Before or after paying the SAT?', a: 'Ideally BEFORE payment — in Pre-clearance Capture Mode or Operation Mode. If you share the proforma and shipment documents in time, we flag any critical error so your Customs Broker can fix it before clearance. You avoid the fine entirely. If the pedimento is already paid, we use Forensic Mode for retroactive audit — for documentary defense, not prevention.' },
         ],
         ctaTitle: 'The 2026 Reform is already in force. How long have you been operating without the safety net?',
         ctaSub: 'Send your most recent pedimento. The first audit is free and shows your real exposure under the 2026 Framework.',
@@ -1623,7 +1779,26 @@
       document.getElementById('heroTag').textContent = t.heroTag;
       document.getElementById('heroTitle').textContent = t.heroTitle;
       document.getElementById('heroSub').textContent = t.heroSub;
+      document.getElementById('modoOperacionLabel').textContent = t.modoOperacionLabel;
+      document.getElementById('modoOperacionText').textContent = t.modoOperacionText;
       document.getElementById('heroCTA').textContent = t.heroCTA;
+
+      // ¿Qué es CT? + 3 modos
+      document.getElementById('queEsTitle').textContent = t.queEsTitle;
+      document.getElementById('queEsSub').textContent = t.queEsSub;
+      document.getElementById('queEsModesIntro').textContent = t.queEsModesIntro;
+      document.getElementById('modo1Title').textContent = t.modo1Title;
+      document.getElementById('modo1When').textContent = t.modo1When;
+      document.getElementById('modo1Desc').textContent = t.modo1Desc;
+      document.getElementById('modo2Title').textContent = t.modo2Title;
+      document.getElementById('modo2When').textContent = t.modo2When;
+      document.getElementById('modo2Desc').textContent = t.modo2Desc;
+      document.getElementById('modo3Title').textContent = t.modo3Title;
+      document.getElementById('modo3When').textContent = t.modo3When;
+      document.getElementById('modo3Desc').textContent = t.modo3Desc;
+
+      // Pain context
+      document.getElementById('painContext').textContent = t.painContext;
       document.getElementById('heroSecondary').innerHTML = DOMPurify.sanitize(t.heroSecondary + ' <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>', PURIFY_OPTS);
       document.getElementById('stat1').textContent = t.stat1Label;
       document.getElementById('stat2').textContent = t.stat2Label;
@@ -1772,8 +1947,8 @@
     }
 
     // ── Lead Form: Config ────────────────────────────────
-    // S18-SEC-04 ✅ — Webhook URL movido a Vercel env var (MAKE_WEBHOOK_URL).
-    // El form ahora llama a /api/submit-lead que valida y reenvía server-side.
+    // Webhook URL gestionado por env var server-side. El form llama a /api/submit-lead
+    // que valida, sanitiza y reenvía. Cero exposición de stack interno.
     const LEAD_API_URL = '/api/submit-lead';
     const WA_NUMBER = '523322000539';
 
