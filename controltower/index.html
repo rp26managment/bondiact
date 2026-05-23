@@ -1574,7 +1574,7 @@
         </svg>
         <span id="footerSecurity">Cifrado de extremo a extremo · Datos protegidos</span>
       </div>
-      <a href="https://wa.me/523322000539?text=Hola%2C%20me%20interesa%20una%20auditor%C3%ADa%20preventiva%20de%20pedimentos" class="footer-whatsapp" id="footerWhatsapp" target="_blank" rel="noopener">WhatsApp: +52 33 2200 0539</a>
+      <a href="mailto:contacto@bondiact.io?subject=Solicitud%20de%20auditor%C3%ADa%20preventiva" class="footer-whatsapp" id="footerWhatsapp" rel="noopener">Contáctanos: contacto@bondiact.io</a>
     </div>
   </footer>
 
@@ -1700,7 +1700,7 @@
         navFaq: 'FAQ',
         footerRights: '© 2026 BondiaCT.io — Todos los derechos reservados.',
         footerDisclaimer: 'Control Tower es una herramienta de Validación Preventiva bajo el Marco Aduanero 2026. No sustituye el asesoramiento legal o aduanal profesional ni la responsabilidad solidaria del Agente Aduanal (Art. 54 LA).',
-        footerWhatsapp: 'WhatsApp: +52 33 2200 0539',
+        footerWhatsapp: 'Contáctanos: contacto@bondiact.io',
         footerSecurity: 'Cifrado de extremo a extremo · Datos protegidos',
         // Modal Lead Form
         modalTitle: 'Solicita tu auditoría gratuita',
@@ -1824,7 +1824,7 @@
         navFaq: 'FAQ',
         footerRights: '© 2026 BondiaCT.io — All rights reserved.',
         footerDisclaimer: 'Control Tower is a preventive audit tool under the 2026 Customs Framework. It does not replace professional legal or customs advice nor the joint liability of the Customs Broker (Art. 54 Customs Law).',
-        footerWhatsapp: 'WhatsApp: +52 33 2200 0539',
+        footerWhatsapp: 'Contáctanos: contacto@bondiact.io',
         footerSecurity: 'End-to-end encrypted · Data protected',
         // Modal Lead Form
         modalTitle: 'Request your free audit',
@@ -2067,7 +2067,7 @@
     // Webhook URL gestionado por env var server-side. El form llama a /api/submit-lead
     // que valida, sanitiza y reenvía. Cero exposición de stack interno.
     const LEAD_API_URL = '/api/submit-lead';
-    const WA_NUMBER = '523322000539';
+    // WA_NUMBER eliminado post-Gopak 23-May-2026 — alineación con política saltHUB (cero PII telefónica pública)
 
     const BLOCKED_DOMAINS = [
       // Google
@@ -2205,23 +2205,20 @@
           body: JSON.stringify(payload),
         });
 
-        // Step 2: Redirect to WhatsApp
-        const waMsg = encodeURIComponent(
-          currentLang === 'en'
-            ? 'Hi Rodrigo, I just submitted my details on BondiaCT. Here is my pedimento for the preventive audit.'
-            : 'Hola Rodrigo, acabo de dejar mis datos en BondiaCT. Aquí está mi pedimento para la auditoría preventiva.'
-        );
-        window.location.href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+        // Step 2: Show success message (post-Gopak: removed WhatsApp redirect for PII protection)
+        const successMsg = currentLang === 'en'
+          ? 'Thank you! We will contact you within 24 hours via contacto@bondiact.io'
+          : 'Gracias. Te contactaremos en menos de 24 horas vía contacto@bondiact.io';
+        alert(successMsg);
+        document.getElementById('leadForm').reset();
+        closeModal();
 
       } catch (err) {
         console.error('Webhook error:', err);
-        // Even if webhook fails, redirect to WhatsApp
-        const waMsg = encodeURIComponent(
-          currentLang === 'en'
-            ? 'Hi Rodrigo, I just submitted my details on BondiaCT. Here is my pedimento for the preventive audit.'
-            : 'Hola Rodrigo, acabo de dejar mis datos en BondiaCT. Aquí está mi pedimento para la auditoría preventiva.'
-        );
-        window.location.href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+        const errorMsg = currentLang === 'en'
+          ? 'There was a problem submitting your request. Please email contacto@bondiact.io directly.'
+          : 'Hubo un problema al enviar tu solicitud. Escríbenos directamente a contacto@bondiact.io';
+        alert(errorMsg);
       }
     }
 
