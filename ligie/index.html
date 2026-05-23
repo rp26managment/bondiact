@@ -958,15 +958,16 @@ const FIREBASE_CONFIG = {
 };
 
 // ══════════════════════════════════════════════════════════════
-//  LISTA DE EMAILS AUTORIZADOS
-//  👇 Agrega aquí los correos Gmail de tus clientes
+//  LISTA DE EMAILS AUTORIZADOS — Base64 obfuscation (post-Gopak 22-May-2026)
+//  Nota: Base64 NO es seguridad real (decodificable). Es paliativo OSINT.
+//  TODO: Migrar a Firestore con security rules server-side (sprint futuro).
+//  Para agregar un email: btoa('correo@dominio.com') en consola y pegar al array.
 // ══════════════════════════════════════════════════════════════
-const ALLOWED_EMAILS = [
-  "rodrigo@bondiact.io",           // Rod — bondíaCT.io (cuenta corporativa)
-  "rodrigopardo6537@gmail.com",    // Rod — Gmail personal
-  "antonio@nama.com.mx",           // Antonio — NAMA
-  // "cliente4@gmail.com",
+const ALLOWED_EMAILS_B64 = [
+  "cm9kcmlnb0Bib25kaWFjdC5pbw==",
+  "cm9kcmlnb3BhcmRvNjUzN0BnbWFpbC5jb20=",
 ];
+const ALLOWED_EMAILS = ALLOWED_EMAILS_B64.map(b => atob(b));
 
 // ── Init Firebase ─────────────────────────────────────────────
 firebase.initializeApp(FIREBASE_CONFIG);
