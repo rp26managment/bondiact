@@ -24,6 +24,24 @@ function isRateLimited(ip) {
   return entry.count > RATE_LIMIT_MAX;
 }
 
+// IP blocklist — actores hostiles conocidos (Incidente Gopak 22-May-2026).
+// NOTA: 170.85.22.82 es exit node de Zscaler enterprise proxy en Rio de Janeiro, BR.
+// Bloquearla añade fricción al BPA (Brazil Persistent Actor) pero puede impactar
+// a usuarios legítimos que salen por el mismo nodo Zscaler. Trade-off aceptado
+// dado el historial 2021-2026. Para agregar más IPs: añadir al Set y commitear.
+const IP_BLOCKLIST = new Set([
+  '170.85.22.82', // BPA — Incidente Gopak 22-May-2026 (Rio de Janeiro / Zscaler)
+]);
+
+function isBlockedIp(ip) {
+  if (!ip || ip === 'unknown') return false;
+  if (IP_BLOCKLIST.has(ip)) return true;
+  for (const blocked of IP_BLOCKLIST) {
+    if (ip.startsWith(blocked)) return true;
+  }
+  return false;
+}
+
 // Dominios bloqueados (anti-coyotes) — misma lista que el frontend
 const BLOCKED_DOMAINS = [
   'gmail.com', 'googlemail.com', 'hotmail.com', 'outlook.com', 'live.com',
@@ -71,8 +89,15 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Rate limiting
+  // IP blocklist + Rate limiting
   const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || 'unknown';
+
+  // Block IPs hostiles conocidas — respuesta 200 fake para no dar señal al atacante
+  if (isBlockedIp(ip)) {
+    console.warn(`[submit-lead] BLOCKED hostile IP: ${ip}`);
+    return res.status(200).json({ success: true, message: 'Lead submitted' });
+  }
+
   if (isRateLimited(ip)) {
     return res.status(429).json({ error: 'Too many requests. Try again in 1 minute.' });
   }
