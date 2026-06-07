@@ -1,0 +1,60 @@
+name: Supabase Keep-Alive (control-tower)
+
+# Mantiene vivo el proyecto Supabase Free tier "control-tower" (BondiaCT.io).
+# Supabase pausa proyectos tras >7 dias sin actividad de base de datos.
+# Este workflow pingea la DB Lunes y Jueves 9:00 AM hora MX (UTC-6 = 15:00 UTC),
+# dejando holgura comoda dentro de la ventana de 7 dias.
+#
+# A diferencia del intento anterior (launchd en el Mac de Rod / scheduled task de
+# Claude), esto corre en la infraestructura de GitHub: siempre encendida y SIN el
+# bloqueo de red que impedia alcanzar supabase.co desde el sandbox.
+#
+# ALERTA: si el ping falla, el job termina con exit 1. GitHub envia automaticamente
+# un correo al owner del repo cuando un workflow programado FALLA. Asi Rod se entera
+# por una notificacion real, no por el correo de pausa de Supabase.
+
+on:
+  schedule:
+    # min hora dia-mes mes dia-semana  (en UTC). 15:00 UTC = 9:00 AM MX (UTC-6).
+    - cron: "0 15 * * 1,4"   # Lunes y Jueves
+  workflow_dispatch:          # permite correrlo manualmente desde la pestania Actions
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST (tigie_aduanas)
+        env:
+          # anon key es PUBLICA por diseno (expuesta en el SPA frontend, protegida por RLS).
+          # Si prefieres ocultarla, muevela a Settings > Secrets and variables > Actions
+          # como secret SUPABASE_ANON_KEY y cambia la linea de abajo por ${{ secrets.SUPABASE_ANON_KEY }}.
+          SUPABASE_URL: "https://tndpqsshtvabxbcobpaw.supabase.co"
+          ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdWJhYmFzZSIsInJlZiI6InRuZHBxc3NodHZhYnhiY29icGF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNTMwMDEsImV4cCI6MjA4OTYyOTAwMX0.vgf8s-5sfPqpeK1W8_iyUjftZMihx7lDMajQ7tcZmUE"
+        run: |
+          set -euo pipefail
+          TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "Timestamp (UTC): $TS"
+
+          HTTP_CODE=$(curl -s -o /tmp/resp.txt -w "%{http_code}" \
+            --max-time 30 \
+            -H "apikey: ${ANON_KEY}" \
+            -H "Authorization: Bearer ${ANON_KEY}" \
+            "${SUPABASE_URL}/rest/v1/tigie_aduanas?select=id&limit=1" || true)
+
+          echo "HTTP_CODE=$HTTP_CODE"
+          echo "RESPONSE (primeros 300 chars):"
+          head -c 300 /tmp/resp.txt || true
+          echo ""
+
+          # 200 = query OK | 401/403 = auth/RLS rechazo PERO el request llego (cuenta como
+          # actividad de DB). Cualquiera de esos significa que el proyecto esta VIVO.
+          case "$HTTP_CODE" in
+            200|401|403)
+              echo "OK Keep-alive exitoso (HTTP $HTTP_CODE) - proyecto activo."
+              ;;
+            *)
+              echo "FALLA Keep-alive NO confirmo actividad (HTTP $HTTP_CODE)."
+              echo "Posible pausa, caida o cambio de esquema. GitHub te enviara correo de esta falla."
+              exit 1
+              ;;
+          esac
