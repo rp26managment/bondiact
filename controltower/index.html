@@ -1430,48 +1430,48 @@
   <section class="pricing" id="pricing">
     <div class="section-header">
       <h2 class="section-title" id="pricingTitle">Paquetes Control Tower</h2>
-      <p class="section-subtitle" id="pricingSub">Precios públicos. Pago por uso. Sin amarre de meses.</p>
+      <p class="section-subtitle" id="pricingSub">Pago por uso. Sin amarre de meses.</p>
     </div>
     <div class="pricing-grid">
       <div class="price-card">
         <div class="price-plan" id="pricePlan1">Individual</div>
-        <div class="price-amount">$2,500</div>
-        <div class="price-currency" id="priceCurr1">MXN por pedimento</div>
-        <div class="price-per-ped" id="pricePer1">1 auditoría puntual</div>
+        <div class="price-amount" id="priceAmt1" style="font-size:1.45rem">Cotización a la medida</div>
+        <div class="price-currency" id="priceCurr1">Por pedimento</div>
+        <div class="price-per-ped" id="pricePer1">Auditoría puntual</div>
         <ul class="price-includes" id="priceInc1">
           <li>PDF con sello digital y QR escaneable</li>
           <li>Fundamento legal por hallazgo</li>
           <li>Reporte en 24–48 h</li>
           <li>Sin amarre</li>
         </ul>
-        <button class="price-cta" onclick="openModal()" id="priceCta1">Quiero este</button>
+        <button class="price-cta" onclick="openModal()" id="priceCta1">Solicitar cotización</button>
       </div>
       <div class="price-card">
         <div class="price-plan" id="pricePlan2">Paquete 5</div>
-        <div class="price-amount">$10,000</div>
-        <div class="price-currency" id="priceCurr2">MXN · $2,000 por pedimento</div>
-        <div class="price-per-ped" id="pricePer2">20% más económico</div>
+        <div class="price-amount" id="priceAmt2" style="font-size:1.45rem">Cotización a la medida</div>
+        <div class="price-currency" id="priceCurr2">Por volumen</div>
+        <div class="price-per-ped" id="pricePer2">Mejor tarifa por volumen</div>
         <ul class="price-includes" id="priceInc2">
           <li>5 auditorías sin vencimiento</li>
           <li>Mismos entregables que Individual</li>
           <li>Soporte por WhatsApp Business</li>
           <li>Sin amarre de meses</li>
         </ul>
-        <button class="price-cta" onclick="openModal()" id="priceCta2">Quiero este</button>
+        <button class="price-cta" onclick="openModal()" id="priceCta2">Solicitar cotización</button>
       </div>
       <div class="price-card featured">
         <div class="price-badge" id="priceBadge">Más elegido</div>
         <div class="price-plan" id="pricePlan3">Paquete 10</div>
-        <div class="price-amount">$17,500</div>
-        <div class="price-currency" id="priceCurr3">MXN · $1,750 por pedimento</div>
-        <div class="price-per-ped" id="pricePer3">30% más económico</div>
+        <div class="price-amount" id="priceAmt3" style="font-size:1.45rem">Cotización a la medida</div>
+        <div class="price-currency" id="priceCurr3">Por volumen</div>
+        <div class="price-per-ped" id="pricePer3">Mejor valor por volumen</div>
         <ul class="price-includes" id="priceInc3">
           <li>10 auditorías sin vencimiento</li>
           <li>Mismos entregables que Individual</li>
           <li>Soporte por WhatsApp Business</li>
           <li>Sin amarre de meses</li>
         </ul>
-        <button class="price-cta" onclick="openModal()" id="priceCta3">Quiero este</button>
+        <button class="price-cta" onclick="openModal()" id="priceCta3">Solicitar cotización</button>
       </div>
     </div>
     <p class="price-footnote" id="priceFootnote">
@@ -1551,17 +1551,30 @@
     #mve-section .mtrust{margin-top:28px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;color:var(--mmut);font-size:12.5px}
     #mve-section .mtrust span{display:inline-flex;align-items:center;gap:7px}
     #mve-section .mtrust svg{color:var(--mteal);display:block}
-    @media(max-width:680px){#mve-section{padding:54px 16px}#mve-section .msteps{grid-template-columns:1fr;gap:16px}#mve-section .mfline{display:none}#mve-section .mprow .mdisc{margin-left:0}}
+    #mve-section .mservice{border:1.5px solid rgba(107,216,203,.40);border-radius:22px;overflow:hidden;background:rgba(10,32,28,.34);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 26px 60px -34px rgba(0,0,0,.9)}
+    #mve-section .msvc-banner{display:flex;align-items:center;gap:10px;padding:12px 24px;background:rgba(107,216,203,.10);border-bottom:1px solid rgba(107,216,203,.28)}
+    #mve-section .msvc-dot{width:7px;height:7px;border-radius:50%;background:var(--mteal);animation:mvepulse 2s infinite}
+    #mve-section .msvc-label{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.06em;color:var(--mteal);text-transform:uppercase}
+    #mve-section .msvc-meta{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--mmut)}
+    #mve-section .msvc-body{padding:34px 30px}
+    @media(max-width:680px){#mve-section{padding:54px 16px}#mve-section .msteps{grid-template-columns:1fr;gap:16px}#mve-section .mfline{display:none}#mve-section .mprow .mdisc{margin-left:0}#mve-section .msvc-body{padding:22px 16px}#mve-section .msvc-meta{display:none}}
   </style>
   <canvas id="mve-topo" aria-hidden="true"></canvas>
   <div class="mgridov" aria-hidden="true"></div>
   <div class="mwrap">
+   <div class="mservice mrise md1">
+    <div class="msvc-banner">
+      <span class="msvc-dot" aria-hidden="true"></span>
+      <span class="msvc-label" data-es="Servicio independiente &#183; MVE / COVE" data-en="Standalone service &#183; MVE / COVE">Servicio independiente &#183; MVE / COVE</span>
+      <span class="msvc-meta" data-es="Dentro de Control Tower" data-en="Inside Control Tower">Dentro de Control Tower</span>
+    </div>
+    <div class="msvc-body">
     <span class="mbadge mrise md1"><span class="mdot"></span><span data-es="MVE OBLIGATORIA &#183; 1-JUN-2026 &#183; ANEXO 22 RGCE 2026" data-en="MVE MANDATORY &#183; JUN 1, 2026 &#183; ANNEX 22 RGCE 2026">MVE OBLIGATORIA &#183; 1-JUN-2026 &#183; ANEXO 22 RGCE 2026</span></span>
     <h1 class="mh1 mrise md2" data-es="Manifestaci&#243;n de Valor Electr&#243;nica,<br><span class=maccent>sin reprocesos ni multas.</span>" data-en="Electronic Value Manifest,<br><span class=maccent>no rework, no fines.</span>">Manifestaci&#243;n de Valor Electr&#243;nica,<br><span class="maccent">sin reprocesos ni multas.</span></h1>
     <p class="msub mrise md3" data-es="Control Tower <strong>pre-llena tu Formato E2, lo firma con la e.firma de tu empresa y lo retransmite a VUCEM</strong> &#8212; t&#250; firmas y eres el responsable legal, nosotros el switch t&#233;cnico. De 40 minutos a menos de 5." data-en="Control Tower <strong>pre-fills your E2 form, signs it with your company e.signature and re-transmits it to VUCEM</strong> &#8212; you sign and remain legally responsible, we are the technical switch. From 40 minutes to under 5.">Control Tower <strong>pre-llena tu Formato E2, lo firma con la e.firma de tu empresa y lo retransmite a VUCEM</strong> &#8212; t&#250; firmas y eres el responsable legal, nosotros el switch t&#233;cnico. De 40 minutos a menos de 5.</p>
     <div class="mcta mrise md4">
       <button class="mbtn mbtn-p" onclick="goToWhatsApp()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L4 14h7l-1 7 9-11h-7z"/></svg><span data-es="Agenda una demo" data-en="Book a demo">Agenda una demo</span></button>
-      <button class="mbtn mbtn-g" onclick="scrollToSection('pricing')" data-es="Ver planes MVE" data-en="See MVE plans">Ver planes MVE</button>
+      <button class="mbtn mbtn-g" onclick="scrollToSection('mve-planes')" data-es="Ver planes MVE" data-en="See MVE plans">Ver planes MVE</button>
     </div>
     <div class="mgrid">
       <div class="mcard mrise md4"><div class="mico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></div><h3 data-es="Pre-llenado inteligente" data-en="Smart pre-fill">Pre-llenado inteligente</h3><p data-es="Tu Formato E2 y el COVE por factura se arman solos desde tus pedimentos: proveedor, INCOTERM, tipo de cambio, incrementables (Art. 65 LA)." data-en="Your E2 form and per-invoice COVE build themselves from your entries: supplier, INCOTERM, exchange rate, additions (Art. 65 LA).">Tu Formato E2 y el COVE por factura se arman solos desde tus pedimentos: proveedor, INCOTERM, tipo de cambio, incrementables (Art. 65 LA).</p></div>
@@ -1577,16 +1590,16 @@
         <div class="mstp"><div class="mnum mgo">&#8594;</div><h4 data-es="Go a VUCEM" data-en="Go to VUCEM">Go a VUCEM</h4><p data-es="Folio + acuse SAT" data-en="Folio + SAT receipt">Folio + acuse SAT</p></div>
       </div>
     </div>
-    <div class="mprow mrise md5">
-      <div><div class="msectitle" data-es="Planes MVE / COVE" data-en="MVE / COVE Plans">Planes MVE / COVE</div><h2 data-es="Precio claro, por volumen" data-en="Clear pricing, by volume">Precio claro, por volumen</h2></div>
-      <span class="mdisc" data-es="&#8722;40% pago por adelantado" data-en="&#8722;40% prepaid">&#8722;40% pago por adelantado</span>
+    <div class="mprow mrise md5" id="mve-planes">
+      <div><div class="msectitle" data-es="Planes MVE / COVE" data-en="MVE / COVE Plans">Planes MVE / COVE</div><h2 data-es="Planes por volumen" data-en="Plans by volume">Planes por volumen</h2></div>
+      <span class="mdisc" data-es="Beneficio por pago adelantado" data-en="Prepaid benefit">Beneficio por pago adelantado</span>
     </div>
     <div class="mpricing">
-      <div class="mprice mrise md4"><div class="mtag" style="visibility:hidden">&#9733;</div><div class="mtier" data-es="Individual" data-en="Individual">Individual</div><div class="mlista">$2,500</div><div class="mamt">$1,500<small> MXN</small></div><p style="color:#8aa39c;font-size:13px;margin:6px 0 0" data-es="por MVE &#183; pago adelantado" data-en="per MVE &#183; prepaid">por MVE &#183; pago adelantado</p></div>
-      <div class="mprice mrise md5"><div class="mtag" style="visibility:hidden">&#9733;</div><div class="mtier" data-es="Paquete 5" data-en="Package 5">Paquete 5</div><div class="mlista">$11,250</div><div class="mamt">$6,750<small> MXN</small></div><p style="color:#8aa39c;font-size:13px;margin:6px 0 0" data-es="$1,350 c/u &#183; 10% menos" data-en="$1,350 each &#183; 10% off">$1,350 c/u &#183; 10% menos</p></div>
-      <div class="mprice mfeat mrise md6"><div class="mtag" data-es="&#9733; M&#193;S ELEGIDO" data-en="&#9733; MOST CHOSEN">&#9733; M&#193;S ELEGIDO</div><div class="mtier" data-es="Paquete 10" data-en="Package 10">Paquete 10</div><div class="mlista">$20,000</div><div class="mamt">$12,000<small> MXN</small></div><p style="color:#8aa39c;font-size:13px;margin:6px 0 0" data-es="$1,200 c/u &#183; 20% menos" data-en="$1,200 each &#183; 20% off">$1,200 c/u &#183; 20% menos</p></div>
+      <div class="mprice mrise md4"><div class="mtag" style="visibility:hidden">&#9733;</div><div class="mtier" data-es="Individual" data-en="Individual">Individual</div><div class="mamt" style="font-size:17px" data-es="Cotizaci&#243;n a la medida" data-en="Custom quote">Cotizaci&#243;n a la medida</div><p style="color:#8aa39c;font-size:13px;margin:6px 0 0" data-es="por MVE" data-en="per MVE">por MVE</p></div>
+      <div class="mprice mrise md5"><div class="mtag" style="visibility:hidden">&#9733;</div><div class="mtier" data-es="Paquete 5" data-en="Package 5">Paquete 5</div><div class="mamt" style="font-size:17px" data-es="Cotizaci&#243;n a la medida" data-en="Custom quote">Cotizaci&#243;n a la medida</div><p style="color:#8aa39c;font-size:13px;margin:6px 0 0" data-es="mejor tarifa por volumen" data-en="better rate by volume">mejor tarifa por volumen</p></div>
+      <div class="mprice mfeat mrise md6"><div class="mtag" data-es="&#9733; M&#193;S ELEGIDO" data-en="&#9733; MOST CHOSEN">&#9733; M&#193;S ELEGIDO</div><div class="mtier" data-es="Paquete 10" data-en="Package 10">Paquete 10</div><div class="mamt" style="font-size:17px" data-es="Cotizaci&#243;n a la medida" data-en="Custom quote">Cotizaci&#243;n a la medida</div><p style="color:#8aa39c;font-size:13px;margin:6px 0 0" data-es="mejor valor por volumen" data-en="best value by volume">mejor valor por volumen</p></div>
     </div>
-    <p class="mnote" data-es="+ IVA &#183; Setup &#250;nico $10,000 &#183; El precio tachado es lista (con cr&#233;dito); el descuento se activa pagando por adelantado &#183; LIGIE Pro incluido con carga mensual." data-en="+ VAT &#183; One-time setup $10,000 &#183; Crossed-out price is list (on credit); the discount activates when paying in advance &#183; LIGIE Pro included with monthly volume.">+ IVA &#183; Setup &#250;nico $10,000 &#183; El precio tachado es lista (con cr&#233;dito); el descuento se activa pagando por adelantado &#183; LIGIE Pro incluido con carga mensual.</p>
+    <p class="mnote" data-es="+ IVA &#183; LIGIE Pro incluido con carga mensual &#183; Cotizaci&#243;n personalizada por volumen &#8212; la armamos en tu propuesta." data-en="+ VAT &#183; LIGIE Pro included with monthly volume &#183; Custom pricing by volume &#8212; we tailor it in your proposal.">+ IVA &#183; LIGIE Pro incluido con carga mensual &#183; Cotizaci&#243;n personalizada por volumen &#8212; la armamos en tu propuesta.</p>
     <div class="mdiff mrise md5" data-es="<b>Vs. otras versiones</b> &#8212; te dejan capturando solo. Nosotros lo <strong>hacemos por ti</strong>, validamos tu pedimento contra 40+ reglas antes de transmitir, y te incluimos LIGIE Pro. Mismo mercado PyME importador, otro nivel de servicio." data-en="<b>Vs. other tools</b> &#8212; they leave you keying it in alone. We <strong>do it for you</strong>, validate your entry against 40+ rules before transmitting, and include LIGIE Pro. Same SMB importer market, a different level of service."><b>Vs. otras versiones</b> &#8212; te dejan capturando solo. Nosotros lo <strong>hacemos por ti</strong>, validamos tu pedimento contra 40+ reglas antes de transmitir, y te incluimos LIGIE Pro. Mismo mercado PyME importador, otro nivel de servicio.</div>
     <div class="mtrust mrise md6">
       <span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> ISO/IEC 27000</span>
@@ -1594,6 +1607,8 @@
       <span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 7h10"/><path d="M5 7l-2 5a3 3 0 0 0 6 0z"/><path d="M19 7l-2 5a3 3 0 0 0 6 0z"/><path d="M8 21h8"/></svg> Art. 59-A LA &#183; Regla 1.5.1 RGCE 2026</span>
       <span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><span data-es="Acuse y expediente 5 a&#241;os" data-en="Receipt &amp; 5-year record">Acuse y expediente 5 a&#241;os</span></span>
     </div>
+    </div>
+   </div>
   </div>
   <script>
     (function(){
@@ -1790,21 +1805,22 @@
         servicesTitle: 'Servicios integrales de comercio exterior',
         servicesSub: 'No solo auditamos. Operamos tu cadena completa.',
         pricingTitle: 'Paquetes Control Tower',
-        pricingSub: 'Precios públicos. Pago por uso. Sin amarre de meses.',
+        pricingSub: 'Pago por uso. Sin amarre de meses.',
         pricePlan1: 'Individual',
-        priceCurr1: 'MXN por pedimento',
-        pricePer1: '1 auditoría puntual',
+        priceAmt: 'Cotización a la medida',
+        priceCurr1: 'Por pedimento',
+        pricePer1: 'Auditoría puntual',
         priceInc1: ['PDF con sello digital y QR escaneable','Fundamento legal por hallazgo','Reporte en 24–48 h','Sin amarre'],
         pricePlan2: 'Paquete 5',
-        priceCurr2: 'MXN · $2,000 por pedimento',
-        pricePer2: '20% más económico',
+        priceCurr2: 'Por volumen',
+        pricePer2: 'Mejor tarifa por volumen',
         priceInc2: ['5 auditorías sin vencimiento','Mismos entregables que Individual','Soporte por WhatsApp Business','Sin amarre de meses'],
         pricePlan3: 'Paquete 10',
-        priceCurr3: 'MXN · $1,750 por pedimento',
-        pricePer3: '30% más económico',
+        priceCurr3: 'Por volumen',
+        pricePer3: 'Mejor valor por volumen',
         priceInc3: ['10 auditorías sin vencimiento','Mismos entregables que Individual','Soporte por WhatsApp Business','Sin amarre de meses'],
         priceBadge: 'Más elegido',
-        priceCta: 'Quiero este',
+        priceCta: 'Solicitar cotización',
         priceFootnote: 'Planes recurrentes (mensual, anual) y auditoría retrospectiva de 5 años (Art. 67 CFF) se negocian por conversación directa. Agenda una videollamada de 10 minutos y armamos propuesta a tu medida.',
         services: [
           { name: 'Auditoría Preventiva', desc: 'Analizamos tu pedimento con 40+ reglas antes del despacho. Te entregamos un reporte con hallazgos y fundamento legal.', icon: 'shield' },
@@ -1914,21 +1930,22 @@
         servicesTitle: 'End-to-end foreign trade services',
         servicesSub: 'We don\'t just audit. We operate your full supply chain.',
         pricingTitle: 'Control Tower Packages',
-        pricingSub: 'Public pricing. Pay as you go. No monthly lock-in.',
+        pricingSub: 'Pay as you go. No monthly lock-in.',
         pricePlan1: 'Individual',
-        priceCurr1: 'MXN per pedimento',
-        pricePer1: '1 one-off audit',
+        priceAmt: 'Custom quote',
+        priceCurr1: 'Per pedimento',
+        pricePer1: 'One-off audit',
         priceInc1: ['PDF with digital seal and scannable QR','Legal citation per finding','Report within 24–48 h','No lock-in'],
         pricePlan2: 'Pack 5',
-        priceCurr2: 'MXN · $2,000 per pedimento',
-        pricePer2: '20% more affordable',
+        priceCurr2: 'By volume',
+        pricePer2: 'Better value by volume',
         priceInc2: ['5 audits with no expiry','Same deliverables as Individual','Support via WhatsApp Business','No monthly lock-in'],
         pricePlan3: 'Pack 10',
-        priceCurr3: 'MXN · $1,750 per pedimento',
-        pricePer3: '30% more affordable',
+        priceCurr3: 'By volume',
+        pricePer3: 'Best value by volume',
         priceInc3: ['10 audits with no expiry','Same deliverables as Individual','Support via WhatsApp Business','No monthly lock-in'],
         priceBadge: 'Most chosen',
-        priceCta: 'I want this',
+        priceCta: 'Request a quote',
         priceFootnote: 'Recurring plans (monthly, annual) and 5-year retrospective audits (Article 67 of the Mexican Federal Fiscal Code) are negotiated in a direct conversation. Book a 10-minute call and we tailor a proposal.',
         services: [
           { name: 'Preventive Audit', desc: 'We analyze your pedimento with 40+ rules before clearance. You get a report with findings and legal basis.', icon: 'shield' },
@@ -2095,6 +2112,9 @@
       document.getElementById('pricingTitle').textContent = t.pricingTitle;
       document.getElementById('pricingSub').textContent = t.pricingSub;
       document.getElementById('pricePlan1').textContent = t.pricePlan1;
+      document.getElementById('priceAmt1').textContent = t.priceAmt;
+      document.getElementById('priceAmt2').textContent = t.priceAmt;
+      document.getElementById('priceAmt3').textContent = t.priceAmt;
       document.getElementById('priceCurr1').textContent = t.priceCurr1;
       document.getElementById('pricePer1').textContent = t.pricePer1;
       document.getElementById('priceInc1').innerHTML = DOMPurify.sanitize(t.priceInc1.map(i=>`<li>${i}</li>`).join(''), PURIFY_OPTS);
