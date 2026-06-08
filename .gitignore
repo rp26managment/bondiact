@@ -13,3 +13,6 @@ Thumbs.db
 *.pem
 *.key
 *.p12
+
+# Respaldos locales pre-edición (no subir al repo)
+*.bak-pre-*
