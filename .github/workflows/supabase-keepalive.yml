@@ -16,7 +16,8 @@ name: Supabase Keep-Alive (control-tower)
 on:
   schedule:
     # min hora dia-mes mes dia-semana  (en UTC). 15:00 UTC = 9:00 AM MX (UTC-6).
-    - cron: "0 15 * * 1,4"   # Lunes y Jueves
+    # DIARIO: margen 7x sobre la ventana de pausa de 7 dias (antes Lun+Jue, demasiado justo).
+    - cron: "0 15 * * *"   # Todos los dias 9:00 AM MX
   workflow_dispatch:          # permite correrlo manualmente desde la pestania Actions
 
 jobs:
