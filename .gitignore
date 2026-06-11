@@ -16,3 +16,16 @@ Thumbs.db
 
 # Respaldos locales pre-edición (no subir al repo)
 *.bak-pre-*
+
+# Datos internos / PII — NUNCA subir al repo público (LFPDPPP)
+# Bases de leads, finanzas, trackers y cualquier hoja de cálculo interna
+*.xlsx
+*.xls
+*.csv
+
+# Archivos temporales / lock de Office y LibreOffice
+.~lock.*
+~$*
+
+# Diseños en sandbox — solo locales, no desplegar a Vercel
+sandbox/
