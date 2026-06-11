@@ -48,6 +48,14 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ## Historial de cambios (más reciente arriba)
 
+### 2026-06-11 — Sprint 43: El Blindaje Total 🛡️ (Seguridad CT + Fix OCR) · por Claude
+- ✅ **Seguridad web** (`vercel.json`, `api/submit-lead.js`): CSP corregido (Google Analytics estaba bloqueado por el header) + se añadió `googletagmanager`/`google-analytics`; header `Cross-Origin-Opener-Policy: same-origin-allow-popups` (no rompe login Google); `X-XSS-Protection: 0` (guía OWASP); validación de formato de email + `Vary: Origin` en el endpoint de leads. → Commit `fa2398a`, **falta Push**.
+- 🔴 **PII fuera del repo público** (`git rm --cached`): se quitaron del repo las bases de leads CON TELÉFONOS, plan financiero y sprint tracker (`*.xlsx`) — seguían descargables en GitHub público. Siguen intactos en disco local; fuente real vive en Google Sheets (Workspace). `.gitignore` blindado: `*.xlsx/*.xls/*.csv`, `.~lock.*`, `~$*`, `sandbox/`. → Commit listo, **falta Push (URGENTE)**.
+- 🟡 **Supabase Security Advisor** (repo Control-Tower → `supabase/2026-06-11-security-advisor-fixes.sql`): SQL para fijar `search_path` en 4 funciones + revocar `EXECUTE` anónimo en funciones `SECURITY DEFINER` (`autorizar_pedimento`, `handle_new_user`), conservando `authenticated`. Pendiente: correr en SQL Editor (no se aplica por git push), activar "Leaked password protection", y diagnóstico de `audit_log`.
+- 🟡 **Fix OCR Proveedor/Exportador** (Control-Tower → `src/components/OCRParser.tsx`): "red de seguridad" `correctScrambledProveedor()` que SOLO se activa cuando el resultado sale desalineado (nombre tipo "B USUARIO", o dirección metida en el Tax ID) y re-arma los campos según el formato SAT (`Nombre` antes de `VINCULACION`; `Vinc+TaxID Dirección` después). Wrap `try/catch`, no toca casos que ya funcionan. Compila ✅ y validado contra 80+ pedimentos. Pendiente: probar con pedimento "RAYMOND" + Push.
+- 🟡 **Rediseño splash LIGIE** (preview en `sandbox/ligie-splash-preview.html`): fondo azul profundo en diagonal (claro arriba-izq → oscuro abajo-der) + foto de puerto (`images/ligie-bg-puerto.jpg`) + ícono torre de control, MISMO texto del Aviso de Uso. Pendiente: aplicar a `ligie/index.html`.
+- 📋 Registrado en Monday → grupo **"Sprint 43 — El Blindaje Total"** (ítems S43-01…05), board 18407662134.
+
 ### 2026-04-20 — Sprint 28: Mobile responsive + i18n completo /controltower · por Claude (Cowork)
 - ✅ **Mobile responsive** `controltower/index.html`: breakpoints 768px y 480px — hero title escala, botones apilan, grids 1 col, nav compacto en móvil
 - ✅ **Fix i18n footer**: `"Cifrado de extremo a extremo · Datos protegidos"` no tenía id → siempre en español. Corregido con `span#footerSecurity` + `render()`

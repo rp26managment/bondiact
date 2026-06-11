@@ -85,6 +85,7 @@ WhatsApp Business: +52 33 2200 0539
 
 | Sprint | Tema | Estado |
 |--------|------|--------|
+| **S43** | El Blindaje Total: seguridad web (CSP/COOP), PII fuera del repo público, Supabase Security Advisor, fix OCR proveedor, splash LIGIE | 🟡 En curso (2026-06-11) — varios Push/Run pendientes |
 | **S28** | Mobile responsive + i18n completo /controltower (DOMPurify integrity fix) | ✅ Listo (2026-04-20) |
 | **S27** | Motor Comercial: pricing page, checkout, contrato, email intake, calibración OCR, template reporte | Sin status (creado 2026-04-17) |
 | **S26** | DataStage XLSX 13 tablas, crossCheck DME, Dashboard importador, PDF expediente, Kanban charts | ✅ Listo |
