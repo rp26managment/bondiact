@@ -56,8 +56,12 @@ const BLOCKED_DOMAINS = [
   'dispostable.com', 'mailnesia.com', 'inbox.lv',
 ];
 
+// Formato de email válido (defensa en profundidad antes de reenviar a Make.com)
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 function isBlockedEmail(email) {
   if (!email || typeof email !== 'string') return true;
+  if (email.length > 254 || !EMAIL_RE.test(email)) return true;
   const domain = email.split('@')[1]?.toLowerCase();
   if (!domain) return true;
   return BLOCKED_DOMAINS.includes(domain);
@@ -88,6 +92,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', origin);
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
 
   // IP blocklist + Rate limiting
   const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || 'unknown';
