@@ -52,57 +52,88 @@
     /* ─── SPLASH ─────────────────────────────────────────────── */
     #splash {
       position: fixed; inset: 0;
-      background: var(--navy);
+      background: #04122e;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      z-index: 9999;
+      z-index: 9999; overflow: hidden;
       transition: opacity .5s ease, visibility .5s ease;
     }
+    /* Capa 1 — foto del puerto (suavizada) */
+    #splash::before {
+      content: ""; position: absolute; inset: 0; z-index: 0;
+      background: url('/images/ligie-bg-puerto.jpg') center/cover no-repeat;
+      filter: blur(1px) brightness(.9) saturate(1.05);
+      transform: scale(1.06);
+    }
+    /* Capa 2 — velo azul profundo diagonal + destello + malla */
+    #splash::after {
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      background:
+        repeating-linear-gradient(45deg, rgba(140,180,255,.06) 0 1px, transparent 1px 24px),
+        repeating-linear-gradient(-45deg, rgba(140,180,255,.06) 0 1px, transparent 1px 24px),
+        radial-gradient(70% 60% at 12% 8%, rgba(90,140,220,.40) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(28,79,147,.52) 0%, rgba(16,58,115,.68) 32%, rgba(10,35,80,.82) 62%, rgba(4,12,32,.94) 100%);
+    }
     #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-    .splash-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 40px; }
+    .splash-logo { position: relative; z-index: 2; display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
     .splash-isotipo { width: 52px; height: 52px; }
     .splash-brand {
       font-family: 'Montserrat', sans-serif;
       font-size: 2rem; font-weight: 900;
       color: var(--white);
       letter-spacing: -0.5px;
+      text-shadow: 0 2px 22px rgba(0,0,0,.55);
     }
-    .splash-brand span { color: var(--emerald); }
+    .splash-brand span {
+      background: linear-gradient(120deg, #6BD8CB, #9ec3ff);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     .splash-title {
-      font-size: 1.1rem; color: var(--gray-400);
-      margin-bottom: 48px; text-align: center;
+      position: relative; z-index: 2;
+      font-size: 1.1rem; color: #cfe0f8;
+      margin-bottom: 36px; text-align: center;
+      text-shadow: 0 1px 14px rgba(0,0,0,.6);
     }
     .splash-card {
-      background: var(--navy-light);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 16px;
-      padding: 36px 40px;
-      max-width: 420px; width: 90%;
+      position: relative; z-index: 2; overflow: hidden;
+      background: rgba(7,16,34,.62);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(130,175,255,.18);
+      border-radius: 18px;
+      padding: 34px 38px 30px;
+      max-width: 440px; width: 90%;
       text-align: center;
+      box-shadow: 0 30px 80px -30px rgba(0,0,0,.85);
     }
-    .splash-card h2 { color: var(--white); font-size: 1.2rem; margin-bottom: 8px; }
-    .splash-card p { color: var(--gray-400); font-size: .875rem; margin-bottom: 28px; line-height: 1.7; }
+    .splash-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #2D6BFF, #10B981, #6BD8CB);
+    }
+    .splash-card h2 { color: var(--white); font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; margin-bottom: 10px; }
+    .splash-card p { color: #aebfd9; font-size: .875rem; margin-bottom: 26px; line-height: 1.7; }
     .splash-accept {
-      background: var(--emerald);
+      background: linear-gradient(120deg, #2D6BFF, #10B981);
       color: var(--white);
-      border: none; border-radius: 8px;
-      padding: 12px 32px;
+      border: none; border-radius: 11px;
+      padding: 13px 32px;
       font-size: 1rem; font-weight: 600;
       cursor: pointer; width: 100%;
-      transition: background .2s;
+      box-shadow: 0 14px 32px -12px rgba(45,107,255,.7);
+      transition: transform .18s ease, box-shadow .25s ease;
     }
-    .splash-accept:hover { background: var(--emerald-dark); }
+    .splash-accept:hover { transform: translateY(-2px); box-shadow: 0 18px 38px -12px rgba(16,185,129,.6); }
     .splash-disclaimer {
       margin-top: 16px;
-      font-size: .75rem; color: var(--gray-400);
+      font-size: .75rem; color: #8295b4;
     }
     .splash-progress {
-      margin-top: 28px; width: 100%;
+      margin-top: 24px; width: 100%;
       background: rgba(255,255,255,.1);
       border-radius: 99px; height: 4px; overflow: hidden;
     }
     .splash-progress-bar {
-      height: 100%; background: var(--emerald);
+      height: 100%; background: linear-gradient(90deg, #2D6BFF, #10B981);
       border-radius: 99px; width: 0%;
       transition: width 1.2s ease;
     }
