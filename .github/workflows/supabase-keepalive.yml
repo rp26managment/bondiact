@@ -30,32 +30,35 @@ jobs:
           # Si prefieres ocultarla, muevela a Settings > Secrets and variables > Actions
           # como secret SUPABASE_ANON_KEY y cambia la linea de abajo por ${{ secrets.SUPABASE_ANON_KEY }}.
           SUPABASE_URL: "https://tndpqsshtvabxbcobpaw.supabase.co"
-          ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdWJhYmFzZSIsInJlZiI6InRuZHBxc3NodHZhYnhiY29icGF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNTMwMDEsImV4cCI6MjA4OTYyOTAwMX0.vgf8s-5sfPqpeK1W8_iyUjftZMihx7lDMajQ7tcZmUE"
+          ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZHBxc3NodHZhYnhiY29icGF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNTMwMDEsImV4cCI6MjA4OTYyOTAwMX0.vgf8s-5sfPqpeK1W8_iyUjftZMihx7lDMajQ7tcZmUE"
         run: |
           set -euo pipefail
           TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           echo "Timestamp (UTC): $TS"
 
+          # select=* en vez de select=id: la tabla no tiene columna "id" y la query
+          # debe llegar hasta Postgres (un 400 de esquema si toca DB, un 401 de gateway NO).
           HTTP_CODE=$(curl -s -o /tmp/resp.txt -w "%{http_code}" \
             --max-time 30 \
             -H "apikey: ${ANON_KEY}" \
             -H "Authorization: Bearer ${ANON_KEY}" \
-            "${SUPABASE_URL}/rest/v1/tigie_aduanas?select=id&limit=1" || true)
+            "${SUPABASE_URL}/rest/v1/tigie_aduanas?select=*&limit=1" || true)
 
           echo "HTTP_CODE=$HTTP_CODE"
           echo "RESPONSE (primeros 300 chars):"
           head -c 300 /tmp/resp.txt || true
           echo ""
 
-          # 200 = query OK | 401/403 = auth/RLS rechazo PERO el request llego (cuenta como
-          # actividad de DB). Cualquiera de esos significa que el proyecto esta VIVO.
+          # SOLO 200 cuenta. Un 401 (key invalida) lo rechaza el gateway de Supabase SIN
+          # tocar Postgres: el workflow se veria verde pero NO generaria actividad de DB
+          # y el proyecto se pausaria igual (eso paso del 9 al 11 de junio 2026).
           case "$HTTP_CODE" in
-            200|401|403)
-              echo "OK Keep-alive exitoso (HTTP $HTTP_CODE) - proyecto activo."
+            200)
+              echo "OK Keep-alive exitoso (HTTP $HTTP_CODE) - query ejecutada en la DB, proyecto activo."
               ;;
             *)
-              echo "FALLA Keep-alive NO confirmo actividad (HTTP $HTTP_CODE)."
-              echo "Posible pausa, caida o cambio de esquema. GitHub te enviara correo de esta falla."
+              echo "FALLA Keep-alive NO confirmo actividad de DB (HTTP $HTTP_CODE)."
+              echo "Posible pausa, caida, key invalida o cambio de esquema. GitHub te enviara correo de esta falla."
               exit 1
               ;;
           esac
