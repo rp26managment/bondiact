@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es-MX" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>bondíaCT · Procurement — Strategic Sourcing & Procurement</title>
+<meta name="description" content="Strategic Sourcing & Procurement, validación de proveedores chinos y costo real (landed cost) para PyMEs que importan. De fricción a fluidez." />
+<meta name="theme-color" content="#00897B" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<meta property="og:title" content="bondíaCT · Strategic Sourcing & Procurement" />
+<meta property="og:description" content="Podemos ser tu departamento de compras para importar de China sin sorpresas en la factura final." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/og-image.png" />
+<meta property="og:locale" content="es_MX" />
+
+<!-- Anti-flash de tema -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('bondia-theme');
+      var s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t || s);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   bondíaCT · /procurement — "De fricción a fluidez"
+   Paleta: #00897B · #263238 · #F5F7F7 · #121212
+   ============================================================ */
+:root {
+  --font-head: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --bg:#F5F7F7; --bg-grad-1:#ECF2F1; --surface:#FFFFFF; --surface-2:#EEF2F2;
+  --text:#121212; --text-soft:#4A5358; --border:rgba(18,18,18,.10); --border-2:rgba(18,18,18,.06);
+  --accent:#00897B; --accent-bg:#00695C; --accent-bg-h:#00564B;
+  --accent-soft:rgba(0,137,123,.10); --accent-ring:rgba(0,137,123,.28); --on-accent:#FFFFFF;
+  --ink:#263238; --ink-text:#E7EDED; --danger-on-dark:#FFB4A8;
+  --shadow-sm:0 1px 2px rgba(18,18,18,.06),0 1px 3px rgba(18,18,18,.05);
+  --shadow-md:0 10px 30px -12px rgba(18,18,18,.18);
+  --shadow-lg:0 30px 60px -22px rgba(18,18,18,.28);
+  --radius:18px; --radius-sm:12px; --radius-lg:28px; --maxw:1180px; --nav-h:68px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+[data-theme="dark"] {
+  --bg:#121212; --bg-grad-1:#161D20; --surface:#1A2125; --surface-2:#232E33;
+  --text:#F5F7F7; --text-soft:#A7B2B6; --border:rgba(245,247,247,.12); --border-2:rgba(245,247,247,.07);
+  --accent:#4DB6AC; --accent-bg:#4DB6AC; --accent-bg-h:#6AC5BC;
+  --accent-soft:rgba(77,182,172,.14); --accent-ring:rgba(77,182,172,.34); --on-accent:#06201C;
+  --ink:#0E1417; --ink-text:#E7EDED;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4); --shadow-md:0 14px 34px -14px rgba(0,0,0,.6); --shadow-lg:0 34px 64px -24px rgba(0,0,0,.7);
+}
+*,*::before,*::after{box-sizing:border-box;} *{margin:0;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:transparent;overflow-x:hidden;transition:background-color .4s var(--ease),color .4s var(--ease);}
+img,svg{display:block;max-width:100%;} a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none;} ul{list-style:none;padding:0;}
+h1,h2,h3,h4{font-family:var(--font-head);font-weight:800;line-height:1.05;letter-spacing:-.02em;}
+.container{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,2.4rem);}
+section{scroll-margin-top:calc(var(--nav-h) + 18px);}
+.eyebrow{font-family:var(--font-mono);font-size:.74rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:.55rem;}
+.eyebrow::before{content:"";width:26px;height:1.5px;background:currentColor;opacity:.7;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.4rem;border-radius:999px;font-family:var(--font-head);font-weight:700;font-size:.98rem;letter-spacing:-.01em;transition:transform .25s var(--ease),background-color .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease);will-change:transform;}
+.btn:focus-visible{outline:3px solid var(--accent-ring);outline-offset:3px;}
+.btn-primary{background:var(--accent-bg);color:var(--on-accent);box-shadow:var(--shadow-sm);}
+.btn-primary:hover{background:var(--accent-bg-h);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+.btn-lg{padding:1rem 1.7rem;font-size:1.05rem;} .btn svg{width:18px;height:18px;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s var(--ease),background-color .3s var(--ease);}
+.nav.scrolled{border-bottom-color:var(--border);}
+.nav__inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.brand{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font-head);font-weight:800;font-size:1.18rem;letter-spacing:-.03em;}
+.brand__mark{width:30px;height:30px;border-radius:9px;background:var(--accent-bg);color:var(--on-accent);display:grid;place-items:center;box-shadow:var(--shadow-sm);}
+.brand__mark svg{width:18px;height:18px;} .brand b{color:var(--accent);font-weight:800;}
+.brand .tag{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;color:var(--text-soft);text-transform:uppercase;border:1px solid var(--border);padding:.12rem .4rem;border-radius:6px;}
+.nav__links{display:flex;align-items:center;gap:.35rem;}
+.nav__links a{font-size:.92rem;font-weight:500;color:var(--text-soft);padding:.5rem .7rem;border-radius:9px;position:relative;transition:color .2s var(--ease),background-color .2s var(--ease);}
+.nav__links a:hover,.nav__links a.active{color:var(--text);background:var(--accent-soft);}
+.nav__actions{display:flex;align-items:center;gap:.5rem;}
+.nav__cta-mobile{display:none;}
+.lang-toggle{height:42px;padding:0 .7rem;border-radius:11px;border:1px solid var(--border);background:var(--surface);font-family:var(--font-mono);font-size:.78rem;font-weight:600;letter-spacing:.06em;color:var(--text-soft);transition:border-color .2s var(--ease),color .2s var(--ease),transform .2s var(--ease);}
+.lang-toggle:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
+.lang-toggle:focus-visible{outline:3px solid var(--accent-ring);outline-offset:2px;}
+.toggle{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;border:1px solid var(--border);background:var(--surface);transition:border-color .2s var(--ease),transform .2s var(--ease),background-color .2s var(--ease);}
+.toggle:hover{border-color:var(--accent);transform:translateY(-1px);}
+.toggle:focus-visible{outline:3px solid var(--accent-ring);outline-offset:2px;} .toggle svg{width:19px;height:19px;}
+.toggle .icon-sun{display:none;}
+[data-theme="dark"] .toggle .icon-sun{display:block;} [data-theme="dark"] .toggle .icon-moon{display:none;}
+.hamburger{display:none;width:42px;height:42px;border-radius:11px;border:1px solid var(--border);background:var(--surface);place-items:center;}
+.hamburger span{display:block;width:19px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s var(--ease),opacity .2s var(--ease);}
+.hamburger span+span{margin-top:4.5px;}
+.nav__menu-open .hamburger span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.nav__menu-open .hamburger span:nth-child(2){opacity:0;}
+.nav__menu-open .hamburger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+/* HERO */
+.hero{position:relative;padding-top:clamp(3rem,8vw,6rem);padding-bottom:clamp(3rem,7vw,5.5rem);overflow:hidden;}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(60% 50% at 82% 8%,var(--accent-soft),transparent 70%),radial-gradient(45% 40% at 5% 90%,var(--accent-soft),transparent 70%),linear-gradient(180deg,var(--bg-grad-1),var(--bg));}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:linear-gradient(var(--border-2) 1px,transparent 1px),linear-gradient(90deg,var(--border-2) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent 80%);mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent 80%);}
+.hero__grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,5vw,4rem);align-items:center;}
+.hero h1{font-size:clamp(2.3rem,6vw,4.05rem);font-weight:900;margin:1.1rem 0;}
+.hero h1 .hl{color:var(--accent);white-space:nowrap;}
+.hero p.lead{font-size:clamp(1.05rem,2vw,1.24rem);color:var(--text-soft);max-width:42ch;}
+.hero__cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:2.6rem;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.stat{background:var(--surface);padding:1.1rem 1.2rem;}
+.stat b{font-family:var(--font-head);font-size:clamp(1.4rem,3vw,1.95rem);font-weight:800;color:var(--accent);display:block;letter-spacing:-.02em;}
+.stat span{font-size:.82rem;color:var(--text-soft);display:block;margin-top:.15rem;}
+.cost-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-lg);}
+.cost-card__h{display:flex;align-items:center;justify-content:space-between;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft);margin-bottom:1.2rem;}
+.cost-card__h .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+.cost-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:.6rem 1rem;padding:.55rem 0;border-bottom:1px dashed var(--border);}
+.cost-row:last-of-type{border-bottom:none;}
+.cost-row .lbl{font-size:.92rem;font-weight:500;} .cost-row .val{font-family:var(--font-mono);font-size:.82rem;color:var(--text-soft);}
+.cost-row .bar{grid-column:1/-1;height:7px;border-radius:99px;background:var(--surface-2);overflow:hidden;}
+.cost-row .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-bg));width:var(--w,40%);}
+.cost-total{margin-top:1rem;padding-top:1rem;border-top:2px solid var(--text);display:flex;align-items:baseline;justify-content:space-between;}
+.cost-total .lbl{font-family:var(--font-head);font-weight:800;font-size:1.05rem;} .cost-total .val{font-family:var(--font-head);font-weight:900;font-size:1.35rem;color:var(--accent);}
+
+.section{padding-block:clamp(3.4rem,8vw,6rem);}
+.section__head{max-width:62ch;margin-bottom:clamp(2rem,4vw,3rem);}
+.section__head h2{font-size:clamp(1.8rem,4vw,2.7rem);margin:.9rem 0 .8rem;}
+.section__head p{color:var(--text-soft);font-size:1.06rem;}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center;}
+.about__lead{font-size:clamp(1.25rem,2.4vw,1.7rem);font-family:var(--font-head);font-weight:600;line-height:1.3;letter-spacing:-.015em;}
+.about__lead .mk{color:var(--accent);}
+.about p+p{margin-top:1rem;color:var(--text-soft);}
+.about__panel{background:var(--ink);color:var(--ink-text);border-radius:var(--radius-lg);padding:clamp(1.6rem,3vw,2.4rem);box-shadow:var(--shadow-md);}
+.about__panel .eyebrow{color:var(--accent);} .about__panel h3{color:#fff;font-size:1.3rem;margin:.8rem 0 1.1rem;}
+.about__list li{display:flex;gap:.7rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:.96rem;color:var(--ink-text);}
+.about__list li:last-child{border-bottom:none;} .about__list svg{width:20px;height:20px;color:var(--accent);flex-shrink:0;margin-top:2px;}
+
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--accent-ring);}
+.card__ic{width:46px;height:46px;border-radius:13px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:1rem;} .card__ic svg{width:24px;height:24px;}
+.card__code{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--text-soft);text-transform:uppercase;}
+.card h3{font-size:1.18rem;margin:.35rem 0 .55rem;} .card p{color:var(--text-soft);font-size:.95rem;}
+
+.svc{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+.svc__card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:clamp(1.6rem,3vw,2.4rem);box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);display:flex;flex-direction:column;}
+.svc__card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--accent-ring);}
+.svc__card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--accent),transparent);}
+.svc__num{font-family:var(--font-mono);font-size:.78rem;color:var(--accent);letter-spacing:.12em;}
+.svc__card h3{font-size:clamp(1.4rem,2.6vw,1.85rem);margin:.5rem 0 .7rem;} .svc__card>p{color:var(--text-soft);margin-bottom:1.3rem;}
+.svc__list{margin-bottom:1.6rem;display:grid;gap:.7rem;} .svc__list li{display:flex;gap:.65rem;font-size:.96rem;}
+.svc__list svg{width:20px;height:20px;color:var(--accent);flex-shrink:0;margin-top:3px;}
+.svc__result{margin-top:auto;font-size:.9rem;background:var(--accent-soft);color:var(--text);border-radius:var(--radius-sm);padding:.8rem 1rem;border-left:3px solid var(--accent);}
+.svc__result b{color:var(--accent);} .svc__cta{margin-top:1.3rem;}
+
+.proc{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;counter-reset:step;}
+.proc__step{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;position:relative;}
+.proc__step::before{counter-increment:step;content:"0" counter(step);font-family:var(--font-mono);font-size:1.6rem;font-weight:600;color:var(--accent);opacity:.55;}
+.proc__step h3{font-size:1.1rem;margin:.5rem 0 .4rem;} .proc__step p{color:var(--text-soft);font-size:.9rem;}
+
+.guides{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.guide{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.6rem;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);}
+.guide:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--accent-ring);}
+.guide__tag{align-self:flex-start;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:.3rem .6rem;border-radius:7px;}
+.guide h3{font-size:1.22rem;margin:1rem 0 .6rem;line-height:1.18;} .guide p{color:var(--text-soft);font-size:.94rem;flex-grow:1;}
+.guide__link{margin-top:1.1rem;display:inline-flex;align-items:center;gap:.4rem;font-weight:700;font-family:var(--font-head);color:var(--accent);font-size:.95rem;cursor:pointer;align-self:flex-start;}
+.guide__link svg{width:17px;height:17px;transition:transform .25s var(--ease);} .guide__link:hover svg{transform:translateX(4px);}
+.guide__link:focus-visible{outline:3px solid var(--accent-ring);outline-offset:3px;border-radius:6px;}
+
+dialog.guide-modal{border:none;padding:0;margin:auto;width:calc(100% - 2rem);max-width:660px;border-radius:var(--radius-lg);background:var(--surface);color:var(--text);box-shadow:var(--shadow-lg);}
+dialog.guide-modal::backdrop{background:rgba(10,12,12,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+.gm__head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1.6rem 1.6rem .6rem;}
+.gm__tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+.gm__head h3{font-size:1.3rem;margin-top:.35rem;line-height:1.15;}
+.gm__x{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);display:grid;place-items:center;flex-shrink:0;transition:border-color .2s var(--ease),color .2s var(--ease);}
+.gm__x:hover{border-color:var(--accent);color:var(--accent);} .gm__x svg{width:18px;height:18px;}
+.gm__body{padding:.4rem 1.6rem 1.2rem;max-height:64vh;overflow:auto;-webkit-overflow-scrolling:touch;}
+.gm__body h4{font-size:1.02rem;margin:1.1rem 0 .35rem;color:var(--text);}
+.gm__body p{color:var(--text-soft);font-size:.95rem;margin:.45rem 0;}
+.gm__body ul.tick{display:grid;gap:.45rem;margin:.5rem 0;}
+.gm__body ul.tick li{display:flex;gap:.55rem;font-size:.93rem;color:var(--text-soft);}
+.gm__body ul.tick svg{width:17px;height:17px;color:var(--accent);flex-shrink:0;margin-top:3px;}
+.gm__foot{padding:1rem 1.6rem 1.5rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.7rem 1rem;align-items:center;justify-content:space-between;}
+.gm__foot .note{font-size:.76rem;color:var(--text-soft);font-family:var(--font-mono);}
+
+.cta-band{background:var(--ink);color:var(--ink-text);border-radius:var(--radius-lg);padding:clamp(2rem,5vw,3.6rem);box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+.cta-band::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(50% 80% at 85% 10%,var(--accent-soft),transparent 70%);}
+.cta-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,3.5rem);align-items:start;}
+.cta-band .eyebrow{color:var(--accent);} .cta-band h2{color:#fff;font-size:clamp(1.7rem,3.6vw,2.5rem);margin:.8rem 0;}
+.cta-band p.sub{color:var(--ink-text);opacity:.8;font-size:1.05rem;}
+.cta-trust{margin-top:1.6rem;display:grid;gap:.7rem;} .cta-trust li{display:flex;gap:.6rem;font-size:.94rem;}
+.cta-trust svg{width:20px;height:20px;color:var(--accent);flex-shrink:0;margin-top:2px;}
+.form{display:grid;gap:.9rem;} .field{display:grid;gap:.35rem;}
+.field label{font-size:.82rem;font-weight:600;color:var(--ink-text);} .field label .req{color:var(--accent);}
+.field input{font:inherit;font-size:.96rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:var(--radius-sm);padding:.8rem .95rem;transition:border-color .2s var(--ease),box-shadow .2s var(--ease),background-color .2s;width:100%;}
+.field input::placeholder{color:rgba(231,237,237,.45);}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring);background:rgba(255,255,255,.10);}
+.field input[aria-invalid="true"]{border-color:var(--danger-on-dark);box-shadow:0 0 0 3px rgba(255,180,168,.2);}
+.field__err{font-size:.8rem;color:var(--danger-on-dark);font-weight:600;display:none;} .field__err.show{display:block;}
+.form__row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.form .btn-primary{width:100%;margin-top:.3rem;}
+.form__note{font-size:.78rem;color:rgba(231,237,237,.6);text-align:center;}
+.form__msg{display:none;border-radius:var(--radius-sm);padding:1rem;font-size:.95rem;text-align:center;}
+.form__msg.ok{display:block;background:var(--accent-soft);border:1px solid var(--accent);color:#fff;}
+.form__msg.err{display:block;background:rgba(255,180,168,.12);border:1px solid var(--danger-on-dark);color:var(--danger-on-dark);}
+
+.footer{border-top:1px solid var(--border);padding-block:2.8rem 2rem;margin-top:clamp(3rem,7vw,5rem);}
+.footer__top{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start;}
+.footer__brand{max-width:32ch;} .footer__brand p{color:var(--text-soft);font-size:.9rem;margin-top:.7rem;}
+.footer__cols{display:flex;gap:clamp(2rem,6vw,4rem);flex-wrap:wrap;}
+.footer__col h4{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-soft);margin-bottom:.8rem;}
+.footer__col a{display:block;padding:.28rem 0;color:var(--text-soft);font-size:.92rem;transition:color .2s var(--ease);} .footer__col a:hover{color:var(--accent);}
+.footer__bottom{margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;justify-content:space-between;align-items:center;}
+.footer__bottom p,.footer__bottom a{font-size:.82rem;color:var(--text-soft);} .footer__bottom .made{font-family:var(--font-mono);}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.in{opacity:1;transform:none;}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none;}.card:hover,.svc__card:hover,.guide:hover,.btn:hover{transform:none;}}
+.skip{position:absolute;left:-999px;top:.5rem;z-index:200;background:var(--accent-bg);color:var(--on-accent);padding:.6rem 1rem;border-radius:9px;} .skip:focus{left:.8rem;}
+
+@media (max-width:960px){.hero__grid{grid-template-columns:1fr;}.hero__media{order:-1;max-width:460px;}.about{grid-template-columns:1fr;}.bento{grid-template-columns:repeat(2,1fr);}.proc{grid-template-columns:repeat(2,1fr);}.guides{grid-template-columns:1fr 1fr;}.cta-grid{grid-template-columns:1fr;}}
+@media (max-width:860px){
+  .nav__links{position:fixed;inset:var(--nav-h) 0 auto 0;flex-direction:column;align-items:stretch;gap:.2rem;background:var(--surface);border-bottom:1px solid var(--border);padding:1rem clamp(1.1rem,4vw,2.4rem) 1.4rem;box-shadow:var(--shadow-md);transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .3s var(--ease),opacity .3s var(--ease);}
+  .nav__menu-open .nav__links{transform:none;opacity:1;pointer-events:auto;}
+  .nav__links a{padding:.85rem .7rem;font-size:1rem;border-radius:11px;}
+  .nav__cta-desktop{display:none;} .nav__cta-mobile{display:inline-flex;} .hamburger{display:grid;}
+}
+@media (max-width:620px){.svc{grid-template-columns:1fr;}.bento{grid-template-columns:1fr;}.proc{grid-template-columns:1fr;}.guides{grid-template-columns:1fr;}.stats{grid-template-columns:1fr;}.form__row{grid-template-columns:1fr;}.brand .tag{display:none;}.hero__cta .btn{flex:1 1 100%;}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="https://bondiact.io" aria-label="bondíaCT inicio">
+      <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h13"/><path d="M12 5l7 7-7 7"/></svg></span>
+      <span>bond<b>ía</b>CT</span><span class="tag">Procurement</span>
+    </a>
+    <nav class="nav__links" id="navLinks" aria-label="Navegación principal">
+      <a href="#about" data-i18n="nav.about">Nosotros</a>
+      <a href="#servicios" data-i18n="nav.services">Servicios</a>
+      <a href="#expertise" data-i18n="nav.expertise">Expertise</a>
+      <a href="#proceso" data-i18n="nav.process">Proceso</a>
+      <a href="#guias" data-i18n="nav.guides">Guías</a>
+      <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+      <a class="btn btn-primary nav__cta-mobile" href="#contacto" style="margin-top:.6rem;" data-i18n="nav.cta">Hablemos</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch to English">EN</button>
+      <button class="toggle" id="themeToggle" data-i18n-aria="aria.theme" aria-label="Cambiar entre modo claro y oscuro" aria-pressed="false">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M22 12h-2.5M4.5 12H2M19 5l-1.8 1.8M6.8 17.2 5 19M19 19l-1.8-1.8M6.8 6.8 5 5"/></svg>
+      </button>
+      <a class="btn btn-primary nav__cta-desktop" href="#contacto" data-i18n="nav.cta">Hablemos</a>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <span class="eyebrow reveal" data-i18n="hero.eyebrow">Strategic Sourcing &amp; Procurement</span>
+        <h1 class="reveal" data-i18n-html="hero.h1">Úsanos como tu <span class="hl">Agente de Compras</span> Senior para importar de China.</h1>
+        <p class="lead reveal" data-i18n-html="hero.lead">Podemos ser tu departamento de compras: Strategic sourcing, validación de proveedores y costo real (<em>landed cost</em>) para PyMEs que importan o exportan. Convertimos la fricción aduanera en fluidez — sin que montes un equipo de compras.</p>
+        <div class="hero__cta reveal">
+          <a class="btn btn-primary btn-lg" href="#servicios" data-i18n="hero.cta1">Strategic Sourcing</a>
+          <a class="btn btn-ghost btn-lg" href="#contacto" data-i18n="hero.cta2">Validar un proveedor chino</a>
+        </div>
+        <div class="stats reveal" role="list">
+          <div class="stat" role="listitem"><b>8–15%</b><span data-i18n="stat1">de sobreprecio invisible por elegir mal el Incoterm</span></div>
+          <div class="stat" role="listitem"><b>20–40%</b><span data-i18n="stat2">de costo real por encima de lo que calculaste</span></div>
+          <div class="stat" role="listitem"><b>5–25%</b><span data-i18n="stat3">del valor de tu mercancía se va en flete marítimo</span></div>
+        </div>
+      </div>
+      <div class="hero__media reveal">
+        <div class="cost-card">
+          <div class="cost-card__h"><span data-i18n="cost.title">Landed Cost · Contenedor 20'</span><span class="dot" aria-hidden="true"></span></div>
+          <div class="cost-row"><span class="lbl" data-i18n="cost.r1">Precio FOB negociado</span><span class="val" data-i18n="cost.r1v">base</span><div class="bar"><i style="--w:42%"></i></div></div>
+          <div class="cost-row"><span class="lbl" data-i18n="cost.r2">Flete marítimo (ocean freight)</span><span class="val">+5–25%</span><div class="bar"><i style="--w:62%"></i></div></div>
+          <div class="cost-row"><span class="lbl" data-i18n="cost.r3">Recargos · BAF/FAF · PSS</span><span class="val">+$300–800</span><div class="bar"><i style="--w:72%"></i></div></div>
+          <div class="cost-row"><span class="lbl" data-i18n="cost.r4">Aduana · arancel · almacenaje</span><span class="val" data-i18n="cost.r4v">oculto</span><div class="bar"><i style="--w:88%"></i></div></div>
+          <div class="cost-total"><span class="lbl" data-i18n="cost.total">Costo real</span><span class="val">+20–40%</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container about">
+      <div class="reveal">
+        <span class="eyebrow" data-i18n="about.eyebrow">About bondíaCT</span>
+        <p class="about__lead" style="margin-top:1rem;" data-i18n-html="about.lead">Abastecimiento estratégico <span class="mk">sin fronteras</span>. Nuestra obsesión: Que el dinero que inviertes en tus importaciones —el que calculas al inicio— sea el mismo al final, sin sorpresas.</p>
+        <p data-i18n-html="about.p2"><strong>Bondia Control Tower</strong> te acompaña, sobre todo a planear, para que tus importaciones sean <em>worry free</em>. Trabajamos con PyMEs que importan o exportan en comercio exterior, aduanas y cadena de suministro.</p>
+        <p data-i18n="about.p3">El margen que tenías sobre el papel no debería desaparecer en la realidad cuando llega la comprobación de los gastos. Eso no es mala suerte: Es falta de visibilidad sobre el costo real de una importación. Aquí trabajamos con criterio, no con suerte.</p>
+      </div>
+      <aside class="about__panel reveal">
+        <span class="eyebrow" data-i18n="about.why">Por qué bondíaCT</span>
+        <h3 data-i18n="about.whyh">De fricción a fluidez, de días a horas.</h3>
+        <ul class="about__list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="about.li1">Visibilidad total del costo real, antes de comprometer dinero.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="about.li2">Negociación con criterio: No pagas lo que te ponen delante.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n-html="about.li3">Planeación que vuelve tus importaciones <em>worry free</em>.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="about.li4">Un solo interlocutor para sourcing, flete y aduana.</span></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="section" id="servicios">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="eyebrow" data-i18n="serv.eyebrow">Dos formas de trabajar con nosotros</span>
+        <h2 data-i18n="serv.h2">Elige cómo te ayudamos a comprar mejor.</h2>
+        <p data-i18n="serv.sub">Desde el sourcing completo hasta validar un solo proveedor antes de transferir un dólar.</p>
+      </div>
+      <div class="svc">
+        <article class="svc__card reveal">
+          <span class="svc__num" data-i18n="serv1.num">SERVICIO 01</span>
+          <h3 data-i18n="serv1.h3">Strategic Sourcing &amp; Procurement</h3>
+          <p data-i18n="serv1.p">Podemos ser tu departamento de compras para Asia, de principio a fin.</p>
+          <ul class="svc__list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv1.li1">Búsqueda y negociación de proveedores con criterio.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv1.li2">Elección del Incoterm correcto (FOB · CIF · CFR).</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv1.li3">Cálculo del costo real (landed cost), sin sorpresas.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv1.li4">Gestión de flete, recargos y coordinación aduanal.</span></li>
+          </ul>
+          <p class="svc__result" data-i18n-html="serv1.result"><b>Resultado:</b> Una sola cotización con el desglose de todos los cargos, sin sorpresas — y márgenes que sí existen en la realidad.</p>
+          <a class="btn btn-primary svc__cta" href="#contacto" data-i18n="serv1.cta">Quiero strategic sourcing</a>
+        </article>
+        <article class="svc__card reveal">
+          <span class="svc__num" data-i18n="serv2.num">SERVICIO 02</span>
+          <h3 data-i18n="serv2.h3">Validación de Proveedores Chinos</h3>
+          <p data-i18n="serv2.p">Due diligence antes de transferir un solo dólar.</p>
+          <ul class="svc__list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv2.li1">Verificación de existencia y capacidad real del proveedor.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv2.li2">Revisión de términos y de quién contrata el seguro de carga.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv2.li3">Detección de costos ocultos en origen (handling, docs, fumigación).</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="serv2.li4">Checklist documental antes de embarcar.</span></li>
+          </ul>
+          <p class="svc__result" data-i18n-html="serv2.result"><b>Resultado:</b> Evitas fraudes, sobrecostos y navegar sin cobertura.</p>
+          <a class="btn btn-primary svc__cta" href="#contacto" data-i18n="serv2.cta">Validar un proveedor</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section class="section" id="expertise">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="eyebrow" data-i18n="exp.eyebrow">Expertise</span>
+        <h2 data-i18n="exp.h2">Lo que dominamos para que tú no tengas que aprenderlo a golpes.</h2>
+        <p data-i18n="exp.sub">Comercio exterior aplicado a importación desde China: Donde se gana o se pierde el margen.</p>
+      </div>
+      <div class="bento">
+        <article class="card reveal"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg></div><span class="card__code">FOB · CIF · CFR</span><h3 data-i18n="exp.c1h">Incoterms</h3><p data-i18n="exp.c1p">Elegir bien el Incoterm evita 8–15% de sobreprecio invisible. Sabemos qué incluye cada uno y cuándo conviene.</p></article>
+        <article class="card reveal"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M5 6h11a3 3 0 0 1 0 6H8a3 3 0 0 0 0 6h11"/></svg></div><span class="card__code" data-i18n="exp.c2code">Costo real, no proforma</span><h3 data-i18n="exp.c2h">Landed Cost</h3><p data-i18n="exp.c2p">Mapeamos los costos ocultos —arancel, portuarios, almacenaje, despacho— que inflan 20–40% el costo final.</p></article>
+        <article class="card reveal"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16h20M4 16l2-7h9l3 7M7 9V6h5M19 16a2 2 0 1 1-4 0M9 16a2 2 0 1 1-4 0"/></svg></div><span class="card__code" data-i18n="exp.c3code">FCL · LCL · recargos</span><h3 data-i18n="exp.c3h">Flete Marítimo</h3><p data-i18n="exp.c3p">Ocean freight, BAF/FAF, PSS e IMO 2020. Negociamos con criterio en lugar de pagar lo que te ponen delante.</p></article>
+        <article class="card reveal"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div><span class="card__code" data-i18n="exp.c4code">Validación China</span><h3 data-i18n="exp.c4h">Proveedores</h3><p data-i18n="exp.c4p">Verificamos antes de que transfieras dinero: Existencia, capacidad, riesgos y seguro de carga contratado.</p></article>
+        <article class="card reveal"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13M3 21h18M9 21v-6h6v6"/></svg></div><span class="card__code" data-i18n="exp.c5code">Acceso a importación</span><h3 data-i18n="exp.c5h">Depósito Fiscal</h3><p data-i18n="exp.c5p">Operamos vía depósito fiscal para que importar no dependa de tener padrón propio. Te abrimos la puerta a comprar en el extranjero.</p></article>
+        <article class="card reveal"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="card__code" data-i18n="exp.c6code">Año Nuevo Chino · PSS</span><h3 data-i18n="exp.c6h">Planeación</h3><p data-i18n="exp.c6p">Anticipamos las ventanas de demanda (jul–oct y ANC) para reservar espacio y precio antes de que suban.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="section" id="proceso">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="eyebrow" data-i18n="proc.eyebrow">Cómo trabajamos contigo</span>
+        <h2 data-i18n="proc.h2">Un proceso claro, de la idea al almacén.</h2>
+      </div>
+      <div class="proc">
+        <div class="proc__step reveal"><h3 data-i18n="proc.s1h">Diagnóstico</h3><p data-i18n="proc.s1p">Entendemos qué importas o exportas y tu operación (volúmenes, rutas, tiempos).</p></div>
+        <div class="proc__step reveal"><h3 data-i18n="proc.s2h">Sourcing / Validación</h3><p data-i18n="proc.s2p">Buscamos o verificamos proveedores con criterio y revisamos términos y seguro.</p></div>
+        <div class="proc__step reveal"><h3 data-i18n="proc.s3h">Costo real</h3><p data-i18n="proc.s3p">Te entregamos el landed cost completo: Lo que de verdad vas a pagar, sin sorpresas.</p></div>
+        <div class="proc__step reveal"><h3 data-i18n="proc.s4h">Ejecución</h3><p data-i18n="proc.s4p">Coordinamos flete, recargos, aduana y entrega. De fricción a fluidez.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUÍAS -->
+  <section class="section" id="guias">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="eyebrow" data-i18n="guides.eyebrow">Portafolio · Guías</span>
+        <h2 data-i18n="guides.h2">Conocimiento que ya está sobre la mesa.</h2>
+        <p data-i18n="guides.sub">Tres guías prácticas de importación desde China. La misma claridad que aplicamos en cada operación. Haz clic en “Leer guía” para abrirlas.</p>
+      </div>
+      <div class="guides">
+        <article class="guide reveal"><span class="guide__tag">Incoterms</span><h3 data-i18n="g1.h">FOB vs CIF: Diferencias, costos ocultos y cuál elegir</h3><p data-i18n="g1.p">Qué incluye cada Incoterm, por qué el CIF oculta costos y cuándo conviene cada uno al importar de China. Más la trampa del CFR y el seguro que nadie contrata.</p><button class="guide__link" type="button" data-guide="fobcif" aria-haspopup="dialog"><span data-i18n="guide.read">Leer guía</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></article>
+        <article class="guide reveal"><span class="guide__tag">Landed Cost</span><h3 data-i18n="g2.h">Costos ocultos al importar de China: Cómo evitarlos</h3><p data-i18n="g2.p">Aranceles, gastos portuarios, almacenaje y el método de cálculo, con ejemplos reales. Por qué el costo final puede ser 20–40% superior al que calculaste.</p><button class="guide__link" type="button" data-guide="costos" aria-haspopup="dialog"><span data-i18n="guide.read">Leer guía</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></article>
+        <article class="guide reveal"><span class="guide__tag" data-i18n="g3.tag">Flete</span><h3 data-i18n="g3.h">Flete marítimo desde China: Precios 2026 y recargos</h3><p data-i18n="g3.p">Cómo se cotiza, FCL vs LCL, recargos BAF/FAF y PSS, efecto IMO 2020 y por qué el CIF no siempre es lo más barato.</p><button class="guide__link" type="button" data-guide="flete" aria-haspopup="dialog"><span data-i18n="guide.read">Leer guía</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="section" id="contacto">
+    <div class="container">
+      <div class="cta-band reveal">
+        <div class="cta-grid">
+          <div>
+            <span class="eyebrow" data-i18n="contact.eyebrow">Hablemos</span>
+            <h2 data-i18n="contact.h2">¿Listo para comprar con criterio?</h2>
+            <p class="sub" data-i18n="contact.sub">Déjanos tus datos y te respondemos con un primer diagnóstico de tu operación. Sin compromiso.</p>
+            <ul class="cta-trust">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="contact.t1">Respondemos con un primer diagnóstico, no un brochure.</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="contact.t2">Enfoque en PyMEs que importan.</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="contact.t3">De la cotización a la entrega, un solo interlocutor.</span></li>
+            </ul>
+          </div>
+          <!-- Formulario unificado con el Lead form de bondiact.io → POST /api/submit-lead → Make → Google Sheet.
+               Solo funciona desde el dominio bondiact.io (CORS del API). source=bondiact.io/procurement. -->
+          <form class="form" id="contactForm" novalidate>
+            <div class="field">
+              <label for="f-nombre" data-i18n="form.name">Nombre</label> <span class="req">*</span>
+              <input id="f-nombre" name="nombre" type="text" autocomplete="name" data-i18n-ph="form.name.ph" placeholder="Tu nombre" required />
+            </div>
+            <div class="form__row">
+              <div class="field">
+                <label for="f-email" data-i18n="form.email">Correo de empresa</label> <span class="req">*</span>
+                <input id="f-email" name="correo" type="email" autocomplete="email" placeholder="nombre@tuempresa.com" aria-describedby="emailErr" required />
+                <span class="field__err" id="emailErr" role="alert"></span>
+              </div>
+              <div class="field">
+                <label for="f-empresa" data-i18n="form.company">Empresa</label>
+                <input id="f-empresa" name="empresa" type="text" autocomplete="organization" data-i18n-ph="form.company.ph" placeholder="Nombre de tu empresa" />
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="field">
+                <label for="f-tel" data-i18n="form.phone">Teléfono</label> <span class="req">*</span>
+                <input id="f-tel" name="telefono" type="tel" autocomplete="tel" data-i18n-ph="form.phone.ph" placeholder="Tu teléfono" required />
+              </div>
+              <div class="field">
+                <label for="f-wa" data-i18n="form.wa">WhatsApp (opcional)</label>
+                <input id="f-wa" name="whatsapp" type="tel" data-i18n-ph="form.wa.ph" placeholder="Opcional" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" data-i18n="form.submit">Enviar y agendar diagnóstico</button>
+            <p class="form__note" data-i18n="form.note">No compartimos tus datos. Solo los usamos para responderte.</p>
+            <div class="form__msg" id="formMsg" role="status"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODALES -->
+<dialog class="guide-modal" id="gm-fobcif" aria-labelledby="gm-fobcif-t">
+  <div class="gm__head"><div><span class="gm__tag">Incoterms</span><h3 id="gm-fobcif-t" data-i18n="g1.h">FOB vs CIF: Diferencias, costos ocultos y cuál elegir</h3></div><button class="gm__x" type="button" data-close data-i18n-aria="aria.close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="gm__body" data-i18n-html="m1.body">
+    <p>FOB y CIF son los dos Incoterms más usados al importar de China. La diferencia no es solo técnica, es económica: Elegir mal puede costarte entre <strong>8% y 15%</strong> de sobreprecio invisible en cada pedido.</p>
+    <h4>FOB — Free On Board</h4>
+    <p>El proveedor entrega la mercancía a bordo del barco en el puerto de origen. A partir de ese momento, los costos y el riesgo son del importador.</p>
+    <ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Paga el proveedor:</strong> Transporte interior hasta el puerto de origen y despacho de exportación en China.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Paga el importador:</strong> Flete internacional, seguro de carga, despacho de importación en destino y transporte hasta su almacén.</span></li></ul>
+    <h4>CIF — Cost, Insurance and Freight</h4>
+    <p>El proveedor paga el flete y el seguro hasta el puerto de destino. Cuando el barco llega, el riesgo y los costos pasan al importador.</p>
+    <h4>Cuidado con el CFR</h4>
+    <p>Variante intermedia: El proveedor paga el flete pero <strong>no</strong> el seguro. El riesgo pasa al importador en origen, pero el seguro no lo contrata nadie. Si no lo verificas antes de embarcar, puedes navegar sin cobertura.</p>
+  </div>
+  <div class="gm__foot"><span class="note" data-i18n="modal.note">Extracto de la guía</span><a class="btn btn-primary" href="#contacto" data-close data-i18n="modal.cta">¿Quieres la guía completa? Hablemos</a></div>
+</dialog>
+
+<dialog class="guide-modal" id="gm-costos" aria-labelledby="gm-costos-t">
+  <div class="gm__head"><div><span class="gm__tag">Landed Cost</span><h3 id="gm-costos-t" data-i18n="g2.h">Costos ocultos al importar de China: Cómo evitarlos</h3></div><button class="gm__x" type="button" data-close data-i18n-aria="aria.close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="gm__body" data-i18n-html="m2.body">
+    <p>Hay un momento muy concreto en que un importador entiende qué son los costos ocultos: Cuando llega la factura final de una importación que parecía rentable y los números no cuadran.</p>
+    <p>El precio negociado era correcto. El flete también. Pero aparecieron el almacenaje portuario, los gastos de inspección de aduana, el transporte interior mal calculado y el tipo de cambio. Resultado: El margen que tenías sobre el papel no existe en la realidad.</p>
+    <p>No son costos que alguien te esconda: Existen en la cadena logística y, si no sabes buscarlos, no aparecen ni en la proforma del proveedor ni en el presupuesto del freight forwarder. El costo real puede ser <strong>20–40% superior</strong> al que calculaste.</p>
+    <h4>1. Gastos de origen fuera del precio FOB</h4>
+    <p>En EXW asumes el transporte interno en China. Incluso en FOB aparecen handling en origen, documentación, certificado de origen y fumigación. Suma habitual para un contenedor de 20': Entre <strong>200 y 500 USD</strong>.</p>
+  </div>
+  <div class="gm__foot"><span class="note" data-i18n="modal.note">Extracto de la guía</span><a class="btn btn-primary" href="#contacto" data-close data-i18n="modal.cta">¿Quieres la guía completa? Hablemos</a></div>
+</dialog>
+
+<dialog class="guide-modal" id="gm-flete" aria-labelledby="gm-flete-t">
+  <div class="gm__head"><div><span class="gm__tag" data-i18n="g3.tag">Flete</span><h3 id="gm-flete-t" data-i18n="g3.h">Flete marítimo desde China: Precios 2026 y recargos</h3></div><button class="gm__x" type="button" data-close data-i18n-aria="aria.close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="gm__body" data-i18n-html="m3.body">
+    <p>El flete marítimo puede representar entre <strong>5% y 25%</strong> del valor de la mercancía, según volumen, ruta y momento del mercado.</p>
+    <h4>Cómo se cotiza</h4>
+    <ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>FCL (Full Container Load):</strong> Precio fijo por contenedor completo (20' = 20–24 m³; 40' = 60–67 m³). Más económico por unidad de volumen y más predecible.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>LCL (Less than Container Load):</strong> Precio por metro cúbico o tonelada (se cobra el mayor). Compartes contenedor; adecuado para volúmenes menores a 15–17 m³.</span></li></ul>
+    <p>La tarifa base se llama <em>ocean freight</em>, pero nunca es el precio final.</p>
+    <h4>Recargos sobre la tarifa base (entre $300 y $800 por contenedor)</h4>
+    <ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>BAF/FAF</strong> (Bunker Adjustment Factor): Por el costo del combustible; subió con la normativa IMO 2020.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>PSS</strong> (Peak Season Surcharge): Por temporada alta (julio–octubre, antes de Navidad y Año Nuevo Chino); puede añadir $200–500 por contenedor.</span></li></ul>
+  </div>
+  <div class="gm__foot"><span class="note" data-i18n="modal.note">Extracto de la guía</span><a class="btn btn-primary" href="#contacto" data-close data-i18n="modal.cta">¿Quieres la guía completa? Hablemos</a></div>
+</dialog>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="brand" href="https://bondiact.io" aria-label="bondíaCT inicio"><span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h13"/><path d="M12 5l7 7-7 7"/></svg></span><span>bond<b>ía</b>CT</span></a>
+        <p data-i18n="footer.brandp">Abastecimiento estratégico sin fronteras. Comercio exterior, aduanas y cadena de suministro para PyMEs.</p>
+      </div>
+      <div class="footer__cols">
+        <div class="footer__col"><h4 data-i18n="footer.platform">Plataforma</h4><a href="https://bondiact.io" data-i18n="footer.home">Inicio</a><a href="https://bondiact.io/ligie">LIGIE</a><a href="https://bondiact.io/controltower">Control Tower</a><a href="https://bondiact.io/procurement">Procurement</a></div>
+        <div class="footer__col"><h4 data-i18n="nav.services">Servicios</h4><a href="#servicios">Strategic Sourcing</a><a href="#servicios" data-i18n="footer.suppliers">Validación de proveedores</a><a href="#expertise" data-i18n="footer.bonded">Depósito fiscal</a><a href="#contacto" data-i18n="nav.cta">Hablemos</a></div>
+        <div class="footer__col"><h4 data-i18n="footer.resources">Recursos</h4><a href="#guias" data-i18n="footer.g1">Guía FOB vs CIF</a><a href="#guias" data-i18n="footer.g2">Costos ocultos</a><a href="#guias" data-i18n="footer.g3">Flete marítimo 2026</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© <span id="year">2026</span> bondíaCT · <span data-i18n="footer.tagline">Logística Transfronteriza Sin Fronteras</span></p>
+      <span class="made" data-i18n="footer.made">Hecho con criterio, no con suerte.</span>
+      <a href="https://bondiact.io/privacidad.html" data-i18n="footer.privacy">Aviso de Privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+
+  /* ===== i18n ===== */
+  var I18N = {
+    es: {
+      "skip":"Saltar al contenido",
+      "nav.about":"Nosotros","nav.services":"Servicios","nav.expertise":"Expertise","nav.process":"Proceso","nav.guides":"Guías","nav.contact":"Contacto","nav.cta":"Hablemos",
+      "aria.theme":"Cambiar entre modo claro y oscuro","aria.close":"Cerrar",
+      "hero.eyebrow":"Strategic Sourcing & Procurement",
+      "hero.h1":"Úsanos como tu <span class=\"hl\">Agente de Compras</span> Senior para importar de China.",
+      "hero.lead":"Podemos ser tu departamento de compras: Strategic sourcing, validación de proveedores y costo real (<em>landed cost</em>) para PyMEs que importan o exportan. Convertimos la fricción aduanera en fluidez — sin que montes un equipo de compras.",
+      "hero.cta1":"Strategic Sourcing","hero.cta2":"Validar un proveedor chino",
+      "stat1":"de sobreprecio invisible por elegir mal el Incoterm","stat2":"de costo real por encima de lo que calculaste","stat3":"del valor de tu mercancía se va en flete marítimo",
+      "cost.title":"Landed Cost · Contenedor 20'","cost.r1":"Precio FOB negociado","cost.r1v":"base","cost.r2":"Flete marítimo (ocean freight)","cost.r3":"Recargos · BAF/FAF · PSS","cost.r4":"Aduana · arancel · almacenaje","cost.r4v":"oculto","cost.total":"Costo real",
+      "about.eyebrow":"About bondíaCT",
+      "about.lead":"Abastecimiento estratégico <span class=\"mk\">sin fronteras</span>. Nuestra obsesión: Que el dinero que inviertes en tus importaciones —el que calculas al inicio— sea el mismo al final, sin sorpresas.",
+      "about.p2":"<strong>Bondia Control Tower</strong> te acompaña, sobre todo a planear, para que tus importaciones sean <em>worry free</em>. Trabajamos con PyMEs que importan o exportan en comercio exterior, aduanas y cadena de suministro.",
+      "about.p3":"El margen que tenías sobre el papel no debería desaparecer en la realidad cuando llega la comprobación de los gastos. Eso no es mala suerte: Es falta de visibilidad sobre el costo real de una importación. Aquí trabajamos con criterio, no con suerte.",
+      "about.why":"Por qué bondíaCT","about.whyh":"De fricción a fluidez, de días a horas.",
+      "about.li1":"Visibilidad total del costo real, antes de comprometer dinero.","about.li2":"Negociación con criterio: No pagas lo que te ponen delante.","about.li3":"Planeación que vuelve tus importaciones <em>worry free</em>.","about.li4":"Un solo interlocutor para sourcing, flete y aduana.",
+      "serv.eyebrow":"Dos formas de trabajar con nosotros","serv.h2":"Elige cómo te ayudamos a comprar mejor.","serv.sub":"Desde el sourcing completo hasta validar un solo proveedor antes de transferir un dólar.",
+      "serv1.num":"SERVICIO 01","serv1.h3":"Strategic Sourcing & Procurement","serv1.p":"Podemos ser tu departamento de compras para Asia, de principio a fin.","serv1.li1":"Búsqueda y negociación de proveedores con criterio.","serv1.li2":"Elección del Incoterm correcto (FOB · CIF · CFR).","serv1.li3":"Cálculo del costo real (landed cost), sin sorpresas.","serv1.li4":"Gestión de flete, recargos y coordinación aduanal.","serv1.result":"<b>Resultado:</b> Una sola cotización con el desglose de todos los cargos, sin sorpresas — y márgenes que sí existen en la realidad.","serv1.cta":"Quiero strategic sourcing",
+      "serv2.num":"SERVICIO 02","serv2.h3":"Validación de Proveedores Chinos","serv2.p":"Due diligence antes de transferir un solo dólar.","serv2.li1":"Verificación de existencia y capacidad real del proveedor.","serv2.li2":"Revisión de términos y de quién contrata el seguro de carga.","serv2.li3":"Detección de costos ocultos en origen (handling, docs, fumigación).","serv2.li4":"Checklist documental antes de embarcar.","serv2.result":"<b>Resultado:</b> Evitas fraudes, sobrecostos y navegar sin cobertura.","serv2.cta":"Validar un proveedor",
+      "exp.eyebrow":"Expertise","exp.h2":"Lo que dominamos para que tú no tengas que aprenderlo a golpes.","exp.sub":"Comercio exterior aplicado a importación desde China: Donde se gana o se pierde el margen.",
+      "exp.c1h":"Incoterms","exp.c1p":"Elegir bien el Incoterm evita 8–15% de sobreprecio invisible. Sabemos qué incluye cada uno y cuándo conviene.",
+      "exp.c2code":"Costo real, no proforma","exp.c2h":"Landed Cost","exp.c2p":"Mapeamos los costos ocultos —arancel, portuarios, almacenaje, despacho— que inflan 20–40% el costo final.",
+      "exp.c3code":"FCL · LCL · recargos","exp.c3h":"Flete Marítimo","exp.c3p":"Ocean freight, BAF/FAF, PSS e IMO 2020. Negociamos con criterio en lugar de pagar lo que te ponen delante.",
+      "exp.c4code":"Validación China","exp.c4h":"Proveedores","exp.c4p":"Verificamos antes de que transfieras dinero: Existencia, capacidad, riesgos y seguro de carga contratado.",
+      "exp.c5code":"Acceso a importación","exp.c5h":"Depósito Fiscal","exp.c5p":"Operamos vía depósito fiscal para que importar no dependa de tener padrón propio. Te abrimos la puerta a comprar en el extranjero.",
+      "exp.c6code":"Año Nuevo Chino · PSS","exp.c6h":"Planeación","exp.c6p":"Anticipamos las ventanas de demanda (jul–oct y ANC) para reservar espacio y precio antes de que suban.",
+      "proc.eyebrow":"Cómo trabajamos contigo","proc.h2":"Un proceso claro, de la idea al almacén.",
+      "proc.s1h":"Diagnóstico","proc.s1p":"Entendemos qué importas o exportas y tu operación (volúmenes, rutas, tiempos).","proc.s2h":"Sourcing / Validación","proc.s2p":"Buscamos o verificamos proveedores con criterio y revisamos términos y seguro.","proc.s3h":"Costo real","proc.s3p":"Te entregamos el landed cost completo: Lo que de verdad vas a pagar, sin sorpresas.","proc.s4h":"Ejecución","proc.s4p":"Coordinamos flete, recargos, aduana y entrega. De fricción a fluidez.",
+      "guides.eyebrow":"Portafolio · Guías","guides.h2":"Conocimiento que ya está sobre la mesa.","guides.sub":"Tres guías prácticas de importación desde China. La misma claridad que aplicamos en cada operación. Haz clic en “Leer guía” para abrirlas.","guide.read":"Leer guía",
+      "g1.h":"FOB vs CIF: Diferencias, costos ocultos y cuál elegir","g1.p":"Qué incluye cada Incoterm, por qué el CIF oculta costos y cuándo conviene cada uno al importar de China. Más la trampa del CFR y el seguro que nadie contrata.",
+      "g2.h":"Costos ocultos al importar de China: Cómo evitarlos","g2.p":"Aranceles, gastos portuarios, almacenaje y el método de cálculo, con ejemplos reales. Por qué el costo final puede ser 20–40% superior al que calculaste.",
+      "g3.tag":"Flete","g3.h":"Flete marítimo desde China: Precios 2026 y recargos","g3.p":"Cómo se cotiza, FCL vs LCL, recargos BAF/FAF y PSS, efecto IMO 2020 y por qué el CIF no siempre es lo más barato.",
+      "modal.note":"Extracto de la guía","modal.cta":"¿Quieres la guía completa? Hablemos",
+      "m1.body":`<p>FOB y CIF son los dos Incoterms más usados al importar de China. La diferencia no es solo técnica, es económica: Elegir mal puede costarte entre <strong>8% y 15%</strong> de sobreprecio invisible en cada pedido.</p><h4>FOB — Free On Board</h4><p>El proveedor entrega la mercancía a bordo del barco en el puerto de origen. A partir de ese momento, los costos y el riesgo son del importador.</p><ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Paga el proveedor:</strong> Transporte interior hasta el puerto de origen y despacho de exportación en China.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Paga el importador:</strong> Flete internacional, seguro de carga, despacho de importación en destino y transporte hasta su almacén.</span></li></ul><h4>CIF — Cost, Insurance and Freight</h4><p>El proveedor paga el flete y el seguro hasta el puerto de destino. Cuando el barco llega, el riesgo y los costos pasan al importador.</p><h4>Cuidado con el CFR</h4><p>Variante intermedia: El proveedor paga el flete pero <strong>no</strong> el seguro. El riesgo pasa al importador en origen, pero el seguro no lo contrata nadie. Si no lo verificas antes de embarcar, puedes navegar sin cobertura.</p>`,
+      "m2.body":`<p>Hay un momento muy concreto en que un importador entiende qué son los costos ocultos: Cuando llega la factura final de una importación que parecía rentable y los números no cuadran.</p><p>El precio negociado era correcto. El flete también. Pero aparecieron el almacenaje portuario, los gastos de inspección de aduana, el transporte interior mal calculado y el tipo de cambio. Resultado: El margen que tenías sobre el papel no existe en la realidad.</p><p>No son costos que alguien te esconda: Existen en la cadena logística y, si no sabes buscarlos, no aparecen ni en la proforma del proveedor ni en el presupuesto del freight forwarder. El costo real puede ser <strong>20–40% superior</strong> al que calculaste.</p><h4>1. Gastos de origen fuera del precio FOB</h4><p>En EXW asumes el transporte interno en China. Incluso en FOB aparecen handling en origen, documentación, certificado de origen y fumigación. Suma habitual para un contenedor de 20': Entre <strong>200 y 500 USD</strong>.</p>`,
+      "m3.body":`<p>El flete marítimo puede representar entre <strong>5% y 25%</strong> del valor de la mercancía, según volumen, ruta y momento del mercado.</p><h4>Cómo se cotiza</h4><ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>FCL (Full Container Load):</strong> Precio fijo por contenedor completo (20' = 20–24 m³; 40' = 60–67 m³). Más económico por unidad de volumen y más predecible.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>LCL (Less than Container Load):</strong> Precio por metro cúbico o tonelada (se cobra el mayor). Compartes contenedor; adecuado para volúmenes menores a 15–17 m³.</span></li></ul><p>La tarifa base se llama <em>ocean freight</em>, pero nunca es el precio final.</p><h4>Recargos sobre la tarifa base (entre $300 y $800 por contenedor)</h4><ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>BAF/FAF</strong> (Bunker Adjustment Factor): Por el costo del combustible; subió con la normativa IMO 2020.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>PSS</strong> (Peak Season Surcharge): Por temporada alta (julio–octubre, antes de Navidad y Año Nuevo Chino); puede añadir $200–500 por contenedor.</span></li></ul>`,
+      "contact.eyebrow":"Hablemos","contact.h2":"¿Listo para comprar con criterio?","contact.sub":"Déjanos tus datos y te respondemos con un primer diagnóstico de tu operación. Sin compromiso.",
+      "contact.t1":"Respondemos con un primer diagnóstico, no un brochure.","contact.t2":"Enfoque en PyMEs que importan.","contact.t3":"De la cotización a la entrega, un solo interlocutor.",
+      "form.name":"Nombre","form.name.ph":"Tu nombre","form.email":"Correo de empresa","form.company":"Empresa","form.company.ph":"Nombre de tu empresa","form.phone":"Teléfono","form.phone.ph":"Tu teléfono","form.wa":"WhatsApp (opcional)","form.wa.ph":"Opcional","form.submit":"Enviar y agendar diagnóstico","form.note":"No compartimos tus datos. Solo los usamos para responderte.",
+      "form.sending":"Enviando…","form.ok":"✓ ¡Gracias! Hemos recibido tu solicitud. Te responderemos a la brevedad.","form.err":"Hubo un problema al enviar. Inténtalo de nuevo en un momento.",
+      "err.email":"Escribe un correo válido.","err.free":"Usa el correo de tu empresa. No aceptamos Gmail, Hotmail, Outlook ni otros correos personales.","err.disp":"No aceptamos correos temporales o autoborrables. Usa un correo de empresa con dominio propio.",
+      "footer.brandp":"Abastecimiento estratégico sin fronteras. Comercio exterior, aduanas y cadena de suministro para PyMEs.","footer.platform":"Plataforma","footer.home":"Inicio","footer.suppliers":"Validación de proveedores","footer.bonded":"Depósito fiscal","footer.resources":"Recursos","footer.g1":"Guía FOB vs CIF","footer.g2":"Costos ocultos","footer.g3":"Flete marítimo 2026","footer.tagline":"Logística Transfronteriza Sin Fronteras","footer.made":"Hecho con criterio, no con suerte.","footer.privacy":"Aviso de Privacidad"
+    },
+    en: {
+      "skip":"Skip to content",
+      "nav.about":"About","nav.services":"Services","nav.expertise":"Expertise","nav.process":"Process","nav.guides":"Guides","nav.contact":"Contact","nav.cta":"Let's talk",
+      "aria.theme":"Toggle light/dark mode","aria.close":"Close",
+      "hero.eyebrow":"Strategic Sourcing & Procurement",
+      "hero.h1":"Use us as your <span class=\"hl\">Procurement Agent</span> to import from China.",
+      "hero.lead":"We can be your purchasing department: Strategic sourcing, supplier validation and true (<em>landed cost</em>) for SMEs that import or export. We turn customs friction into flow — without you building a procurement team.",
+      "hero.cta1":"Strategic Sourcing","hero.cta2":"Validate a Chinese supplier",
+      "stat1":"of invisible markup from choosing the wrong Incoterm","stat2":"of true cost above what you calculated","stat3":"of your goods' value goes to ocean freight",
+      "cost.title":"Landed Cost · 20' Container","cost.r1":"Negotiated FOB price","cost.r1v":"base","cost.r2":"Ocean freight","cost.r3":"Surcharges · BAF/FAF · PSS","cost.r4":"Customs · duty · storage","cost.r4v":"hidden","cost.total":"True cost",
+      "about.eyebrow":"About bondíaCT",
+      "about.lead":"Strategic sourcing <span class=\"mk\">without borders</span>. Our obsession: That the money you invest in your imports —the amount you calculate up front— is the same at the end, with no surprises.",
+      "about.p2":"<strong>Bondia Control Tower</strong> supports you, above all in planning, so your imports are <em>worry free</em>. We work with SMEs that import or export across foreign trade, customs and supply chain.",
+      "about.p3":"The margin you had on paper shouldn't vanish in reality when the expense reconciliation arrives. That's not bad luck: It's a lack of visibility into the true cost of an import. Here we work with judgment, not luck.",
+      "about.why":"Why bondíaCT","about.whyh":"From friction to flow, from days to hours.",
+      "about.li1":"Full visibility of the true cost, before committing money.","about.li2":"Negotiation with judgment: You don't pay whatever you're handed.","about.li3":"Planning that makes your imports <em>worry free</em>.","about.li4":"A single point of contact for sourcing, freight and customs.",
+      "serv.eyebrow":"Two ways to work with us","serv.h2":"Choose how we help you buy better.","serv.sub":"From full sourcing to validating a single supplier before you wire a dollar.",
+      "serv1.num":"SERVICE 01","serv1.h3":"Strategic Sourcing & Procurement","serv1.p":"We can be your purchasing department for Asia, end to end.","serv1.li1":"Sourcing and supplier negotiation with judgment.","serv1.li2":"Choosing the right Incoterm (FOB · CIF · CFR).","serv1.li3":"True cost (landed cost) calculation, no surprises.","serv1.li4":"Freight, surcharges and customs coordination.","serv1.result":"<b>Result:</b> A single quote with every charge itemized, no surprises — and margins that actually hold up.","serv1.cta":"I want strategic sourcing",
+      "serv2.num":"SERVICE 02","serv2.h3":"Chinese Supplier Validation","serv2.p":"Due diligence before you wire a single dollar.","serv2.li1":"Verification of the supplier's existence and real capacity.","serv2.li2":"Review of terms and who contracts the cargo insurance.","serv2.li3":"Detection of hidden origin costs (handling, docs, fumigation).","serv2.li4":"Document checklist before shipping.","serv2.result":"<b>Result:</b> You avoid fraud, overruns and sailing without coverage.","serv2.cta":"Validate a supplier",
+      "exp.eyebrow":"Expertise","exp.h2":"What we master so you don't have to learn it the hard way.","exp.sub":"Foreign trade applied to importing from China: Where the margin is won or lost.",
+      "exp.c1h":"Incoterms","exp.c1p":"Choosing the right Incoterm avoids 8–15% of invisible markup. We know what each covers and when it fits.",
+      "exp.c2code":"True cost, not proforma","exp.c2h":"Landed Cost","exp.c2p":"We map the hidden costs —duty, port, storage, clearance— that inflate the final cost by 20–40%.",
+      "exp.c3code":"FCL · LCL · surcharges","exp.c3h":"Ocean Freight","exp.c3p":"Ocean freight, BAF/FAF, PSS and IMO 2020. We negotiate with judgment instead of paying whatever you're handed.",
+      "exp.c4code":"China validation","exp.c4h":"Suppliers","exp.c4p":"We verify before you wire money: Existence, capacity, risks and cargo insurance in place.",
+      "exp.c5code":"Import access","exp.c5h":"Bonded Warehouse","exp.c5p":"We operate via bonded warehouse so importing doesn't depend on your own importer registry. We open the door to buying abroad.",
+      "exp.c6code":"Chinese New Year · PSS","exp.c6h":"Planning","exp.c6p":"We anticipate demand windows (Jul–Oct and CNY) to lock in space and price before they rise.",
+      "proc.eyebrow":"How we work with you","proc.h2":"A clear process, from idea to warehouse.",
+      "proc.s1h":"Diagnosis","proc.s1p":"We understand what you import or export and your operation (volumes, routes, timing).","proc.s2h":"Sourcing / Validation","proc.s2p":"We source or verify suppliers with judgment and review terms and insurance.","proc.s3h":"True cost","proc.s3p":"We deliver the full landed cost: What you'll actually pay, no surprises.","proc.s4h":"Execution","proc.s4p":"We coordinate freight, surcharges, customs and delivery. From friction to flow.",
+      "guides.eyebrow":"Portfolio · Guides","guides.h2":"Knowledge already on the table.","guides.sub":"Three practical guides to importing from China. The same clarity we apply on every operation. Click “Read guide” to open them.","guide.read":"Read guide",
+      "g1.h":"FOB vs CIF: Differences, hidden costs and which to choose","g1.p":"What each Incoterm covers, why CIF hides costs and when each fits when importing from China. Plus the CFR trap and the insurance nobody contracts.",
+      "g2.h":"Hidden costs when importing from China: How to avoid them","g2.p":"Duties, port charges, storage and the calculation method, with real examples. Why the final cost can be 20–40% above what you calculated.",
+      "g3.tag":"Freight","g3.h":"Ocean freight from China: 2026 prices and surcharges","g3.p":"How it's quoted, FCL vs LCL, BAF/FAF and PSS surcharges, the IMO 2020 effect and why CIF isn't always cheapest.",
+      "modal.note":"Guide excerpt","modal.cta":"Want the full guide? Let's talk",
+      "m1.body":`<p>FOB and CIF are the two most-used Incoterms when importing from China. The difference isn't only technical, it's economic: Choosing wrong can cost you <strong>8% to 15%</strong> of invisible markup on every order.</p><h4>FOB — Free On Board</h4><p>The supplier delivers the goods on board the vessel at the port of origin. From that point, the costs and risk are the importer's.</p><ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>The supplier pays:</strong> Inland transport to the port of origin and export clearance in China.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>The importer pays:</strong> International freight, cargo insurance, import clearance at destination and transport to the warehouse.</span></li></ul><h4>CIF — Cost, Insurance and Freight</h4><p>The supplier pays freight and insurance up to the destination port. When the ship arrives, the risk and costs pass to the importer.</p><h4>Watch out for CFR</h4><p>An in-between variant: The supplier pays the freight but <strong>not</strong> the insurance. Risk passes to the importer at origin, but nobody has contracted the insurance. If you don't verify it before shipping, you can sail without coverage.</p>`,
+      "m2.body":`<p>There's a very specific moment when an importer understands what hidden costs are: When the final invoice of an import that looked profitable arrives and the numbers don't add up.</p><p>The negotiated price was right. So was the freight. But then came port storage, customs inspection fees, miscalculated inland transport and the exchange rate. Result: The margin you had on paper doesn't exist in reality.</p><p>They aren't costs someone hides from you: They exist in the logistics chain and, if you don't know to look for them, they don't show up in the supplier's proforma or the freight forwarder's quote. The true cost can be <strong>20–40% higher</strong> than you calculated.</p><h4>1. Origin costs outside the FOB price</h4><p>Under EXW you take on inland transport within China. Even under FOB there's origin handling, documentation, certificate of origin and fumigation. Typical total at origin for a 20' container: Between <strong>200 and 500 USD</strong>.</p>`,
+      "m3.body":`<p>Ocean freight can represent between <strong>5% and 25%</strong> of the goods' value, depending on volume, route and market timing.</p><h4>How it's quoted</h4><ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>FCL (Full Container Load):</strong> Fixed price per full container (20' = 20–24 m³; 40' = 60–67 m³). Cheaper per unit of volume and more predictable.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>LCL (Less than Container Load):</strong> Price per cubic meter or ton (whichever is greater). You share a container; suitable for volumes under 15–17 m³.</span></li></ul><p>The base rate is called <em>ocean freight</em>, but it's never the final price.</p><h4>Surcharges on top of the base rate ($300 to $800 per container)</h4><ul class="tick"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>BAF/FAF</strong> (Bunker Adjustment Factor): For fuel cost; it rose with the IMO 2020 regulation.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>PSS</strong> (Peak Season Surcharge): For high season (July–October, before Christmas and Chinese New Year); can add $200–500 per container.</span></li></ul>`,
+      "contact.eyebrow":"Let's talk","contact.h2":"Ready to buy with judgment?","contact.sub":"Leave us your details and we'll reply with a first diagnosis of your operation. No commitment.",
+      "contact.t1":"We reply with a first diagnosis, not a brochure.","contact.t2":"Focused on SMEs that import.","contact.t3":"From quote to delivery, a single point of contact.",
+      "form.name":"Name","form.name.ph":"Your name","form.email":"Company email","form.company":"Company","form.company.ph":"Your company name","form.phone":"Phone","form.phone.ph":"Your phone","form.wa":"WhatsApp (optional)","form.wa.ph":"Optional","form.submit":"Send and book a diagnosis","form.note":"We don't share your data. We only use it to reply to you.",
+      "form.sending":"Sending…","form.ok":"✓ Thank you! We've received your request. We'll reply shortly.","form.err":"Something went wrong while sending. Please try again in a moment.",
+      "err.email":"Enter a valid email.","err.free":"Use your company email. We don't accept Gmail, Hotmail, Outlook or other personal addresses.","err.disp":"We don't accept temporary or self-deleting emails. Use a company email with its own domain.",
+      "footer.brandp":"Strategic sourcing without borders. Foreign trade, customs and supply chain for SMEs.","footer.platform":"Platform","footer.home":"Home","footer.suppliers":"Supplier validation","footer.bonded":"Bonded warehouse","footer.resources":"Resources","footer.g1":"FOB vs CIF guide","footer.g2":"Hidden costs","footer.g3":"Ocean freight 2026","footer.tagline":"Borderless Cross-Border Logistics","footer.made":"Built with judgment, not luck.","footer.privacy":"Privacy Notice"
+    }
+  };
+
+  var currentLang = 'es';
+  try { var sl = localStorage.getItem('bondia-lang'); if (sl === 'en' || sl === 'es') currentLang = sl; } catch (e) {}
+  var langToggle = document.getElementById('langToggle');
+
+  function t(key) { return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.es[key] || ''); }
+  function applyLang(lang) {
+    currentLang = (lang === 'en') ? 'en' : 'es';
+    var d = I18N[currentLang];
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { var v = d[el.getAttribute('data-i18n')]; if (v != null) el.textContent = v; });
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) { var v = d[el.getAttribute('data-i18n-html')]; if (v != null) el.innerHTML = v; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) { var v = d[el.getAttribute('data-i18n-ph')]; if (v != null) el.setAttribute('placeholder', v); });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { var v = d[el.getAttribute('data-i18n-aria')]; if (v != null) el.setAttribute('aria-label', v); });
+    root.lang = (currentLang === 'en') ? 'en' : 'es-MX';
+    langToggle.textContent = (currentLang === 'es') ? 'EN' : 'ES';
+    langToggle.setAttribute('aria-label', (currentLang === 'es') ? 'Switch to English' : 'Cambiar a español');
+    try { localStorage.setItem('bondia-lang', currentLang); } catch (e) {}
+  }
+  langToggle.addEventListener('click', function () { applyLang(currentLang === 'es' ? 'en' : 'es'); });
+  applyLang(currentLang);
+
+  /* ===== Tema ===== */
+  var toggle = document.getElementById('themeToggle');
+  function syncPressed() { toggle.setAttribute('aria-pressed', root.getAttribute('data-theme') === 'dark' ? 'true' : 'false'); }
+  syncPressed();
+  toggle.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('bondia-theme', next); } catch (e) {}
+    syncPressed();
+  });
+
+  /* ===== Hamburguesa ===== */
+  var nav = document.getElementById('nav'), burger = document.getElementById('hamburger'), links = document.getElementById('navLinks');
+  function setMenu(open) {
+    nav.classList.toggle('nav__menu-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? (currentLang === 'es' ? 'Cerrar menú' : 'Close menu') : (currentLang === 'es' ? 'Abrir menú' : 'Open menu'));
+  }
+  burger.addEventListener('click', function () { setMenu(!nav.classList.contains('nav__menu-open')); });
+  links.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', function (e) { if (nav.classList.contains('nav__menu-open') && !e.target.closest('#navLinks') && !e.target.closest('#hamburger')) setMenu(false); });
+
+  /* ===== Nav scroll ===== */
+  var onScroll = function () { nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ===== Reveal ===== */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else { reveals.forEach(function (el) { el.classList.add('in'); }); }
+
+  /* ===== Link activo ===== */
+  var navAnchors = Array.prototype.slice.call(document.querySelectorAll('.nav__links a[href^="#"]'));
+  var secs = navAnchors.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window && secs.length) {
+    var spy = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) navAnchors.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id); }); }); }, { rootMargin: '-45% 0px -50% 0px' });
+    secs.forEach(function (s) { spy.observe(s); });
+  }
+
+  /* ===== Modales ===== */
+  document.querySelectorAll('[data-guide]').forEach(function (btn) {
+    btn.addEventListener('click', function () { var dlg = document.getElementById('gm-' + btn.getAttribute('data-guide')); if (!dlg) return; if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', ''); });
+  });
+  document.querySelectorAll('dialog.guide-modal').forEach(function (dlg) {
+    dlg.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', function () { if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open'); }); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg && typeof dlg.close === 'function') dlg.close(); });
+  });
+
+  /* ===== Validación correo de empresa ===== */
+  var FREE = ['gmail.com','googlemail.com','hotmail.com','hotmail.es','hotmail.com.mx','hotmail.fr','outlook.com','outlook.es','outlook.com.mx','live.com','live.com.mx','live.mx','msn.com','yahoo.com','yahoo.com.mx','yahoo.es','ymail.com','rocketmail.com','icloud.com','me.com','mac.com','aol.com','gmx.com','gmx.es','mail.com','protonmail.com','proton.me','pm.me','yandex.com','zoho.com','prodigy.net.mx','terra.com.mx'];
+  var DISPOSABLE = ['mailinator.com','guerrillamail.com','guerrillamail.info','sharklasers.com','10minutemail.com','10minutemail.net','tempmail.com','temp-mail.org','tempmailo.com','yopmail.com','throwawaymail.com','getnada.com','nada.email','trashmail.com','dispostable.com','maildrop.cc','fakeinbox.com','mailnesia.com','mintemail.com','mohmal.com','tempr.email','spamgourmet.com','moakt.com','emailondeck.com','burnermail.io','luxusmail.org'];
+  var DISP_RE = /(temp|tmp|trash|throwaway|disposable|fake|burner|guerrilla|mailinator|yopmail|10minute|minutemail|spam|getnada|moakt|mohmal|dropmail)/i;
+  function checkCorporate(email) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { ok: false, key: 'err.email' };
+    var domain = email.split('@')[1].toLowerCase();
+    if (FREE.indexOf(domain) !== -1) return { ok: false, key: 'err.free' };
+    if (DISPOSABLE.indexOf(domain) !== -1 || DISP_RE.test(domain)) return { ok: false, key: 'err.disp' };
+    return { ok: true };
+  }
+
+  /* ===== Formulario unificado → /api/submit-lead ===== */
+  var form = document.getElementById('contactForm');
+  var emailInput = document.getElementById('f-email');
+  var emailErr = document.getElementById('emailErr');
+  var formMsg = document.getElementById('formMsg');
+  var submitBtn = document.getElementById('submitBtn');
+
+  function validateEmail() {
+    var res = checkCorporate(emailInput.value.trim().toLowerCase());
+    if (!res.ok) { emailErr.textContent = t(res.key); emailErr.classList.add('show'); emailInput.setAttribute('aria-invalid', 'true'); return false; }
+    emailErr.classList.remove('show'); emailInput.removeAttribute('aria-invalid'); return true;
+  }
+  emailInput.addEventListener('blur', function () { if (emailInput.value.trim()) validateEmail(); });
+  emailInput.addEventListener('input', function () { if (emailInput.getAttribute('aria-invalid')) validateEmail(); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formMsg.className = 'form__msg';
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!validateEmail()) { emailInput.focus(); return; }
+
+    var payload = {
+      nombre: document.getElementById('f-nombre').value.trim(),
+      empresa: document.getElementById('f-empresa').value.trim(),
+      correo: emailInput.value.trim(),
+      telefono: document.getElementById('f-tel').value.trim(),
+      whatsapp: document.getElementById('f-wa').value.trim(),
+      idioma: currentLang,
+      source: 'bondiact.io/procurement',
+      fuente: 'bondiact.io/procurement',
+      fecha: new Date().toISOString()
+    };
+    var original = submitBtn.textContent;
+    submitBtn.disabled = true; submitBtn.textContent = t('form.sending');
+
+    fetch('/api/submit-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) {
+        if (!r.ok) throw new Error('bad status ' + r.status);
+        formMsg.textContent = t('form.ok'); formMsg.className = 'form__msg ok';
+        form.reset();
+      })
+      .catch(function () { formMsg.textContent = t('form.err'); formMsg.className = 'form__msg err'; })
+      .then(function () { submitBtn.disabled = false; submitBtn.textContent = original; });
+  });
+
+  /* ===== Año ===== */
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

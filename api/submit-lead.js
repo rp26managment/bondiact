@@ -115,7 +115,7 @@ export default async function handler(req, res) {
   }
 
   // Parsear body
-  const { nombre, empresa, correo, telefono, whatsapp } = req.body || {};
+  const { nombre, empresa, correo, telefono, whatsapp, source } = req.body || {};
 
   // Validaciones
   if (!nombre || !empresa || !correo || !telefono) {
@@ -134,7 +134,7 @@ export default async function handler(req, res) {
     telefono: sanitize(telefono),
     whatsapp: sanitize(whatsapp || ''),
     timestamp: new Date().toISOString(),
-    source: 'bondiact.io/controltower',
+    source: sanitize(source) || 'bondiact.io/controltower',
     ip: ip.substring(0, 45), // limitar longitud IP
   };
 
