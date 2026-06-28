@@ -1,812 +1,933 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX" data-theme="azul">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Control Tower de bondiaCT: audita y blinda tu operacion de comercio exterior antes que el SAT. Reforma 2026 y MVE.">
-<title>bondiaCT // Control Tower</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Control Tower · Validación previa aduanera</title>
+<meta name="description" content="Control Tower audita tus pedimentos antes del despacho. La Reforma 2026 subió las multas al 300%. Detecta errores de clasificación, valoración y documentación antes que el SAT.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ============== TOKENS ============== */
   :root{
-    --bg:#04140f; --bg-alt:#06231d; --panel:#0A1F1A; --panel-bot:#04140f;
-    --line:rgba(107,216,203,.16); --line-soft:rgba(107,216,203,.12); --line-strong:rgba(107,216,203,.3);
-    --head:#FFFFFF; --text:#B3CCC4; --dim:#8FB3AA; --mute:#5C7A72;
-    --accent:#6BD8CB; --accent2:#00897B; --blue:#2A6FDB; --blue2:#7FB0F2;
-    --amber:#FFBD2E; --red:#EF4444; --coral:#FFB690; --btn-text:#04140f;
-    --grid:rgba(107,216,203,.05); --glow1:rgba(0,137,123,.20); --glow2:rgba(42,111,219,.16);
-    --card-shadow:0 22px 50px rgba(0,0,0,.42); --soft-shadow:0 14px 34px rgba(0,0,0,.34);
-    --header-bg:rgba(4,20,15,.82); --chip:rgba(107,216,203,.06); --accent-rgb:107,216,203;
-    --mon1:#0A1F1A; --mon2:#00201d; --mon3:#04140f; --mon-text:#E9F4F1; --mon-dim:#8FB3AA;
+    --risk-verde:#00c875; --risk-ambar:#fdab3d; --risk-rojo:#e2445c; --risk-azul:#579bfc;
+    --r:16px; --rs:11px; --maxw:1180px;
+    --shadow:0 18px 44px -18px rgba(2,6,23,.55),0 6px 14px -6px rgba(2,6,23,.32);
+    --font:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
   }
   html[data-theme="azul"]{
-    --bg:#06122A; --bg-alt:#0A1A38; --panel:#0C1B33; --panel-bot:#06122A;
-    --line:rgba(91,166,230,.18); --line-soft:rgba(91,166,230,.12); --line-strong:rgba(91,166,230,.36);
-    --head:#FFFFFF; --text:#C3D6E8; --dim:#8FA6C4; --mute:#5B7392;
-    --accent:#5BA6E6; --accent2:#2A6FDB; --blue:#2A6FDB; --blue2:#9CC4F5;
-    --grid:rgba(91,166,230,.055); --glow1:rgba(42,111,219,.24); --glow2:rgba(107,216,203,.12);
-    --header-bg:rgba(6,18,42,.82); --chip:rgba(91,166,230,.08); --btn-text:#04122A; --accent-rgb:91,166,230;
-    --mon1:#0C1A33; --mon2:#08142E; --mon3:#040D20; --mon-text:#E9F4F1; --mon-dim:#8FA6C4;
+    --bg:#0b1830; --bg2:#091224; --card:#16294a; --card2:#13233f; --border:#23395f; --border2:#1c2f4f;
+    --text:#eaf1ff; --text2:#c2d2ee; --text3:#9bb0d4; --muted:#7e93b8;
+    --accent:#5b8def; --accent2:#3f6fe0; --accentLite:#9bb8ff; --accentDeep:#243f8f;
+    --heroGlowA:rgba(91,141,239,.20); --heroGlowB:rgba(20,184,166,.12);
+    --navbg:rgba(11,24,48,.78); --onAccent:#fff; --gridline:rgba(155,176,212,.06);
+  }
+  html[data-theme="verde"]{
+    --bg:#0a120f; --bg2:#070d0b; --card:#111d19; --card2:#0d1714; --border:#1d2e29; --border2:#16241f;
+    --text:#f1f7f4; --text2:#b8c7c1; --text3:#8ba39b; --muted:#6b837b;
+    --accent:#3fbfa1; --accent2:#2da188; --accentLite:#74d8c0; --accentDeep:#1c6b59;
+    --heroGlowA:rgba(63,191,161,.16); --heroGlowB:rgba(63,191,161,.07);
+    --navbg:rgba(10,18,15,.80); --onAccent:#04130e; --gridline:rgba(120,180,165,.06);
   }
   html[data-theme="claro"]{
-    --bg:#EEF3F1; --bg-alt:#E4ECE9; --panel:#FFFFFF; --panel-bot:#F4F8F6;
-    --line:rgba(0,72,64,.16); --line-soft:rgba(0,72,64,.10); --line-strong:rgba(0,137,123,.42);
-    --head:#06201A; --text:#2C463F; --dim:#5A746C; --mute:#8AA39B;
-    --accent:#00897B; --accent2:#00897B; --blue:#2256C9; --blue2:#2256C9;
-    --amber:#B26A00; --red:#DC2626; --coral:#C2410C; --btn-text:#FFFFFF;
-    --grid:rgba(0,72,64,.06); --glow1:rgba(0,137,123,.10); --glow2:rgba(34,86,201,.06);
-    --card-shadow:0 18px 44px rgba(20,50,44,.14); --soft-shadow:0 12px 30px rgba(20,50,44,.10);
-    --header-bg:rgba(238,243,241,.86); --chip:rgba(0,137,123,.08); --accent-rgb:0,137,123;
-    --mon1:#E9F5F1; --mon2:#DCEFE8; --mon3:#F4FAF7; --mon-text:#0B2A23; --mon-dim:#4A6960;
+    --bg:#eef2f7; --bg2:#e3eaf2; --card:#ffffff; --card2:#f7f9fc; --border:#e2e8f0; --border2:#eef2f6;
+    --text:#0f172a; --text2:#475569; --text3:#64748b; --muted:#94a3b8;
+    --accent:#14b8a6; --accent2:#0d9488; --accentLite:#2fe3c4; --accentDeep:#0a8f82;
+    --heroGlowA:rgba(20,184,166,.16); --heroGlowB:rgba(91,141,239,.10);
+    --navbg:rgba(238,242,247,.82); --onAccent:#fff; --gridline:rgba(15,23,42,.05);
+    --shadow:0 18px 44px -20px rgba(2,6,23,.22),0 5px 12px -6px rgba(2,6,23,.12);
   }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
-  h1,h2,h3,h4,p,ul{margin:0;}
-  h1,h2{font-family:Montserrat,'Arial Black','Helvetica Neue',Arial,sans-serif;font-weight:900;letter-spacing:-.02em;font-synthesis:weight;}
-  h3,h4{font-family:Montserrat,'Helvetica Neue',Arial,sans-serif;}
-  a{color:inherit;}
-  img{max-width:100%;}
-  ::selection{background:var(--accent);color:var(--bg);}
-  .mono{font-family:'JetBrains Mono',monospace;}
-  .wrap{max-width:1180px;margin:0 auto;padding-left:20px;padding-right:20px;}
-  .bg-layers{position:fixed;inset:0;z-index:0;pointer-events:none;}
-  .bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(1200px 800px at 70% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(1200px 800px at 70% 0%,#000 30%,transparent 80%);}
-  .bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(760px 520px at 96% 4%,var(--glow1),transparent 60%),radial-gradient(680px 620px at 102% 52%,var(--glow2),transparent 58%);}
-  .page{position:relative;z-index:1;}
 
-  /* header */
-  .header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:var(--header-bg);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top);}
-  .header-inner{display:flex;align-items:center;gap:18px;padding:13px 20px;max-width:1180px;margin:0 auto;}
-  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex:0 0 auto;}
-  .brand img{display:block;width:34px;height:34px;border-radius:8px;box-shadow:var(--soft-shadow),0 0 0 1px var(--line);}
-  .brand b{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;letter-spacing:.06em;color:var(--head);}
-  .brand b i{color:var(--accent2);font-style:normal;}
-  .nav{display:flex;gap:22px;margin-left:auto;align-items:center;}
-  .nav a{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--dim);text-decoration:none;white-space:nowrap;}
-  .nav a:hover{color:var(--accent);}
-  .theme-toggle{display:flex;align-items:center;gap:4px;padding:4px;border-radius:9px;background:var(--chip);border:1px solid var(--line);}
-  .theme-btn{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.04em;padding:7px 11px;border-radius:7px;border:none;cursor:pointer;transition:all .2s ease;background:transparent;color:var(--dim);}
-  .theme-btn .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 1px rgba(0,0,0,.2) inset;}
-  .theme-btn.active{background:var(--accent);color:var(--btn-text);}
-  .btn{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--btn-text);background:var(--accent);padding:11px 16px;border-radius:7px;text-decoration:none;white-space:nowrap;flex:0 0 auto;border:none;cursor:pointer;}
-  .btn:hover{filter:brightness(1.06);}
-  .btn-ghost{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:transparent;border:1px solid var(--line-strong);padding:10px 15px;border-radius:7px;text-decoration:none;white-space:nowrap;flex:0 0 auto;}
-  .btn-ghost:hover{border-color:var(--accent);background:var(--chip);}
-  .burger{display:none;margin-left:auto;width:44px;height:44px;align-items:center;justify-content:center;background:var(--chip);border:1px solid var(--line);border-radius:9px;cursor:pointer;flex:0 0 auto;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font); background:var(--bg); color:var(--text);
+    -webkit-font-smoothing:antialiased; line-height:1.5; overflow-x:hidden;
+    transition:background .3s ease,color .3s ease;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:var(--onAccent)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .mono{font-family:var(--mono)}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;border:3px solid transparent;background-clip:content-box}
+  ::-webkit-scrollbar-track{background:transparent}
 
-  /* promo */
-  .promo{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:11px 18px;background:linear-gradient(90deg,var(--accent2),var(--accent));color:var(--btn-text);text-decoration:none;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.04em;text-align:center;position:relative;z-index:40;}
-  .promo .pill{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.22);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;}
-  .promo .pill i{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;}
+  /* ============== NAV ============== */
+  .nav{position:sticky;top:0;z-index:50;background:var(--navbg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border2)}
+  .nav-in{display:flex;align-items:center;gap:20px;height:68px;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+  .logo{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    background:linear-gradient(145deg,var(--accentLite) 0%,var(--accent) 48%,var(--accentDeep) 100%);
+    box-shadow:0 6px 18px -4px var(--accent),inset 0 1px 1px rgba(255,255,255,.4)}
+  .brand b{font-size:16.5px;font-weight:800;letter-spacing:-.01em;line-height:1.05}
+  .brand small{display:block;font-size:11px;color:var(--text3);font-weight:600;margin-top:1px}
+  .nav-links{display:flex;align-items:center;gap:4px;margin-left:14px}
+  .nav-links a{padding:8px 13px;border-radius:9px;font-size:14px;font-weight:600;color:var(--text2);transition:.15s}
+  .nav-links a:hover{color:var(--text);background:var(--card)}
+  .nav-right{display:flex;align-items:center;gap:12px;margin-left:auto}
 
-  /* hero */
-  .hero{position:relative;padding:clamp(52px,8vw,104px) 20px clamp(48px,6vw,88px);overflow:hidden;}
-  .hero-grid{position:relative;z-index:1;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center;}
-  .walk{position:absolute;left:0;right:0;top:38%;height:2px;opacity:.14;z-index:0;background-image:repeating-linear-gradient(90deg,var(--accent) 0 12px,transparent 12px 26px);background-size:26px 100%;animation:ctWalk 1.15s linear infinite;}
-  .badge-alert{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.08);border-radius:999px;padding:7px 14px;margin-bottom:24px;}
-  .badge-alert .d{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:ctGlow 2.8s ease-in-out infinite;}
-  .badge-alert span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--coral);text-transform:uppercase;}
-  .h1{font-size:clamp(36px,5.6vw,64px);line-height:1.02;color:var(--head);margin-bottom:22px;}
-  .h1 .red{color:var(--red);}
-  .grad{background:linear-gradient(92deg,var(--accent),var(--blue));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
-  .lead{font-size:clamp(16px,1.5vw,19px);line-height:1.62;color:var(--text);margin-bottom:18px;max-width:580px;}
-  .lead b{color:var(--head);}
-  .lead .acc{color:var(--accent);}
-  .quote{margin-bottom:30px;border-left:2px solid var(--accent);padding:4px 0 4px 18px;font-size:15.5px;line-height:1.55;color:var(--text);max-width:560px;}
-  .quote b{color:var(--coral);}
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
-  .btn-lg{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--btn-text);background:var(--accent);padding:15px 24px;border-radius:8px;text-decoration:none;box-shadow:0 0 0 1px var(--line-strong),0 10px 34px rgba(0,0,0,.25);}
-  .link-arrow{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.04em;color:var(--accent);padding:15px 8px;text-decoration:none;}
-  .link-arrow:hover{color:var(--text);}
+  /* theme switch */
+  .tsw{display:flex;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:3px;gap:2px}
+  .tsw button{appearance:none;border:none;background:transparent;cursor:pointer;font-family:inherit;
+    font-size:12px;font-weight:700;color:var(--text3);padding:6px 11px;border-radius:8px;transition:.15s;display:flex;align-items:center;gap:6px}
+  .tsw button .sw{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5)}
+  .tsw button[aria-pressed="true"]{background:var(--accent);color:var(--onAccent)}
+  .tsw button:hover:not([aria-pressed="true"]){color:var(--text)}
 
-  /* monitor / radar */
-  .monitor{position:relative;border:1px solid rgba(var(--accent-rgb),.22);border-radius:16px;background:linear-gradient(180deg,var(--mon1),var(--mon2));padding:18px;box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px rgba(var(--accent-rgb),.06);animation:ctFloat 6.5s ease-in-out infinite;}
-  .mon-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .mon-head .t{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;}
-  .mon-head .o{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mon-dim);}
-  .mon-head .o i{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;animation:ctGlow 2.8s ease-in-out infinite;}
-  .radar{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:radial-gradient(circle at 50% 50%,var(--mon3) 0%,var(--mon2) 80%);border:1px solid rgba(var(--accent-rgb),.16);}
-  .radar .ig{position:absolute;inset:0;background-image:linear-gradient(rgba(var(--accent-rgb),.08) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--accent-rgb),.08) 1px,transparent 1px);background-size:24px 24px;z-index:0;}
-  .scan{position:absolute;left:0;right:0;top:0;height:16%;background:linear-gradient(180deg,transparent,rgba(var(--accent-rgb),.18),transparent);z-index:3;animation:ctScan 3.4s cubic-bezier(.5,0,.5,1) infinite;}
-  .rings{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
-  .rings g{stroke:rgba(var(--accent-rgb),.2);}
-  .blip{transform-box:fill-box;transform-origin:center;animation:ctBlip 2.6s ease-in-out infinite;}
-  .sweep{position:absolute;left:6.6%;top:6.6%;width:86.8%;height:86.8%;border-radius:50%;overflow:hidden;z-index:2;background:conic-gradient(from 0deg,transparent 0deg,transparent 280deg,rgba(var(--accent-rgb),.14) 320deg,rgba(var(--accent-rgb),.55) 360deg);animation:ctSweep 4.2s linear infinite;transform-origin:50% 50%;}
-  .sweep .hand{position:absolute;left:50%;top:0;width:2px;height:50%;transform:translateX(-50%);background:linear-gradient(180deg,var(--accent),rgba(var(--accent-rgb),.35));box-shadow:0 0 8px rgba(var(--accent-rgb),.8);}
-  .sweep .pivot{position:absolute;left:50%;top:0;width:7px;height:7px;transform:translate(-50%,-50%);border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);}
-  .radar .cap{position:absolute;left:12px;bottom:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;line-height:1.55;color:var(--accent);opacity:.85;z-index:4;}
-  .radar .cap em{color:var(--red);font-style:normal;}
-  .readout{display:flex;align-items:center;gap:14px;margin-top:14px;padding:12px 14px;border:1px solid rgba(var(--accent-rgb),.16);border-radius:10px;background:var(--mon2);box-shadow:0 16px 36px rgba(0,0,0,.5);}
-  .semaforo{display:flex;flex-direction:column;gap:7px;padding:8px;border-radius:8px;background:var(--mon3);border:1px solid rgba(var(--accent-rgb),.14);}
-  .semaforo span{width:12px;height:12px;border-radius:50%;}
-  .lr{background:var(--red);animation:ctLightR 3.9s steps(1) infinite;}
-  .la{background:var(--amber);animation:ctLightA 3.9s steps(1) infinite;}
-  .lg{background:var(--accent);animation:ctLightG 3.9s steps(1) infinite;}
-  .readout .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--mon-dim);text-transform:uppercase;margin-bottom:3px;}
-  .readout .val{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--mon-text);}
+  .btn{appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:14.5px;
+    border-radius:11px;padding:11px 19px;transition:.18s;display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+  .btn-primary{background:var(--accent);color:var(--onAccent);box-shadow:0 8px 20px -8px var(--accent)}
+  .btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 12px 26px -8px var(--accent)}
+  .btn-ghost{background:var(--card);color:var(--text);border:1px solid var(--border)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .btn-lg{padding:15px 26px;font-size:15.5px;border-radius:13px}
+
+  .hamb{display:none;width:42px;height:42px;border-radius:10px;border:1px solid var(--border);background:var(--card);
+    cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:0}
+  .hamb span{display:block;width:18px;height:2px;background:var(--text2);border-radius:2px;transition:.25s}
+  body.menu-open .hamb span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  body.menu-open .hamb span:nth-child(2){opacity:0}
+  body.menu-open .hamb span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+  .mmenu{display:none;flex-direction:column;gap:4px;padding:14px 24px 22px;border-bottom:1px solid var(--border2);background:var(--navbg);backdrop-filter:blur(14px)}
+  .mmenu a{padding:13px 14px;border-radius:10px;font-size:15.5px;font-weight:600;color:var(--text2)}
+  .mmenu a:hover{background:var(--card);color:var(--text)}
+  body.menu-open .mmenu{display:flex}
+
+  /* ============== HERO ============== */
+  .hero{position:relative;overflow:hidden;padding:78px 0 64px}
+  .hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(60% 55% at 88% 8%, var(--heroGlowA), transparent 70%),
+      radial-gradient(58% 50% at 0% 100%, var(--heroGlowB), transparent 72%),
+      linear-gradient(var(--gridline) 1px,transparent 1px),
+      linear-gradient(90deg,var(--gridline) 1px,transparent 1px);
+    background-size:auto,auto,46px 46px,46px 46px}
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--accent);background:var(--card);border:1px solid var(--border);
+    padding:7px 14px;border-radius:100px;margin-bottom:22px}
+  .eyebrow .pulse{width:8px;height:8px;border-radius:50%;background:var(--risk-rojo);box-shadow:0 0 0 0 rgba(226,68,92,.6);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(226,68,92,.55)}70%{box-shadow:0 0 0 10px rgba(226,68,92,0)}100%{box-shadow:0 0 0 0 rgba(226,68,92,0)}}
+  h1{font-size:clamp(34px,4.4vw,56px);line-height:1.04;font-weight:800;letter-spacing:-.025em;margin-bottom:20px}
+  h1 .hl{position:relative;color:var(--risk-rojo);white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:4px;height:13px;z-index:-1;background:rgba(226,68,92,.18);border-radius:3px}
+  .lead{font-size:clamp(16px,1.5vw,18.5px);color:var(--text2);max-width:520px;margin-bottom:30px;text-wrap:pretty}
+  .hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:30px}
+  .trust{display:flex;align-items:center;gap:20px;flex-wrap:wrap;color:var(--text3);font-size:13px;font-weight:600}
+  .trust .ti{display:flex;align-items:center;gap:8px}
+  .trust svg{color:var(--accent)}
+
+  /* ============== RADAR ============== */
+  .radar-card{position:relative;background:linear-gradient(165deg,var(--card),var(--card2));border:1px solid var(--border);
+    border-radius:22px;padding:26px;box-shadow:var(--shadow);animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .radar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .radar-head .t{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:.02em}
+  .radar-head .live{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--risk-verde);
+    font-family:var(--mono);background:rgba(0,200,117,.1);padding:5px 10px;border-radius:8px}
+  .radar-head .live i{width:7px;height:7px;border-radius:50%;background:var(--risk-verde);animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  .radar{position:relative;width:100%;aspect-ratio:1;max-width:330px;margin:0 auto;border-radius:50%;
+    background:radial-gradient(circle at center, var(--card2) 0%, var(--bg2) 100%);
+    border:1px solid var(--border);overflow:hidden}
+  .ring{position:absolute;border:1px solid var(--gridline);border-color:color-mix(in srgb,var(--accent) 22%, transparent);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.55}
+  .ring.r1{width:25%;height:25%}.ring.r2{width:50%;height:50%}.ring.r3{width:75%;height:75%}.ring.r4{width:99%;height:99%}
+  .cross{position:absolute;background:color-mix(in srgb,var(--accent) 18%, transparent);top:50%;left:50%}
+  .cross.h{width:99%;height:1px;transform:translate(-50%,-50%)}
+  .cross.v{height:99%;width:1px;transform:translate(-50%,-50%)}
+  /* estela: brillante en el borde de avance (360°), se desvanece hacia atrás */
+  .sweep{position:absolute;inset:0;border-radius:50%;
+    background:conic-gradient(from 0deg,
+      transparent 0deg,
+      transparent 288deg,
+      color-mix(in srgb,var(--accent) 8%, transparent) 344deg,
+      color-mix(in srgb,var(--accent) 20%, transparent) 360deg);
+    animation:sweep 4s linear infinite}
+  /* manecilla: radio completo, de centro a borde del círculo */
+  .sweep::after{content:"";position:absolute;left:50%;top:0;bottom:50%;width:2px;transform:translateX(-50%);
+    background:linear-gradient(to top, color-mix(in srgb,var(--accent) 45%, transparent), var(--accent));border-radius:2px;
+    box-shadow:0 0 9px color-mix(in srgb,var(--accent) 65%, transparent)}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  .blip{position:absolute;width:11px;height:11px;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 0 currentColor}
+  .blip::after{content:"";position:absolute;inset:0;border-radius:50%;background:currentColor;animation:ping 2.6s infinite}
+  @keyframes ping{0%{box-shadow:0 0 0 0 currentColor;opacity:.9}70%{box-shadow:0 0 0 13px transparent;opacity:0}100%{opacity:0}}
+  .blip i{position:absolute;inset:2px;border-radius:50%;background:currentColor}
+  .radar-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+  .rf{background:var(--card2);border:1px solid var(--border2);border-radius:11px;padding:11px 12px}
+  .rf .n{font-size:19px;font-weight:800;font-family:var(--mono);line-height:1}
+  .rf .l{font-size:10.5px;color:var(--text3);font-weight:600;margin-top:5px;text-transform:uppercase;letter-spacing:.04em}
+
+  /* ============== SECTIONS ============== */
+  section.band{padding:74px 0;position:relative}
+  .sec-head{max-width:640px;margin:0 auto 48px;text-align:center}
+  .kicker{font-size:12.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:13px}
+  h2{font-size:clamp(27px,3vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.08;margin-bottom:14px}
+  .sec-head p{font-size:16.5px;color:var(--text2);text-wrap:pretty}
 
   /* stats */
-  .stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-alt);}
-  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:34px 20px;max-width:1180px;margin:0 auto;}
-  .stat{text-align:center;border-right:1px solid var(--line);}
-  .stat:last-child{border-right:none;}
-  .stat .num{font-family:Montserrat,'Arial Black',sans-serif;font-weight:900;font-size:clamp(34px,4.2vw,52px);line-height:1;}
-  .stat .lbl{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:var(--dim);margin-top:8px;text-transform:uppercase;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+  .stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accentLite))}
+  .stat .big{font-size:clamp(32px,3.4vw,44px);font-weight:800;font-family:var(--mono);letter-spacing:-.02em;line-height:1;color:var(--text)}
+  .stat .lbl{font-size:13.5px;color:var(--text3);font-weight:600;margin-top:11px}
+  .stat.danger .big{color:var(--risk-rojo)} .stat.danger::before{background:linear-gradient(90deg,var(--risk-rojo),#f6708a)}
+  .stat.in{animation:floatStat 5s ease-in-out infinite}
+  .stat:nth-child(2).in{animation-delay:.6s}
+  .stat:nth-child(3).in{animation-delay:1.2s}
+  .stat:nth-child(4).in{animation-delay:1.8s}
+  @keyframes floatStat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 
-  /* sections */
-  .section{padding:clamp(60px,8vw,108px) 20px;}
-  .section.alt{background:var(--bg-alt);border-top:1px solid var(--line);}
-  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;color:var(--accent2);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
-  .eyebrow b{width:26px;height:1px;background:var(--accent2);display:inline-block;}
-  .eyebrow.amber{color:var(--accent);}
-  .h2{font-size:clamp(28px,3.8vw,44px);line-height:1.1;color:var(--head);}
-  .lead2{font-size:clamp(17px,1.6vw,21px);line-height:1.62;color:var(--text);max-width:760px;}
-  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;}
-  .mini{border:1px solid var(--line);border-radius:12px;padding:22px;background:var(--panel);box-shadow:var(--soft-shadow);}
-  .mini .k{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:.08em;margin-bottom:10px;}
-  .mini p{font-size:14.5px;line-height:1.55;color:var(--text);}
+  /* pillars */
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:30px 26px;transition:.22s}
+  .pcard:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
+  .picon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+    background:color-mix(in srgb,var(--accent) 14%, transparent);color:var(--accent)}
+  .pcard h3{font-size:19px;font-weight:800;letter-spacing:-.01em;margin-bottom:9px}
+  .pcard p{font-size:14.5px;color:var(--text2);line-height:1.58}
+  .pcard ul{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  .pcard li{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:var(--text2)}
+  .pcard li svg{flex-shrink:0;margin-top:2px;color:var(--accent)}
 
-  /* cards */
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  .card{border:1px solid var(--line);border-radius:14px;padding:26px;background:linear-gradient(180deg,var(--panel),var(--panel-bot));box-shadow:var(--card-shadow);transition:box-shadow .28s ease,border-color .28s ease;}
-  .card:hover{box-shadow:0 38px 74px rgba(0,0,0,.55);border-color:rgba(var(--accent-rgb),.52);}
-  .card .ico{width:46px;height:46px;border-radius:10px;border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;margin-bottom:18px;background:var(--chip);}
-  .card.blue .ico{border-color:rgba(42,111,219,.4);background:rgba(42,111,219,.1);}
-  .card.amber .ico{border-color:rgba(255,189,46,.32);background:rgba(255,189,46,.07);}
-  .card h3{font-weight:700;font-size:19px;color:var(--head);margin-bottom:10px;}
-  .card p{font-size:14.5px;line-height:1.55;color:var(--dim);}
-  .ico-sem{gap:4px;}
-  .ico-sem span{width:8px;height:8px;border-radius:50%;}
+  /* monitor detail */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center}
+  .feed{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+  .feed.in{animation:floatBox 6.5s ease-in-out infinite}
+  .feed-top{display:flex;align-items:center;gap:9px;padding:15px 20px;border-bottom:1px solid var(--border2);background:var(--card2)}
+  .feed-top .dot{width:10px;height:10px;border-radius:50%}
+  .feed-row{display:flex;align-items:center;gap:14px;padding:15px 20px;border-bottom:1px solid var(--border2)}
+  .feed-row:last-child{border-bottom:none}
+  .feed-row .ic{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .feed-row .meta{flex:1;min-width:0}
+  .feed-row .meta b{font-size:14px;font-weight:700;display:block}
+  .feed-row .meta span{font-size:12.5px;color:var(--text3);font-family:var(--mono)}
+  .tag{font-size:11px;font-weight:800;padding:5px 10px;border-radius:7px;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+  .feature-list{display:flex;flex-direction:column;gap:22px;margin-top:26px}
+  .fl{display:flex;gap:16px;animation:floatSoft 5s ease-in-out infinite}
+  .fl:nth-child(2){animation-delay:.55s}
+  .fl:nth-child(3){animation-delay:1.1s}
+  @keyframes floatSoft{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes floatBox{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+  .fl .fn{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:700;font-size:15px;background:color-mix(in srgb,var(--accent) 14%, transparent);color:var(--accent)}
+  .fl h4{font-size:16.5px;font-weight:700;margin-bottom:4px}
+  .fl p{font-size:14px;color:var(--text2);line-height:1.55}
 
-  /* steps */
-  .steps-track{position:relative;margin-bottom:8px;}
-  .steps-line{position:absolute;left:7%;right:7%;top:15px;height:2px;background:var(--line);z-index:0;}
-  .steps-fill{position:absolute;left:7%;top:15px;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--blue));box-shadow:0 0 10px var(--accent);z-index:1;}
-  .steps-runner{position:absolute;left:7%;top:9px;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent);z-index:2;opacity:0;transform:translateX(-50%);}
-  .steps{position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-  .step{padding:0 6px;}
-  .badge-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;background:transparent;color:var(--accent);border:1.5px solid var(--accent);}
-  .step h3{font-weight:700;font-size:18px;color:var(--head);margin-bottom:9px;}
-  .step p{font-size:14px;line-height:1.55;color:var(--dim);}
-  .steps-track.go .steps-fill{animation:ctFillLoop 4.2s linear infinite;}
-  .steps-track.go .steps-runner{animation:ctRun 4.2s linear infinite;}
-  .steps-track.go .n1{animation:ctNode 4.2s ease-in-out infinite .25s;}
-  .steps-track.go .n2{animation:ctNode 4.2s ease-in-out infinite 1.2s;}
-  .steps-track.go .n3{animation:ctNode 4.2s ease-in-out infinite 2.15s;}
-  .steps-track.go .n4{animation:ctNode 4.2s ease-in-out infinite 3.1s;}
-
-  /* modes */
-  .seg{display:inline-flex;padding:5px;border-radius:11px;background:var(--panel);border:1px solid rgba(42,111,219,.35);gap:4px;margin-bottom:28px;max-width:100%;flex-wrap:wrap;}
-  .seg-btn{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:11px 18px;border-radius:8px;border:none;cursor:pointer;transition:all .2s ease;white-space:nowrap;background:transparent;color:var(--dim);}
-  .seg-btn.active{background:#2A6FDB;color:#fff;box-shadow:0 8px 20px rgba(42,111,219,.4);}
-  .mode-card{border:1px solid rgba(42,111,219,.3);border-radius:16px;background:linear-gradient(160deg,var(--panel),var(--panel-bot));padding:30px;box-shadow:var(--card-shadow);display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;transition:box-shadow .28s ease,border-color .28s ease;}
-  .mode-card:hover{box-shadow:0 38px 74px rgba(0,0,0,.55);}
-  .mode-card .mi{width:54px;height:54px;border-radius:12px;background:rgba(42,111,219,.14);border:1px solid rgba(42,111,219,.4);display:flex;align-items:center;justify-content:center;}
-  .mode-card .tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--blue2);text-transform:uppercase;margin-bottom:8px;}
-  .mode-card h3{font-weight:800;font-size:24px;color:var(--head);margin-bottom:12px;}
-  .mode-card p{font-size:16px;line-height:1.6;color:var(--text);max-width:680px;}
-
-  /* mve */
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:start;}
-  .badge-soft{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-strong);background:var(--chip);border-radius:999px;padding:7px 14px;margin-bottom:20px;}
-  .badge-soft .d{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:ctGlow 2.8s ease-in-out infinite;}
-  .badge-soft span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;}
-  .note-blue{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border:1px solid rgba(42,111,219,.3);border-radius:11px;background:rgba(42,111,219,.07);margin-bottom:22px;}
-  .note-blue p{font-size:14px;line-height:1.55;color:var(--text);}
-  .note-blue b{color:var(--head);}
-  .help{border-left:2px solid var(--accent);padding:6px 0 6px 18px;}
-  .help .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
-  .help p{font-size:15px;line-height:1.6;color:var(--text);}
-  .tlcard{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:26px;box-shadow:var(--card-shadow);animation:ctFloat 6.5s ease-in-out infinite;}
-  .tlcard .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:22px;}
-  .tl{display:flex;gap:16px;margin-bottom:22px;}
-  .tl:last-child{margin-bottom:0;}
-  .tl .rail{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;}
-  .tl .rail i{width:14px;height:14px;border-radius:50%;}
-  .tl .rail b{flex:1;width:2px;background:var(--line);margin:4px 0;display:block;}
-  .tl .ttl{font-weight:800;font-family:Montserrat,sans-serif;font-size:20px;}
-  .tl .ttl.sm{font-size:16px;color:var(--head);}
-  .tl p{margin-top:6px;font-size:14px;line-height:1.55;color:var(--text);}
-  .tl p.dim{color:var(--dim);}
-  .timecard{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:24px;box-shadow:var(--card-shadow);}
-  .timecard .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:18px;}
-  .timerow{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);margin-bottom:7px;}
-  .timerow.acc{color:var(--accent);}
-  .timerow b{color:var(--head);font-weight:700;}
-  .bar{height:8px;border-radius:99px;background:rgba(var(--accent-rgb),.12);margin-bottom:18px;}
-  .bar i{display:block;height:100%;border-radius:99px;}
-  .pct{display:flex;align-items:baseline;gap:9px;border-top:1px solid var(--line);padding-top:14px;}
-  .pct b{font-weight:900;font-family:Montserrat,sans-serif;font-size:30px;color:var(--accent);}
-  .pct span{font-size:13px;color:var(--dim);}
-  .process{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:clamp(22px,3vw,32px);box-shadow:var(--soft-shadow);}
-  .process .steps{gap:16px;}
-  .process .step h4{font-family:Montserrat,sans-serif;font-weight:700;font-size:15px;color:var(--head);margin-bottom:5px;}
-  .process .step .s{font-size:13px;line-height:1.5;color:var(--dim);}
-  .badge-go{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--btn-text);background:var(--amber);}
-  .howto{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:clamp(24px,3vw,34px);box-shadow:var(--card-shadow);}
-  .howto .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin-bottom:10px;}
-  .howto h3{font-weight:800;font-size:clamp(20px,2.4vw,28px);line-height:1.16;color:var(--head);margin-bottom:12px;}
-  .howto .intro{font-size:15px;line-height:1.6;color:var(--text);max-width:760px;margin-bottom:24px;}
-  .srow{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;}
-  .srow .num{flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--accent);border:1.5px solid var(--accent);}
-  .srow h4{font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;color:var(--head);margin-bottom:5px;}
-  .srow p{font-size:14px;line-height:1.6;color:var(--dim);}
-  .srow p b{color:var(--text);}
-  .nota{margin-top:2px;border:1px solid rgba(var(--accent-rgb),.28);border-radius:12px;background:rgba(var(--accent-rgb),.06);padding:16px 18px;}
-  .nota .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
-  .nota p{font-size:13.5px;line-height:1.6;color:var(--text);}
-  .nota b{color:var(--head);}
-  .chips{margin-top:26px;display:flex;flex-wrap:wrap;gap:14px 28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:.02em;}
-  .chips span{display:inline-flex;align-items:center;gap:8px;}
-
-  /* team */
-  .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:center;max-width:1080px;margin:0 auto;}
-  .statbox{border:1px solid var(--line);border-radius:12px;padding:20px;background:var(--panel);box-shadow:var(--soft-shadow);}
-  .statbox .n{font-weight:900;font-family:Montserrat,sans-serif;font-size:30px;color:var(--accent);line-height:1;}
-  .statbox .l{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);margin-top:8px;letter-spacing:.04em;}
-
-  /* faq */
-  .faq-wrap{max-width:840px;margin:0 auto;}
-  .faq-item{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden;box-shadow:var(--soft-shadow);transition:box-shadow .28s ease,border-color .28s ease;}
-  .faq-item:hover{border-color:rgba(var(--accent-rgb),.42);box-shadow:0 22px 48px rgba(0,0,0,.4);}
-  .faq-q{width:100%;display:flex;align-items:center;gap:16px;padding:20px 22px;background:transparent;border:none;cursor:pointer;text-align:left;}
-  .faq-q span{flex:1;font-family:Montserrat,sans-serif;font-weight:700;font-size:16.5px;color:var(--head);}
-  .faq-q i{flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-size:22px;line-height:1;color:var(--accent);width:22px;text-align:center;font-style:normal;}
-  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
-  .faq-a p{padding:0 22px 22px;font-size:15px;line-height:1.62;color:var(--dim);}
+  /* MVE */
+  .mve-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+  .mve-card.in{animation:floatBox 7s ease-in-out infinite}
+  .stepper{display:flex;align-items:center;padding:22px 26px;border-bottom:1px solid var(--border2);overflow-x:auto}
+  .step{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .step .num{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;font-family:var(--mono);color:var(--text3);flex-shrink:0}
+  .step .nm{font-size:13.5px;font-weight:700;color:var(--text3);white-space:nowrap}
+  .step.done .num{background:var(--accent);border-color:var(--accent);color:var(--onAccent)}
+  .step.done .nm{color:var(--text)}
+  .step.cur .num{border-color:var(--accent);color:var(--accent)}
+  .step.cur .nm{color:var(--accent)}
+  .step-line{flex:1;height:2px;background:var(--border);margin:0 14px;min-width:22px}
+  .step-line.done{background:var(--accent)}
+  .mve-body{display:grid;grid-template-columns:1.3fr 1fr;gap:0}
+  .mve-col{padding:26px}
+  .mve-col+.mve-col{border-left:1px solid var(--border2)}
+  .mve-col h4{font-size:12.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:9px}
+  .mve-col h4 .bar{width:7px;height:17px;border-radius:4px;background:var(--risk-azul)}
+  .method{display:flex;gap:12px;padding:14px;border:1px solid var(--border2);border-radius:12px;margin-bottom:11px;align-items:flex-start}
+  .method.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%, transparent)}
+  .radio{width:19px;height:19px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+  .method.on .radio{border-color:var(--accent)}
+  .method.on .radio i{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  .method b{font-size:14px;font-weight:700;display:block;margin-bottom:2px}
+  .method span{font-size:12.5px;color:var(--text3)}
+  .check{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--border2)}
+  .check:last-child{border-bottom:none}
+  .check .cm{width:22px;height:22px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,200,117,.14);color:var(--risk-verde)}
+  .check b{font-size:13.5px;font-weight:700;display:block}
+  .check span{font-size:12px;color:var(--text3)}
 
   /* form */
-  .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,56px);align-items:center;max-width:1080px;margin:0 auto;}
-  .ulist{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px;}
-  .ulist li{display:flex;align-items:center;gap:11px;font-size:14.5px;color:var(--text);}
-  .note-fine{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.5;color:var(--dim);letter-spacing:.02em;}
-  .formcard{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:28px;box-shadow:var(--card-shadow);}
-  .formcard .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:20px;}
-  .field{display:block;margin-bottom:16px;}
-  .field .l{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--accent);text-transform:uppercase;margin-bottom:7px;}
-  .field input,.field textarea{width:100%;padding:13px 15px;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--head);font-family:Inter,sans-serif;font-size:16px;outline:none;}
-  .field input:focus,.field textarea:focus{border-color:var(--accent);}
-  .field textarea{resize:vertical;}
-  .hint{margin:0 0 16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--dim);letter-spacing:.02em;}
-  .err{margin:0 0 14px;display:none;align-items:center;gap:8px;font-size:13px;color:var(--red);font-family:'JetBrains Mono',monospace;}
-  .btn-submit{width:100%;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--btn-text);background:var(--accent);padding:16px;border:none;border-radius:9px;cursor:pointer;}
-  .btn-submit[disabled]{opacity:.6;cursor:default;}
-  .success{display:none;text-align:center;padding:30px 10px;}
-  .success .c{width:56px;height:56px;margin:0 auto 18px;border-radius:50%;background:var(--chip);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;}
-  .success h3{font-weight:800;font-size:22px;color:var(--head);margin-bottom:10px;}
-  .success p{font-size:15px;line-height:1.6;color:var(--dim);}
+  .form-band{position:relative;overflow:hidden}
+  .form-band::before{content:"";position:absolute;inset:0;z-index:0;
+    background:radial-gradient(70% 80% at 50% 0%, var(--heroGlowA), transparent 70%)}
+  .form-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:54px;align-items:center}
+  .form-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:var(--shadow)}
+  .field{margin-bottom:17px}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--text2);margin-bottom:7px}
+  .field input,.field textarea{width:100%;font-family:inherit;font-size:14.5px;color:var(--text);
+    background:var(--card2);border:1px solid var(--border);border-radius:11px;padding:13px 15px;transition:.15s;resize:vertical}
+  .field input::placeholder,.field textarea::placeholder{color:var(--muted)}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%, transparent)}
+  .form-msg{font-size:13.5px;font-weight:600;padding:13px 15px;border-radius:11px;margin-top:4px;display:none}
+  .form-msg.ok{display:block;background:rgba(0,200,117,.12);color:var(--risk-verde);border:1px solid rgba(0,200,117,.3)}
+  .form-msg.err{display:block;background:rgba(226,68,92,.1);color:var(--risk-rojo);border:1px solid rgba(226,68,92,.3)}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
+  .form-side h2{margin-bottom:18px}
+  .fbenefit{display:flex;align-items:flex-start;gap:13px;margin-bottom:18px}
+  .fbenefit .fi{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:color-mix(in srgb,var(--accent) 14%, transparent);color:var(--accent)}
+  .fbenefit b{font-size:15px;display:block;margin-bottom:2px}
+  .fbenefit p{font-size:13.5px;color:var(--text2);line-height:1.5}
 
   /* footer */
-  .footer{border-top:1px solid var(--line);background:var(--bg-alt);padding:48px 20px calc(36px + env(safe-area-inset-bottom));}
-  .foot-top{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:space-between;max-width:1180px;margin:0 auto;}
-  .foot-brand{max-width:320px;}
-  .foot-brand .row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-  .foot-brand img{width:28px;height:28px;border-radius:7px;box-shadow:var(--soft-shadow);}
-  .foot-brand b{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.06em;color:var(--head);}
-  .foot-brand b i{color:var(--accent2);font-style:normal;}
-  .foot-brand p{font-size:13px;line-height:1.6;color:var(--dim);margin-bottom:12px;}
-  .foot-loc{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);}
-  .foot-cols{display:flex;gap:56px;flex-wrap:wrap;}
-  .foot-col .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;}
-  .foot-col a{display:block;font-size:13.5px;color:var(--dim);text-decoration:none;margin-bottom:10px;}
-  .foot-col a:hover{color:var(--text);}
-  .copyright{max-width:1180px;margin:32px auto 0;padding-top:22px;border-top:1px solid var(--line-soft);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);}
-
-  /* back to top */
-  .backtop{position:fixed;right:calc(18px + env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));z-index:55;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--accent);border-radius:50%;box-shadow:0 12px 30px rgba(0,0,0,.4);text-decoration:none;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease,visibility .3s;}
-  .backtop.show{opacity:1;visibility:visible;transform:translateY(0);}
-
-  /* mobile menu */
-  .mm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;}
-  .mm.open{display:block;}
-  .mm-panel{position:absolute;top:0;right:0;bottom:0;width:min(82vw,340px);background:var(--bg);border-left:1px solid var(--line);box-shadow:-20px 0 60px rgba(0,0,0,.5);padding:calc(env(safe-area-inset-top) + 18px) 22px 22px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;}
-  .mm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .mm-head b{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.06em;color:var(--head);}
-  .mm-head b i{color:var(--accent2);font-style:normal;}
-  .mm-x{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--chip);border:1px solid var(--line);border-radius:9px;cursor:pointer;}
-  .mm a.link{padding:14px 4px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text);text-decoration:none;border-bottom:1px solid var(--line-soft);}
-  .mm .lbl{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
-  .mm .themes{display:flex;gap:8px;}
-  .mm .themes button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;padding:12px 8px;border-radius:9px;cursor:pointer;background:transparent;color:var(--text);border:1px solid var(--line);}
-  .mm .themes button.active{background:var(--accent);color:var(--btn-text);border-color:var(--accent);}
-  .mm .themes button .dot{width:10px;height:10px;border-radius:50%;}
-  .mm a.mm-ghost{margin-top:22px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:transparent;border:1px solid var(--line-strong);padding:14px;border-radius:9px;text-decoration:none;}
-  .mm a.mm-cta{margin-top:10px;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--btn-text);background:var(--accent);padding:15px;border-radius:9px;text-decoration:none;}
+  footer{border-top:1px solid var(--border2);padding:42px 0 34px;background:var(--bg2)}
+  .foot-in{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}
+  .foot-links a{font-size:13.5px;color:var(--text3);font-weight:600}
+  .foot-links a:hover{color:var(--accent)}
+  .foot-legal{font-size:12.5px;color:var(--muted);margin-top:22px;max-width:760px;line-height:1.6}
 
   /* reveal */
-  .reveal{opacity:1;}
-  .reveal.hide{opacity:0;transform:translateY(24px);}
-  .reveal.in{animation:ctReveal .8s cubic-bezier(.2,.7,.2,1) forwards;}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
 
-  @keyframes ctSweep{to{transform:rotate(360deg);}}
-  @keyframes ctScan{0%{transform:translateY(-110%);}100%{transform:translateY(610%);}}
-  @keyframes ctBlip{0%,100%{opacity:.25;transform:scale(.7);}50%{opacity:1;transform:scale(1.15);}}
-  @keyframes ctGlow{0%,100%{opacity:.45;}50%{opacity:1;}}
-  @keyframes ctFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
-  @keyframes ctWalk{to{background-position-x:26px;}}
-  @keyframes ctReveal{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
-  @keyframes ctLightR{0%,28%{opacity:1;filter:drop-shadow(0 0 8px #EF4444);}33%,100%{opacity:.16;filter:none;}}
-  @keyframes ctLightA{0%,30%{opacity:.16;filter:none;}33%,61%{opacity:1;filter:drop-shadow(0 0 8px #FFBD2E);}66%,100%{opacity:.16;filter:none;}}
-  @keyframes ctLightG{0%,63%{opacity:.16;filter:none;}66%,96%{opacity:1;filter:drop-shadow(0 0 9px var(--accent));}99%,100%{opacity:.16;filter:none;}}
-  @keyframes ctFillLoop{0%{width:0;opacity:1;}78%{width:86%;opacity:1;}92%{width:86%;opacity:1;}100%{width:86%;opacity:0;}}
-  @keyframes ctRun{0%{left:7%;opacity:0;}6%{opacity:1;}86%{left:93%;opacity:1;}100%{left:93%;opacity:0;}}
-  @keyframes ctNode{0%,100%{background:transparent;color:var(--accent);box-shadow:none;}30%,70%{background:var(--accent);color:var(--btn-text);box-shadow:0 0 16px var(--accent);}}
+  /* offer band */
+  .offer{display:block;background:linear-gradient(90deg,var(--accent),var(--accent2));color:var(--onAccent);
+    text-align:center;font-size:13.5px;font-weight:700;padding:10px 18px;letter-spacing:.01em;transition:filter .15s}
+  .offer:hover{filter:brightness(1.07)}
+  .offer .arrow{display:inline-block;transition:transform .2s;font-weight:800}
+  .offer:hover .arrow{transform:translateX(4px)}
 
-  @media (max-width:980px){
-    .hero-grid,.cards,.grid-3,.steps,.stats-grid,.grid-2,.cta-grid,.mode-card,.team-grid{grid-template-columns:1fr;}
-    .stat{border-right:none;border-bottom:1px solid var(--line-soft);padding-bottom:18px;}
-    .stat:last-child{border-bottom:none;}
-    .nav,.theme-toggle,.btn-ghost.desk,.btn.desk{display:none;}
-    .burger{display:inline-flex;}
-    .steps-fill,.steps-line,.steps-runner{display:none;}
-    .mode-card{gap:18px;}
+  /* capacidades */
+  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .cap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;transition:.22s;display:flex;flex-direction:column;gap:13px}
+  .cap:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
+  .cap .ci{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:color-mix(in srgb,var(--accent) 14%, transparent);color:var(--accent)}
+  .cap h3{font-size:16.5px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+  .cap p{font-size:13.5px;color:var(--text2);line-height:1.55}
+  .cap .num{font-family:var(--mono);font-weight:800;color:var(--accent)}
+
+  /* modos — escudo dual */
+  .modos{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .mcard{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:30px 28px;overflow:hidden}
+  .mcard.in{animation:floatBox 6s ease-in-out infinite}
+  .mcard.fo.in{animation-delay:.7s}
+  .mcard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .mcard.op::before{background:var(--accent)}
+  .mcard.fo::before{background:var(--risk-rojo)}
+  .mcard .mtag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.05em;
+    text-transform:uppercase;padding:6px 12px;border-radius:100px;margin-bottom:16px}
+  .mcard.op .mtag{background:color-mix(in srgb,var(--accent) 14%, transparent);color:var(--accent)}
+  .mcard.fo .mtag{background:rgba(226,68,92,.13);color:var(--risk-rojo)}
+  .mcard .mhead{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .mcard .mshield{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .mcard.op .mshield{background:color-mix(in srgb,var(--accent) 14%, transparent);color:var(--accent)}
+  .mcard.fo .mshield{background:rgba(226,68,92,.13);color:var(--risk-rojo)}
+  .mcard h3{font-size:21px;font-weight:800;letter-spacing:-.015em}
+  .mcard p{font-size:14.5px;color:var(--text2);line-height:1.6}
+  .mcard .when{margin-top:16px;font-size:12.5px;font-weight:700;color:var(--text3);font-family:var(--mono);display:flex;align-items:center;gap:8px}
+
+  /* faq */
+  .faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .faq-item{background:var(--card);border:1px solid var(--border);border-radius:13px;overflow:hidden}
+  .faq-q{width:100%;appearance:none;border:none;background:transparent;cursor:pointer;font-family:inherit;color:var(--text);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;
+    font-size:16px;font-weight:700;padding:19px 22px;transition:color .15s}
+  .faq-q:hover{color:var(--accent)}
+  .faq-q .chev{flex-shrink:0;transition:transform .25s;color:var(--accent)}
+  .faq-item.open .faq-q .chev{transform:rotate(180deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .faq-a-in{padding:0 22px 20px;font-size:14.5px;color:var(--text2);line-height:1.6}
+
+  /* ============== RESPONSIVE ============== */
+  @media(max-width:980px){
+    .hero-grid,.split,.form-grid{grid-template-columns:1fr;gap:40px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .cards3{grid-template-columns:1fr}
+    .caps{grid-template-columns:repeat(2,1fr)}
+    .modos{grid-template-columns:1fr}
+    .mve-body{grid-template-columns:1fr}
+    .mve-col+.mve-col{border-left:none;border-top:1px solid var(--border2)}
+    .radar-card{max-width:440px;margin:0 auto}
   }
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto;}
-    .walk,.scan,.sweep,.blip,.monitor,.tlcard,.badge-alert .d,.badge-soft .d,.mon-head .o i{animation:none !important;}
-    .lr,.la{animation:none !important;opacity:.16 !important;filter:none !important;}
-    .lg{animation:none !important;opacity:1 !important;filter:drop-shadow(0 0 9px var(--accent)) !important;}
-    .reveal.hide{opacity:1 !important;transform:none !important;}
-    .reveal.in{animation:none !important;}
-    .steps-track .steps-fill{width:86% !important;animation:none !important;opacity:1 !important;display:block;}
-    .steps-track .badge-num{background:var(--accent);color:var(--btn-text);}
+  @media(max-width:760px){
+    .nav-links{display:none}
+    .hamb{display:flex}
+    .tsw button .nm{display:none}
+    .tsw button{padding:7px 9px}
+    .nav-right .btn span.lbl{display:inline}
+    h1 .hl{white-space:normal}
+  }
+  @media(max-width:480px){
+    .stats{grid-template-columns:1fr}
+    .caps{grid-template-columns:1fr}
+    .wrap{padding:0 18px}
+    .nav-in{padding:0 18px;gap:12px}
+    .brand small{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
   }
 </style>
 </head>
 <body>
-<div class="bg-grid"></div>
-<div class="bg-glow"></div>
-<div class="page">
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-inner">
-      <a href="#top" class="brand">
-        <img src="data:image/png;base64,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" alt="bondiaCT" width="34" height="34">
-        <b>bondia<i>CT</i></b>
+<!-- ============== NAV ============== -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#inicio" aria-label="Control Tower inicio">
+      <span class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.2 12.27 20 6H4l1.8 6.27a1 1 0 0 0 .95.73h10.5a1 1 0 0 0 .96-.73Z"/><path d="M8 13v9"/><path d="M16 22v-9"/><path d="m9 6 1 7"/><path d="m15 6-1 7"/><path d="M12 6V2"/><path d="M13 2h-2"/></svg>
+      </span>
+      <span><b>Control Tower</b><small>Validación previa aduanera</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#auditoria">Auditoría</a>
+      <a href="#monitor">Monitor Forense</a>
+      <a href="#mve">MVE</a>
+      <a href="#solicita">Solicita</a>
+    </nav>
+    <div class="nav-right">
+      <div class="tsw" role="group" aria-label="Tema">
+        <button type="button" data-theme-btn="azul" aria-pressed="true"><span class="sw" style="background:#5b8def"></span><span class="nm">Azul</span></button>
+        <button type="button" data-theme-btn="verde" aria-pressed="false"><span class="sw" style="background:#3fbfa1"></span><span class="nm">Verde</span></button>
+        <button type="button" data-theme-btn="claro" aria-pressed="false"><span class="sw" style="background:#14b8a6"></span><span class="nm">Claro</span></button>
+      </div>
+      <a class="btn btn-primary" href="https://ct.bondiact.io">Acceder
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
-      <nav class="nav">
-        <a href="#producto">Que es</a>
-        <a href="#capacidades">Capacidades</a>
-        <a href="#modos">Modos</a>
-        <a href="#mve">MVE</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <div class="theme-toggle" id="themeToggle">
-        <button class="theme-btn" data-theme-set="azul" title="Tema Azul" aria-label="Tema Azul"><span class="dot" style="background:#2A6FDB"></span>Azul</button>
-        <button class="theme-btn active" data-theme-set="verde" title="Tema Verde" aria-label="Tema Verde"><span class="dot" style="background:#6BD8CB"></span>Verde</button>
-        <button class="theme-btn" data-theme-set="claro" title="Tema Claro" aria-label="Tema Claro"><span class="dot" style="background:#E4ECE9"></span>Claro</button>
-      </div>
-      <a href="https://ct.bondiact.io" class="btn-ghost desk" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.7"/></svg>
-        Acceder
-      </a>
-      <a href="#auditoria" class="btn desk">Auditoria</a>
-      <button class="burger" id="burger" aria-label="Abrir menu">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </button>
+      <button class="hamb" type="button" aria-label="Menú" id="hambBtn"><span></span><span></span><span></span></button>
     </div>
-  </header>
-
-  <!-- PROMO -->
-  <a href="#auditoria" class="promo">
-    <span class="pill"><i></i>Oferta de lanzamiento</span>
-    <span>Tu primera auditoria de Control Tower es <b style="text-decoration:underline;text-underline-offset:3px;">gratis</b>, pidela hoy</span>
-    <span aria-hidden="true" style="font-size:14px;">&rarr;</span>
-  </a>
-
-  <!-- HERO -->
-  <section class="hero" id="top">
-    <div class="walk"></div>
-    <div class="hero-grid">
-      <div>
-        <div class="badge-alert reveal"><span class="d"></span><span>Reforma 2026 // RGCE Fr. XLIX/L/XXI</span></div>
-        <h1 class="h1 reveal">La Reforma 2026 subio tus multas al <span class="red">300%</span>. <span class="grad">Detectalas antes que el SAT.</span></h1>
-        <p class="lead reveal">Una fraccion mal clasificada, un COVE incompleto o mercancia del Capitulo 50-64 en RFE pueden detonar multas del <b>250-300%</b> del valor comercial, la baja del Padron y la cancelacion de la patente. Control Tower audita cada pedimento contra <b class="acc">52+ reglas</b> que cubren toda la Reforma 2026.</p>
-        <blockquote class="quote reveal">El mejor momento para detectar un error es antes de que el SAT lo vea, y bajo la Reforma 2026, ese momento vale <b>300% del valor comercial</b>.</blockquote>
-        <div class="cta-row reveal">
-          <a href="#auditoria" class="btn-lg">Pidenos tu primera auditoria gratis</a>
-          <a href="#capacidades" class="link-arrow">Que hace Control Tower? &rarr;</a>
-        </div>
-      </div>
-      <div class="monitor reveal">
-        <div class="mon-head"><span class="t">CT // Monitor forense</span><span class="o"><i></i>EN LINEA</span></div>
-        <div class="radar">
-          <div class="ig"></div>
-          <div class="scan"></div>
-          <svg class="rings" viewBox="0 0 300 300">
-            <g stroke-width="1" fill="none">
-              <circle cx="150" cy="150" r="130"/><circle cx="150" cy="150" r="95"/><circle cx="150" cy="150" r="60"/><circle cx="150" cy="150" r="26"/>
-              <line x1="20" y1="150" x2="280" y2="150"/><line x1="150" y1="20" x2="150" y2="280"/>
-              <line x1="58" y1="58" x2="242" y2="242"/><line x1="242" y1="58" x2="58" y2="242"/>
-            </g>
-            <circle class="blip" cx="206" cy="98" r="4" style="fill:var(--accent)"/>
-            <circle class="blip" cx="96" cy="190" r="3.4" fill="#FFBD2E" style="animation-delay:.8s"/>
-            <g class="blip" style="animation-delay:1.4s"><circle cx="118" cy="92" r="5" fill="none" stroke="#EF4444" stroke-width="1.6"/><circle cx="118" cy="92" r="2" fill="#EF4444"/></g>
-          </svg>
-          <div class="sweep"><div class="hand"></div><div class="pivot"></div></div>
-          <div class="cap">SCAN&nbsp;PEDIMENTOS&nbsp;...<br>3&nbsp;INCONSISTENCIAS&nbsp;<em>DETECTADAS</em></div>
-        </div>
-        <div class="readout">
-          <div class="semaforo"><span class="lr"></span><span class="la"></span><span class="lg"></span></div>
-          <div><div class="lbl">Semaforo de riesgo</div><div class="val">Operacion evaluada en tiempo real</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section class="stats">
-    <div class="stats-grid">
-      <div class="stat reveal"><div class="num" style="color:var(--red)"><span data-count="300">0</span>%</div><div class="lbl">Multa maxima sobre el valor comercial</div></div>
-      <div class="stat reveal"><div class="num" style="color:var(--accent)"><span data-count="52">0</span>+</div><div class="lbl">Reglas auditadas por pedimento</div></div>
-      <div class="stat reveal"><div class="num" style="color:var(--amber)">1 AGO 2026</div><div class="lbl">MVE obligatoria en formato electronico</div></div>
-    </div>
-  </section>
-
-  <!-- QUE ES -->
-  <section class="section" id="producto">
-    <div class="wrap">
-      <div class="eyebrow reveal"><b></b>01 // El producto</div>
-      <h2 class="h2 reveal" style="margin-bottom:22px">Toda tu operacion, en una <span class="grad">torre de control</span>.</h2>
-      <p class="lead2 reveal">Control Tower es la torre de control que vigila, audita y blinda cada operacion de comercio exterior. Centraliza tu documentacion, detecta inconsistencias antes que la autoridad y te da trazabilidad total para responder cualquier requerimiento con evidencia.</p>
-      <div class="grid-3 reveal">
-        <div class="mini"><div class="k">VIGILA</div><p>Monitoreo continuo de cada operacion, sin puntos ciegos.</p></div>
-        <div class="mini"><div class="k">AUDITA</div><p>Revision documento por documento contra la normativa vigente.</p></div>
-        <div class="mini"><div class="k">BLINDA</div><p>Expediente electronico ordenado y listo para cualquier revision.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CAPACIDADES -->
-  <section class="section alt" id="capacidades">
-    <div class="wrap">
-      <div class="eyebrow reveal"><b></b>02 // Capacidades</div>
-      <h2 class="h2 reveal" style="margin-bottom:14px;max-width:680px">Lo que hace Control Tower por ti</h2>
-      <p class="reveal" style="font-size:16px;line-height:1.6;color:var(--dim);margin-bottom:38px;max-width:620px">Un motor de auditoria con fundamento legal, no un checklist generico. Ve lo que el ojo humano no alcanza a simple vista, antes de pagar el pedimento.</p>
-      <div class="cards">
-        <div class="card reveal"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h5" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/></svg></div><h3>Lee toda tu documentacion</h3><p>Procesa facturas y CFDI, listas de empaque, AWB, BL y certificados de origen, y estructura su informacion en milisegundos.</p></div>
-        <div class="card reveal"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 7h14M7 7l-3 6a3 3 0 0 0 6 0L7 7Zm10 0-3 6a3 3 0 0 0 6 0l-3-6Z" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Valida contra el marco legal</h3><p>Contrasta cada dato contra la Ley Aduanera, las Reglas Generales de Comercio Exterior, la Ley de Comercio Exterior y los RRNAs aplicables.</p></div>
-        <div class="card blue reveal"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="var(--blue2)" stroke-width="1.6"/><path d="m20 20-3.5-3.5M8 11h6M11 8v6" stroke="var(--blue2)" stroke-width="1.6" stroke-linecap="round"/></svg></div><h3>Cruza contra los sistemas del SAT</h3><p>Confronta tu informacion declarada contra DataStage y S.A.R.A. para revelar discrepancias que una revision manual no alcanza a ver.</p></div>
-        <div class="card amber reveal"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--amber)" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="var(--amber)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Detecta antes de pagar</h3><p>Corriges cualquier error antes de pagar los impuestos. Una vez pagado el pedimento, un hallazgo significa correccion y depender de que tu agente aduanal la acepte. Nosotros lo evitamos.</p></div>
-        <div class="card reveal"><div class="ico ico-sem"><span class="lr"></span><span class="la"></span><span class="lg"></span></div><h3>Semaforo de riesgo</h3><p>Clasifica cada operacion en verde, ambar o rojo segun su nivel de exposicion, para que actues con prioridad.</p></div>
-        <div class="card reveal"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="4.5" rx="1.2" stroke="var(--accent)" stroke-width="1.6"/><path d="M5 8.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5" stroke="var(--accent)" stroke-width="1.6"/><path d="M10 12h4" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/></svg></div><h3>Expediente y trazabilidad</h3><p>Cada documento y hallazgo queda en un expediente electronico ordenado, con bitacora verificable de inicio a fin.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMO FUNCIONA -->
-  <section class="section">
-    <div class="wrap">
-      <div class="eyebrow reveal"><b></b>03 // Proceso</div>
-      <h2 class="h2 reveal" style="margin-bottom:50px">Como funciona?</h2>
-      <div class="steps-track" id="stepsTrack">
-        <div class="steps-line"></div><div class="steps-fill"></div><div class="steps-runner"></div>
-        <div class="steps">
-          <div class="step reveal"><span class="badge-num n1">01</span><h3>Diagnostico</h3><p>Conectamos tu operacion y levantamos un mapa completo de riesgos.</p></div>
-          <div class="step reveal"><span class="badge-num n2">02</span><h3>Auditoria</h3><p>Revisamos documento por documento contra la normativa vigente.</p></div>
-          <div class="step reveal"><span class="badge-num n3">03</span><h3>Blindaje</h3><p>Corregimos, ordenamos y armamos tu expediente electronico completo.</p></div>
-          <div class="step reveal"><span class="badge-num n4">04</span><h3>Monitoreo</h3><p>Vigilancia continua con alertas y semaforo de riesgo permanente.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODOS -->
-  <section class="section alt" id="modos">
-    <div class="wrap" style="max-width:1080px">
-      <div class="eyebrow reveal"><b></b>04 // Modos</div>
-      <h2 class="h2 reveal" style="font-size:clamp(26px,3.4vw,40px);margin-bottom:26px;max-width:680px">Tres modos segun el momento de tu operacion</h2>
-      <div class="seg reveal" id="modeSeg">
-        <button class="seg-btn active" data-mode="0">Pre-despacho</button>
-        <button class="seg-btn" data-mode="1">Operacion</button>
-        <button class="seg-btn" data-mode="2">Forense</button>
-      </div>
-      <div class="mode-card reveal">
-        <div class="mi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" stroke="var(--blue2)" stroke-width="1.5" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="var(--blue2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div><div class="tag" id="modeTag">Antes de que salga la carga</div><h3 id="modeTitle">Modo Captura Pre-despacho</h3><p id="modeBody">Compartes temprano la factura proforma y los documentos del embarque; validamos mientras todavia hay tiempo de corregir antes de la salida del buque, avion o camion. La deteccion mas temprana posible.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MVE -->
-  <section class="section" id="mve">
-    <div class="wrap">
-      <div class="grid-2">
-        <div>
-          <div class="badge-soft reveal"><span class="d"></span><span>Servicio independiente &middot; MVE / COVE</span></div>
-          <h2 class="h2 reveal" style="font-size:clamp(28px,3.8vw,44px);line-height:1.08;margin-bottom:18px">Manifestacion de Valor Electronica, <span class="grad">sin reprocesos ni multas</span>.</h2>
-          <p class="reveal" style="font-size:clamp(16px,1.5vw,19px);line-height:1.62;color:var(--text);margin-bottom:16px">La MVE es el documento con el que demuestras ante la autoridad como determinaste el <span style="color:var(--accent);font-weight:600">valor en aduana</span> de tu mercancia, con todo su soporte documental. A partir del <span style="color:var(--amber);font-weight:600">1 de agosto de 2026</span> es obligatoria en formato electronico.</p>
-          <div class="note-blue reveal"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px"><circle cx="12" cy="12" r="9" stroke="var(--blue2)" stroke-width="1.6"/><path d="M12 8h.01M11 12h1v4h1" stroke="var(--blue2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><p>La MVE es un <b>servicio independiente y de paga</b> de la Auditoria de Control Tower: no esta incluida en la primera auditoria gratuita. Puedes contratarla por separado o sumarla a tu auditoria.</p></div>
-          <div class="help reveal"><div class="k">Como te ayuda</div><p>Armamos, validamos y resguardamos tu MVE junto con su soporte documental, para que llegue completa y verificable a cada etapa de tu operacion. Tu firmas con tu e.firma y eres el responsable legal.</p></div>
-        </div>
-        <div class="tlcard reveal">
-          <div class="k">Linea de tiempo // MVE</div>
-          <div class="tl"><div class="rail"><i style="background:var(--amber);box-shadow:0 0 10px var(--amber)"></i><b></b></div><div><div class="ttl" style="color:var(--amber)">1 de agosto de 2026</div><p>La MVE es obligatoria en formato electronico para tus operaciones de importacion.</p></div></div>
-          <div class="tl"><div class="rail"><i style="background:var(--red);box-shadow:0 0 10px var(--red)"></i><b></b></div><div><div class="ttl sm">Sin MVE</div><p class="dim">Exposicion a multas y a la suspension del Padron de Importadores.</p></div></div>
-          <div class="tl"><div class="rail"><i style="background:var(--accent);box-shadow:0 0 10px var(--accent)"></i></div><div><div class="ttl sm" style="color:var(--accent)">Con Control Tower</div><p>MVE armada, validada y resguardada. Operacion en verde.</p></div></div>
-        </div>
-      </div>
-
-      <div style="padding-top:clamp(44px,5vw,68px)">
-        <div class="grid-2 reveal" style="align-items:center">
-          <div>
-            <h3 style="font-weight:800;font-size:clamp(22px,2.6vw,32px);line-height:1.14;color:var(--head);margin-bottom:14px;font-family:Montserrat,sans-serif">De 40 minutos a menos de 5, sin reprocesos.</h3>
-            <p style="font-size:16px;line-height:1.62;color:var(--text)">Control Tower <b style="color:var(--head)">pre-llena tu Formato E2</b>, lo arma con su soporte y lo deja listo para que lo <b style="color:var(--head)">firmes con la e.firma de tu empresa</b> y se retransmita a VUCEM. Tu firmas y eres el responsable legal; nosotros somos el switch tecnico.</p>
-          </div>
-          <div class="timecard">
-            <div class="k">Tiempo por manifestacion</div>
-            <div class="timerow"><span>Captura manual</span><b>~40 min</b></div>
-            <div class="bar"><i style="width:100%;background:rgba(var(--accent-rgb),.32)"></i></div>
-            <div class="timerow acc"><span>Con Control Tower</span><b>&lt; 5 min</b></div>
-            <div class="bar"><i style="width:13%;background:var(--accent)"></i></div>
-            <div class="pct"><b>-87%</b><span>de tiempo operativo por MVE</span></div>
-          </div>
-        </div>
-
-        <div class="cards reveal" style="margin-top:clamp(28px,4vw,40px)">
-          <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H5V3" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4M8 12h7M8 16h5" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/></svg></div><h4 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:17px;color:var(--head);margin-bottom:9px">Pre-llenado inteligente</h4><p>Tu Formato E2 y el COVE por factura se arman desde tus pedimentos: proveedor, INCOTERM, tipo de cambio e incrementables (Art. 65 LA).</p></div>
-          <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round"/><path d="m9.2 11.8 2 2 3.6-3.8" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:17px;color:var(--head);margin-bottom:9px">Tu firmas con tu e.firma</h4><p>Tus llaves .cer y .key viven en tu sesion; nunca las guardamos. Sin ellas no se transmite. La firma y la responsabilidad legal son tuyas.</p></div>
-          <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="var(--accent)" stroke-width="1.6"/><path d="m20 20-3.4-3.4M8 11l2 2 3.5-3.6" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:17px;color:var(--head);margin-bottom:9px">Validamos antes de enviar</h4><p>Revisamos tu informacion contra las reglas aplicables y detectamos errores antes de transmitir, para que no te multen.</p></div>
-        </div>
-
-        <div class="process reveal" style="margin-top:clamp(28px,4vw,44px)">
-          <div class="steps">
-            <div class="step"><span class="badge-num">1</span><h4>Pre-llenamos</h4><div class="s">E2 + COVE por factura</div></div>
-            <div class="step"><span class="badge-num">2</span><h4>Tu firmas</h4><div class="s">Con tu e.firma, en tu sesion</div></div>
-            <div class="step"><span class="badge-num">3</span><h4>Validamos</h4><div class="s">Reglas aplicables antes de enviar</div></div>
-            <div class="step"><span class="badge-go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="var(--btn-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h4>Llega a VUCEM</h4><div class="s">Folio + acuse SAT</div></div>
-          </div>
-        </div>
-
-        <div class="howto reveal" style="margin-top:clamp(28px,4vw,44px)">
-          <div class="k">Del folio al despacho</div>
-          <h3>Como se utiliza para modular y despachar?</h3>
-          <p class="intro">Para confeccionar el pedimento, pagar contribuciones y presentarse a modulacion en el mecanismo de seleccion automatizado, el proceso tecnico y operativo sigue estos pasos:</p>
-          <div class="srow"><span class="num">1</span><div><h4>El folio como e-Document</h4><p>El folio alfanumerico de 13 caracteres que emite VUCEM se declara en el pedimento bajo el identificador <b>ED</b> (Documento Digitalizado), en el <b>Registro 507</b> (Apendice 8 del Anexo 22 de las RGCE).</p></div></div>
-          <div class="srow"><span class="num">2</span><div><h4>Vinculacion previa</h4><p>La transmision de la MVE y la declaracion de su folio en el pedimento se realizan <b>antes</b> de pagar las contribuciones y del proceso de modulacion.</p></div></div>
-          <div class="srow" style="margin-bottom:22px"><span class="num">3</span><div><h4>Validacion en Aduana</h4><p>Al presentar la mercancia a despacho, el sistema del SAT/ANAM valida de forma automatizada que el folio del e-Document declarado coincida con la MVE transmitida en VUCEM.</p></div></div>
-          <div class="nota"><div class="k">Nota operativa</div><p>Al capturar la MVE conviene registrar el <b>RFC del agente aduanal</b> en los "RFCs de consulta": le da los privilegios para descargar el formato completo, asegurar la congruencia frente a la proforma del pedimento y mantener el soporte en el Expediente Digital de Comercio Exterior.</p></div>
-        </div>
-
-        <div class="chips reveal">
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="var(--accent)" stroke-width="1.6"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="var(--accent)" stroke-width="1.6"/></svg>ISO/IEC 27000</span>
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="15" r="3" stroke="var(--accent)" stroke-width="1.6"/><path d="m10 13 7-7 3 3M16 7l2 2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>FIEL nunca almacenada</span>
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 7h14M7 7l-3 6a3 3 0 0 0 6 0L7 7Zm10 0-3 6a3 3 0 0 0 6 0l-3-6Z" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Art. 59-A LA &middot; Regla 1.5.1 RGCE 2026</span>
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Acuse y expediente 5 anios</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EQUIPO -->
-  <section class="section alt">
-    <div class="wrap">
-      <div class="team-grid">
-        <div class="reveal">
-          <div class="eyebrow"><b></b>Quienes somos</div>
-          <h2 style="font-weight:800;font-size:clamp(24px,3vw,36px);line-height:1.14;color:var(--head);margin-bottom:18px;font-family:Montserrat,sans-serif">Certeza antes del despacho, no sorpresas despues.</h2>
-          <p style="font-size:16px;line-height:1.62;color:var(--text)">Somos un equipo con mas de 20 anios en Comercio Exterior, Aduanas y Strategic Sourcing &amp; Procurement, con experiencia en cadenas globales de America del Norte, Europa y Asia. Desarrollado por un Scrum Master certificado. Sabemos lo que un agente aduanal solidario, un importador del Padron y un compliance officer necesitan bajo el Marco 2026.</p>
-        </div>
-        <div class="reveal" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
-          <div class="statbox"><div class="n">20+</div><div class="l">Anios en comercio exterior y aduanas</div></div>
-          <div class="statbox"><div class="n">3</div><div class="l">Regiones: Norteamerica, Europa y Asia</div></div>
-          <div class="statbox" style="grid-column:span 2;display:flex;align-items:center;gap:12px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.5 7-11a7 7 0 0 0-14 0c0 5.5 7 11 7 11Z" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" stroke="var(--accent)" stroke-width="1.6"/></svg><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);letter-spacing:.04em">Guadalajara, Mexico</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="section" id="faq">
-    <div class="faq-wrap">
-      <div class="eyebrow reveal"><b></b>05 // Preguntas frecuentes</div>
-      <h2 class="h2 reveal" style="margin-bottom:38px">Preguntas frecuentes</h2>
-      <div class="reveal" id="faqList" style="display:flex;flex-direction:column;gap:12px"></div>
-    </div>
-  </section>
-
-  <!-- CTA + FORM -->
-  <section class="section alt" id="auditoria">
-    <div class="cta-grid">
-      <div>
-        <div class="badge-soft reveal"><span class="d"></span><span>Tu primera auditoria &middot; Gratis</span></div>
-        <h2 class="h2 reveal" style="font-size:clamp(30px,4vw,48px);line-height:1.05;margin-bottom:18px">Pidenos tu primera auditoria de Control Tower, gratis</h2>
-        <p class="reveal" style="font-size:clamp(16px,1.5vw,18px);line-height:1.6;color:var(--text);margin-bottom:24px;max-width:440px">Es nuestra forma de mostrarte lo que encontramos antes que el SAT: te entregamos un primer mapa de riesgos de tu operacion, sin costo y sin compromiso.</p>
-        <ul class="ulist reveal">
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Diagnostico de riesgos de tu operacion</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Revision de preparacion ante la MVE</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Recomendaciones para blindar tu expediente</li>
-        </ul>
-        <p class="note-fine reveal">La cortesia aplica a tu primera auditoria. La MVE es un servicio independiente y de paga; no esta incluida.</p>
-      </div>
-      <div class="formcard reveal">
-        <div class="success" id="formSuccess">
-          <div class="c"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <h3>Solicitud recibida</h3>
-          <p>Gracias. Revisaremos tu operacion y te contactaremos por correo para coordinar tu auditoria.</p>
-        </div>
-        <form id="leadForm" novalidate>
-          <div class="k">Formulario seguro // CT</div>
-          <label class="field"><span class="l">Nombre</span><input type="text" name="name" placeholder="Tu nombre" autocomplete="name"></label>
-          <label class="field" style="margin-bottom:8px"><span class="l">Correo de empresa</span><input type="email" name="email" placeholder="nombre@tuempresa.com" autocomplete="email"></label>
-          <p class="hint">Solo aceptamos correos de empresa.</p>
-          <label class="field"><span class="l">Mensaje</span><textarea name="message" rows="3" placeholder="Cuentanos brevemente sobre tu operacion"></textarea></label>
-          <p class="err" id="formErr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--red)" stroke-width="1.7"/><path d="M12 7v6M12 16h.01" stroke="var(--red)" stroke-width="1.7" stroke-linecap="round"/></svg><span id="formErrText"></span></p>
-          <button type="submit" class="btn-submit" id="submitBtn">Enviar solicitud</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <div class="row"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA1CAYAAAAQ7fj9AAABS2lDQ1BJQ0MgUHJvZmlsZQAAKJF9kL9LQmEUhh/LEkSooSGiQSKaLMQkXNVCBAcxpR/b9Woa6PXjeiPaGmoXamkLW/oLamnoPygIGiKiuTVyKbmdq5VW1AeH9+H9zjm8HBjwaUpV3EDVsMxMIuZfXVv3e54YZgIvU0Q0va6i6XRKWvjU7691i8vRm1ln1+//f5+3UKzrom9SYV2ZFriCwultSzm8KzxmSijhQ4dLXT51ON/li05PNhMXvhYe1ctaQfhROJDv80t9XK1s6R8ZnPS+opFbFh2XmiRFAj850SwZoqyQZJGlP2bCnZk4NRQ7mGxSoowlG6LiKCoUhZMY6MwREA4RlFpwbv3zhj2v1oTICww2el7+CM73JeZdz5s+hpE9OLtSmql9XdbVctc35kNd9sVg6MG2n2fAcwDthm2/Nm27fSL77+HSeAf/ul1cVAJY9QAAAFZlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA5KGAAcAAAASAAAARKACAAQAAAABAAAAOqADAAQAAAABAAAANQAAAABBU0NJSQAAAFNjcmVlbnNob3S/Pxd8AAAB1GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNi4wLjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyI+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj41MzwvZXhpZjpQaXhlbFlEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj41ODwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlVzZXJDb21tZW50PlNjcmVlbnNob3Q8L2V4aWY6VXNlckNvbW1lbnQ+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpwmZq/AAALrklEQVRoBe2a249ddRXH1z7TTgu90EKhdNppoUARGhCBIFeVSzQmxCcTTdCEhPjiLTGS+Af4Jr746JPGxDcjkhASJKEGFAlqsYLIZUo709sUept2CnQ6c7bfz3f99pnamSnZU6Ak9jfn7N/6rbV+a63vWmtfzjlTLVu1sY55jP7+hTExcXIeO8/Nls65cfvJez0P9JPP+cfr8XxFP978fvLW/28quuCjym01sCo612+MzlUDUa1eFXHZSpmuo+p0ovYNTDRzBTfp5BOBBPmSTqOkmQ1dibt1dN85GPHO4ei+vTfqN4ajHtW6xajO9j5aXXJR9N392ejcvjlixUXCQWSKu65EA6kAhBIP1I2kKBocXKMtetixvrhOkG12o8LEofHo/uO16L74atSHj9nMhx3OCujkVWuj74Hbotp8ZVTgMw5CBpSWiqoWP9cwHG3i6dEmEOhVaJE50g50Y7MIpNuN7usj0X3u5ajfHOmx5yLm37rXDMaCB++K6ooBgWpANFhKzdRyBJhDPFALDFWmHYu2xTZhVUuthybQUbe2lFJFXCWx79oNUS3uj6kpVX/7btuZ6zCvi1F1qc6/+2+N2DCQEZSWnAYgSkFxvgHAiRBI025JwhEMAxdZdNMYa6QlKSBLdCKgsYtMtknk+suj88Wbg1PoTGNeQDt33BDVdWpXR5BOeyTeCACA0DrkBaYsemudb+gQMIqmWUNnojJBiORDL78Ru8wiZADQ1ab10bn1OjHmHq2BVusui87Nm0ownpx94kvgcq4AVL/U0ZwXISkYBLMIJSMDJljRjjETxLpC6Bd2LDSwBAxPewp+t/gNV0e15pKiOHNqDbRD9i692NklsdmeogicgIhBAVRdpArYUYqBUDrwOIKiKpU3w/LUs1bRpz09tE66rPFBIhr5xcujumpd6s5ybH0x6mzUxYfIjGM6CAARWzOoKVdiF0Z8n7OqdHPbaSpK+zYjU0NyTk0He80o/JRZh0SJcGKlUg2ubkzNmFsDDRnL4IjehY0O2W5Mm8hgYfn8LDxQN226YtHiWLXoAu868MF7cWTig7SBLekbCCCMUmricTpkFdmGD6UXsKKdyIFLbW+2Q2ug1ZILMsP2VUcHN0Sl6k1HaCEMsQDXBA5iBabpqa98Pa5doVNA440jh+LOP/zG/Bok3seEPhNgSJqXybaauiZhpuDCRTnPcmx9jsaifpkxKjt3LX2eKAo7h5NgQueps621AaLHS++tB0fjZLfr99YDo0UDNeqW9hvbCZ2t+jNozokE77WW7hzHNgtKsdoDVZA2ii/+FLxY5uHUi8JLeZHh33uT+MGfn4mxiRN+f//5p9X+RaHRAYhPcPazVwdk5ACCl94cHIHlMGYfrVvXYEp7kXgqRu925agib6pIFjbnhzfdEH3SL+mIa5aviDUXLo2X3tkbi/vS/Xc33xKfXz0Q+46Px5DaGCzsmJLNX/1nWwIqPEPxuYJfQKV/cNI/c43WQBNYsS8nNt6AU4iNK6pxz+Vr4+e33zur7wc3XN3j//S2L/To04ntAv78nl1CASCqnBoAy4FHlzlxN+zT5tZAyaAvMOqhvFfmo50R+lwtiZajF/bv6bn7yYtbHMhXBzfGvWs3xG/f/Hf09+WZM6Fn1Yc2bY4te4bjqeHt2lPHY3fe770vjO7WLB++Lyco/HfkP3kkQCp0TfHvjacd2gOlbUhnM+Pbmc72pMZeiz0lx3/cvSO+vO7K2PruaHDRmdIFCKBDRw/FL7b9Xdp1/PBGPTdrPLnjrfj169viplV5P3x6ZHtMTU7JFVpdX+Ebv/ZjhHKnPyqN1lyj9cUor3qYTqPcrF1NwEKUJHDO8vfs7mH7/pLAIRo5dtTr9Uv12dW6dUAzdo2PuSr3rb3C6y27hu0ln6DIKOaL3zLTtZacoZrsaw3UN3x8YZgZpHoZFrR4fPKwc1X9T3t3SinivoEN5u06Nub1+qXLvQf9Bujw0SOpu+4Kz8+qG/KcxJdadYpZbzbJVfpNn3BTBjFztG9dOfF1wbaai49gypPvmpqnndbx1thhPxDcoQvTioX9MTJ+JPa/dzwGBbQoxuCy5eZR7ZULF8cda/KZdejwwbRrtGpMzX4KswNSiX9mM3rTTJgR7YFybjLIsJ0oo+UBnkByFJ1U00Vmp5+Ctn/7e0UesfrCJXHoOz/urSH2PfKj3prbTJqTlyyaMklCG2hJG52vF4pn2m3PTkO0BuoPy86gHKp9bVwBEBTd7OBUXkBzi6HVH3v5r7F2ybK4e81grNQz7rGTE763jh4/rjjquHzJUt8zl6nih0+8H2+PHYlvPPk7SfgrFVNisY3/XjpNnKLVCBp0p8ytgXqvDKZ7LOtdMg7PgAnPIh0E9PD7J+LhZ56In931QDxy/U3xracf171xxKZsR2r3DAzGE1/7Zvx+6PV49LlnZD8hhq7SDMyRtAK7Z9+JRkUCX9xQnmW0BuqsylBe/QCS507yyW6CNdVEpUwoxt7wXis2dgBSFDRVgOOWok2pRuKAnrYxZHt2aoTFfrHR8zRNtAaaFmWwseks5xpcKaBlCaapAMqSOjorZcSw9fa+Rsbs2AGZANlBy6Z9L2C5k2wAOxp+Nk5yxrE1UMfTeLQDDg6JaByMP31YRhVE0F/NHkLACHJaXhmBzJ0Iiximudro1pStUmkk2UHFLE9J8jF99qLxv6M1UBxgkJlh4AUek9dFlt/kES6bTkGK3FcuBTrL+ZW2tcvtigLAtAkTmrCHjCBUaK3UQaJP8eA9px5aA8WJDcqxKbdUuui1KkA0kNNynXK+ZRYaWQOSoFM7JRwVvV5YRZT+krayBSCE4GqsGcU0JGLmaA3UFstTkeLXSCe+hwJeTCqpMBwgq+YzawlZkib7gFSETaCY05iOV3qIkz0twL+tc+T0QAfFnmazoze3fgSs358ohmVXDvnrUtXGeQnc91DQ0lsaPNEQDsMq8EXQuoRqwEXoNrVqgvAm2XdLi2+R9uLfz9SNnYlJq852aP3by4JHH4pKXy164IycpmfCbbA0YsngZpA8EPTrw/aYvgib5GcENjoPdfR3+mJ5/6L4YPJkjPufQLIlnQA3TQGKZftjtkdFUOgjx6L7y8dZzRitW7fe827EynxOdesWZ1km7OM2q+gA4Kg1AXX05IkIfX3S47sLHG+cnJyMA3q7hgKCDnjYRz5oPV90SRunB3sRYBtNXvvm/imxfeuOjLpKOBFGO0hCtAeVEJvOJJhSUbBnm7Kl8HPyLpFwbcrnHQttwhYCf1Uj9CwbkOmfROiNZK+KMMdYwP8LtRoj+6N7UJ8p3b4yzoUEJ56SJhgYzcrBSodwrNpUATWCdDJSHwUXi8zoloQt9hs8wNmjI4ksUtuIsfFYsPdAVHPgWdD6n6J27Y/OK2/pF6zP9YIAazWVEZFlB2BCguaTjQOUEFCOXgwIg0ZICxQY0wrieSPKPdodobVF1pXotZ0xdYaKtm5d3NZb34xqaE+2lQOQS2KU05xKNVUaPzRYRzzkBYzLZjqROF5IEYZgejppyH1KwFdOGNnW0n57T9Sv8l3T3KP1xQhT9SF9S/DCK1EvXBj8upYo8wGsedLJwErWSzKIcbpyqrv6r6QkkyCpdXzICpMqEuQMsp09WqJC+8a+A1G/9FqErrhnGvOqKAar4X3R3fK3qIdG5LF4JjaEVBKWysvsQOEbMBNazYVGyUBRLM7NRJAqpCnPXxlGyBtVt410d+ofN/7yT33ZtF+LM495VbQxWW/fE1MHxqJzy2cibtTvk8uXOE6eO33/Iz4pu2qAYHhOAF3uTwJ9eiL8i7Z2GZDBlm1kjWvBsXGdkzui/tdQxFE+vH/4aP3A0Jg8/b87/XO/fp+sBi/Ln9lX6ps9AuskGEdNJdVDecWUJVc2LeajoEADkGzo5YEO70NHoz6oU0YXnHrH3gjoFuMjA9rC5zlRnfc5ek6iPQun54GeRfI+lVvPV/RTWZazCOq/UclPrYBrWeAAAAAASUVORK5CYII=" alt="bondiaCT"><b>bondia<i>CT</i></b></div>
-        <p>La torre de control que audita y blinda tu operacion de comercio exterior.</p>
-        <div class="foot-loc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.5 7-11a7 7 0 0 0-14 0c0 5.5 7 11 7 11Z" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.2" stroke="var(--accent)" stroke-width="1.6"/></svg>Guadalajara, Mexico</div>
-      </div>
-      <div class="foot-cols">
-        <div class="foot-col"><div class="k">Otros servicios</div><a href="/procurement">Procurement</a><a href="/ligie">LIGIE</a></div>
-        <div class="foot-col"><div class="k">Legal</div><a href="/privacidad">Aviso de privacidad</a></div>
-      </div>
-    </div>
-    <div class="copyright">&copy; 2026 bondiaCT // Control Tower. Todos los derechos reservados.</div>
-  </footer>
-</div>
-
-<a href="#top" class="backtop" id="backtop" aria-label="Volver arriba"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 19V6M6 12l6-6 6 6" stroke="var(--btn-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-
-<!-- MOBILE MENU -->
-<div class="mm" id="mm">
-  <div class="mm-panel">
-    <div class="mm-head"><b>bondia<i>CT</i></b><button class="mm-x" id="mmClose" aria-label="Cerrar menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
-    <a class="link" href="#producto">Que es</a>
-    <a class="link" href="#capacidades">Capacidades</a>
-    <a class="link" href="#modos">Modos</a>
-    <a class="link" href="#mve">MVE</a>
-    <a class="link" href="#faq">FAQ</a>
-    <div class="lbl">Tema</div>
-    <div class="themes" id="mmThemes">
-      <button data-theme-set="azul"><span class="dot" style="background:#2A6FDB"></span>Azul</button>
-      <button data-theme-set="verde" class="active"><span class="dot" style="background:#6BD8CB"></span>Verde</button>
-      <button data-theme-set="claro"><span class="dot" style="background:#E4ECE9"></span>Claro</button>
-    </div>
-    <a class="mm-ghost" href="https://ct.bondiact.io" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="var(--accent)" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="var(--accent)" stroke-width="1.7"/></svg>Acceder</a>
-    <a class="mm-cta" href="#auditoria">Solicita tu auditoria</a>
   </div>
-</div>
+  <div class="mmenu">
+    <a href="#auditoria">Auditoría</a>
+    <a href="#monitor">Monitor Forense</a>
+    <a href="#mve">MVE</a>
+    <a href="#solicita">Solicita tu auditoría</a>
+    <a href="https://ct.bondiact.io">Acceder al panel →</a>
+  </div>
+</header>
+
+<!-- ============== OFERTA DE LANZAMIENTO ============== -->
+<a class="offer" href="#solicita">Tu primera auditoría de Control Tower es gratis, pídela hoy <span class="arrow">→</span></a>
+
+<!-- ============== HERO ============== -->
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="pulse"></span>Reforma Aduanera 2026</span>
+      <h1>La Reforma 2026 subió tus multas al <span class="hl">300%</span></h1>
+      <p class="lead">Control Tower audita tus pedimentos <strong>antes del despacho</strong>. Detectamos errores de clasificación, valoración y documentación que el SAT ahora sanciona sin tolerancia, antes de que se conviertan en una multa.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="#solicita">Solicita tu auditoría</a>
+        <a class="btn btn-ghost btn-lg" href="https://ct.bondiact.io">Acceder al panel
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="trust">
+        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>62 reglas LIGIE &amp; Ley Aduanera</span>
+        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Revisión post y pre-despacho</span>
+        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Manifestación de Valor (MVE)</span>
+      </div>
+    </div>
+
+    <!-- RADAR -->
+    <div class="radar-card reveal">
+      <div class="radar-head">
+        <div class="t">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/></svg>
+          Monitor Forense
+        </div>
+        <span class="live"><i></i>EN VIVO</span>
+      </div>
+      <div class="radar">
+        <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span><span class="ring r4"></span>
+        <span class="cross h"></span><span class="cross v"></span>
+        <span class="sweep"></span>
+        <span class="blip" style="top:32%;left:64%;color:var(--risk-rojo)"><i></i></span>
+        <span class="blip" style="top:60%;left:38%;color:var(--risk-ambar)"><i></i></span>
+        <span class="blip" style="top:46%;left:72%;color:var(--risk-rojo)"><i></i></span>
+        <span class="blip" style="top:70%;left:58%;color:var(--risk-ambar)"><i></i></span>
+        <span class="blip" style="top:38%;left:30%;color:var(--risk-verde)"><i></i></span>
+      </div>
+      <div class="radar-foot">
+        <div class="rf"><div class="n" style="color:var(--risk-rojo)">3</div><div class="l">Riesgo alto</div></div>
+        <div class="rf"><div class="n" style="color:var(--risk-ambar)">8</div><div class="l">Advertencias</div></div>
+        <div class="rf"><div class="n" style="color:var(--risk-verde)">222</div><div class="l">Auditados</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== STATS ============== -->
+<section class="band" style="padding-top:8px">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat danger reveal"><div class="big" data-count="300" data-suffix="%">0%</div><div class="lbl">Aumento de multas · Reforma 2026</div></div>
+      <div class="stat reveal"><div class="big" data-count="222">0</div><div class="lbl">Pedimentos auditados</div></div>
+      <div class="stat reveal"><div class="big" data-prefix="$" data-count="2.9" data-decimals="1" data-suffix="M">$0</div><div class="lbl">Riesgo mitigado (MXN)</div></div>
+      <div class="stat reveal"><div class="big" data-count="24" data-suffix=" MVE">0</div><div class="lbl">Manifestaciones validadas</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PILLARS ============== -->
+<section class="band" id="auditoria">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Validación previa</div>
+      <h2>Tres capas de defensa contra las sanciones</h2>
+      <p>Cada pedimento pasa por una auditoría forense, una determinación de valor y un monitoreo continuo. Lo que el SAT detectaría en una visita, tú lo corriges antes.</p>
+    </div>
+    <div class="cards3">
+      <div class="pcard reveal">
+        <div class="picon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Auditoría Forense</h3>
+        <p>Revisión post-despacho que contrasta cada pedimento contra 62 reglas de la LIGIE y la Ley Aduanera. Emite un dictamen con fundamento legal.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Clasificación arancelaria y fracción</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Determinación de IGI, DTA e IVA</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>eDocs y expediente completo</li>
+        </ul>
+      </div>
+      <div class="pcard reveal">
+        <div class="picon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></div>
+        <h3>Manifestación de Valor</h3>
+        <p>Determina el valor en aduana conforme a los Arts. 64 a 78 de la Ley Aduanera, con incrementables, método de valoración y acuse en PDF.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Valor de transacción (Art. 64)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Incrementables (Art. 65)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Autollenado desde CFDI 4.0</li>
+        </ul>
+      </div>
+      <div class="pcard reveal">
+        <div class="picon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3>Monitor Forense</h3>
+        <p>Vigilancia continua de tus operaciones por aduana y patente. Clasifica el riesgo en tiempo real y dispara alertas antes del despacho.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Semáforo de riesgo por operación</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Alertas de eDocs faltantes</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dashboard de ROI y multas evitadas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CAPACIDADES ============== -->
+<section class="band" id="capacidades">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Capacidades</div>
+      <h2>Todo lo que revisa Control Tower</h2>
+      <p>Una sola plataforma para auditar, valorar, documentar y vigilar tus operaciones de comercio exterior.</p>
+    </div>
+    <div class="caps">
+      <div class="cap reveal">
+        <span class="ci"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <h3>Auditoría de pedimentos</h3>
+        <p>Validación contra <span class="num">52+</span> reglas que cubren la Reforma 2026: clasificación, valoración y documentación.</p>
+      </div>
+      <div class="cap reveal">
+        <span class="ci"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="m9 9 2 2 4-4"/></svg></span>
+        <h3>Consulta LIGIE</h3>
+        <p><span class="num">11,494</span> fracciones arancelarias al alcance, con sus notas y restricciones vigentes.</p>
+      </div>
+      <div class="cap reveal">
+        <span class="ci"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></span>
+        <h3>Expediente digital y materialidad</h3>
+        <p>Compulsa de documentos para demostrar la materialidad de cada operación ante la autoridad.</p>
+      </div>
+      <div class="cap reveal">
+        <span class="ci"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg></span>
+        <h3>Reporte forense con sello de integridad</h3>
+        <p>Dictamen con trazabilidad y sello de integridad: cada hallazgo es verificable y reproducible.</p>
+      </div>
+      <div class="cap reveal">
+        <span class="ci"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></span>
+        <h3>MVE armada, validada y resguardada</h3>
+        <p>Manifestación de Valor construida conforme a la Ley Aduanera, validada y guardada con respaldo.</p>
+      </div>
+      <div class="cap reveal">
+        <span class="ci"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+        <h3>Visibilidad de embarques</h3>
+        <p>Todos tus embarques y operaciones en una sola torre de control, con su estado y nivel de riesgo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MONITOR DETAIL ============== -->
+<section class="band" id="monitor" style="background:var(--bg2)">
+  <div class="wrap split">
+    <div class="reveal">
+      <div class="kicker">Monitor Forense</div>
+      <h2>Ve el riesgo antes que la autoridad</h2>
+      <p style="font-size:16px;color:var(--text2);text-wrap:pretty">El radar clasifica cada operación según su nivel de riesgo y mapea exactamente dónde está la inconsistencia: expediente, valoración o clasificación.</p>
+      <div class="feature-list">
+        <div class="fl"><div class="fn">01</div><div><h4>Detección en tiempo real</h4><p>Cada pedimento capturado se contrasta contra el catálogo de reglas y se posiciona en el radar por severidad.</p></div></div>
+        <div class="fl"><div class="fn">02</div><div><h4>Trazabilidad por aduana</h4><p>Filtra por aduana, patente y proveedor para identificar patrones de error recurrentes.</p></div></div>
+        <div class="fl"><div class="fn">03</div><div><h4>Acción antes del despacho</h4><p>Genera la carta de instrucciones al agente aduanal con las correcciones ya aplicadas.</p></div></div>
+      </div>
+    </div>
+    <div class="feed reveal">
+      <div class="feed-top">
+        <span class="dot" style="background:var(--risk-rojo)"></span>
+        <span class="dot" style="background:var(--risk-ambar)"></span>
+        <span class="dot" style="background:var(--risk-verde)"></span>
+        <span style="margin-left:8px;font-size:12.5px;font-weight:700;color:var(--text3);font-family:var(--mono)">monitor_forense.log</span>
+      </div>
+      <div class="feed-row">
+        <div class="ic" style="background:rgba(226,68,92,.13);color:var(--risk-rojo)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+        <div class="meta"><b>eDocs faltantes</b><span>COVE · MVE · Cert. origen</span></div>
+        <span class="tag" style="background:rgba(226,68,92,.13);color:var(--risk-rojo)">Alto</span>
+      </div>
+      <div class="feed-row">
+        <div class="ic" style="background:rgba(226,68,92,.13);color:var(--risk-rojo)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h3"/></svg></div>
+        <div class="meta"><b>Determinación de impuestos</b><span>IGI 15% vs 10% · DTA mal calculada</span></div>
+        <span class="tag" style="background:rgba(226,68,92,.13);color:var(--risk-rojo)">Alto</span>
+      </div>
+      <div class="feed-row">
+        <div class="ic" style="background:rgba(253,171,61,.15);color:var(--risk-ambar)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="meta"><b>Incoterms mal aplicados</b><span>CIF declarado vs. FOB en factura</span></div>
+        <span class="tag" style="background:rgba(253,171,61,.15);color:#b9791c">Medio</span>
+      </div>
+      <div class="feed-row">
+        <div class="ic" style="background:rgba(253,171,61,.15);color:var(--risk-ambar)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+        <div class="meta"><b>Expedientes incompletos</b><span>Pedimentos 4001234 · 4000981</span></div>
+        <span class="tag" style="background:rgba(253,171,61,.15);color:#b9791c">Medio</span>
+      </div>
+      <div class="feed-row">
+        <div class="ic" style="background:rgba(0,200,117,.13);color:var(--risk-verde)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div class="meta"><b>Embarque MX-8841 validado</b><span>Carta de instrucciones generada</span></div>
+        <span class="tag" style="background:rgba(0,200,117,.13);color:#0a8f5a">OK</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MODOS ============== -->
+<section class="band" id="modos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Escudo dual</div>
+      <h2>Dos modos de defensa</h2>
+      <p>Control Tower te protege en los dos momentos críticos: antes de pagar el pedimento y después, cuando la exposición ya existe.</p>
+    </div>
+    <div class="modos">
+      <div class="mcard op reveal">
+        <span class="mtag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>Operación</span>
+        <div class="mhead">
+          <span class="mshield"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <h3>Pre-despacho</h3>
+        </div>
+        <p>Audita el pedimento <strong>antes de pagarlo</strong>. Detectas y corriges errores de clasificación, valoración o documentación a tiempo, cuando todavía no hay consecuencia.</p>
+        <div class="when"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Antes de pagar el pedimento</div>
+      </div>
+      <div class="mcard fo reveal">
+        <span class="mtag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Forense</span>
+        <div class="mhead">
+          <span class="mshield"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></span>
+          <h3>Post-despacho</h3>
+        </div>
+        <p>Audita pedimentos <strong>ya pagados</strong> para detectar tu exposición antes de que el SAT ejerza sus facultades de comprobación. Cuantificas el riesgo y lo corriges de forma proactiva.</p>
+        <div class="when"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>Antes de que actúe el SAT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MVE ============== -->
+<section class="band" id="mve">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Manifestación de Valor</div>
+      <h2>Determina el valor en aduana sin margen de error</h2>
+      <p>Un asistente guiado que arma tu MVE conforme a los Arts. 64 a 78 de la Ley Aduanera, valida la documentación soporte y genera el acuse en PDF.</p>
+    </div>
+    <div class="mve-card reveal">
+      <div class="stepper">
+        <div class="step done"><span class="num"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="nm">Importador</span></div>
+        <span class="step-line done"></span>
+        <div class="step done"><span class="num"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="nm">Proveedor</span></div>
+        <span class="step-line done"></span>
+        <div class="step cur"><span class="num">3</span><span class="nm">Mercancía</span></div>
+        <span class="step-line"></span>
+        <div class="step"><span class="num">4</span><span class="nm">Incrementables</span></div>
+        <span class="step-line"></span>
+        <div class="step"><span class="num">5</span><span class="nm">Valoración</span></div>
+        <span class="step-line"></span>
+        <div class="step"><span class="num">6</span><span class="nm">Resumen</span></div>
+      </div>
+      <div class="mve-body">
+        <div class="mve-col">
+          <h4><span class="bar"></span>Método de valoración</h4>
+          <div class="method on"><span class="radio"><i></i></span><div><b>Valor de transacción (Art. 64)</b><span>Precio pagado o por pagar de la mercancía</span></div></div>
+          <div class="method"><span class="radio"></span><div><b>Mercancías idénticas (Art. 72)</b><span>Cuando no aplica el método principal</span></div></div>
+          <div class="method"><span class="radio"></span><div><b>Mercancías similares (Art. 73)</b><span>Mismas características y composición</span></div></div>
+        </div>
+        <div class="mve-col">
+          <h4><span class="bar" style="background:var(--risk-verde)"></span>Validación de la MVE</h4>
+          <div class="check"><span class="cm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>RFC validado en LCO</b><span>Padrón de importadores activo</span></div></div>
+          <div class="check"><span class="cm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Factura CFDI 4.0 vinculada</b><span>UUID verificado ante el SAT</span></div></div>
+          <div class="check"><span class="cm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Incoterms 2020 aplicado</b><span>FOB / CIF coherente con la factura</span></div></div>
+          <div class="check"><span class="cm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Incrementables Art. 65</b><span>Fletes, seguros y regalías incluidos</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section class="band" id="faq" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Preguntas frecuentes</div>
+      <h2>Resolvemos tus dudas</h2>
+    </div>
+    <div class="faq reveal">
+      <div class="faq-item open">
+        <button class="faq-q" type="button" aria-expanded="true">¿Qué cambió con la Reforma 2026?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="faq-a"><div class="faq-a-in">Las multas escalaron hasta el 250–300% del valor de la mercancía. Una sola fracción arancelaria mal clasificada o un COVE incompleto basta para detonarlas. La validación previa deja de ser opcional.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">¿La primera auditoría es gratis?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="faq-a"><div class="faq-a-in">Sí. Como oferta de lanzamiento, tu primera auditoría de Control Tower es gratuita. Solicítala desde el formulario y te contactamos para coordinarla.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">¿La MVE está incluida?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="faq-a"><div class="faq-a-in">No. La Manifestación de Valor es un servicio independiente y de paga. Puede sumarse a tu auditoría cuando la necesites, armada y validada conforme a la Ley Aduanera.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">¿Mis datos están seguros?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="faq-a"><div class="faq-a-in">Sí. Cada cliente ve únicamente su propia información y no compartimos datos entre cuentas ni con terceros.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">¿Necesito instalar algo?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="faq-a"><div class="faq-a-in">No. Control Tower es 100% web: entras desde el navegador, sin instalaciones ni configuraciones.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FORM ============== -->
+<section class="band form-band" id="solicita">
+  <div class="wrap form-grid">
+    <div class="form-side reveal">
+      <div class="kicker">Solicita tu auditoría</div>
+      <h2>Audita un pedimento, sin costo</h2>
+      <div class="fbenefit">
+        <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg></span>
+        <div><b>Diagnóstico forense</b><p>Revisamos un pedimento real contra las 62 reglas y te entregamos el dictamen.</p></div>
+      </div>
+      <div class="fbenefit">
+        <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
+        <div><b>Cálculo de riesgo</b><p>Cuantificamos la sanción potencial bajo las nuevas reglas de la Reforma 2026.</p></div>
+      </div>
+      <div class="fbenefit">
+        <span class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <div><b>Acceso al panel</b><p>Te damos acceso de prueba a Control Tower para que veas el monitor en vivo.</p></div>
+      </div>
+    </div>
+
+    <form class="form-card reveal" id="leadForm" novalidate>
+      <div class="field">
+        <label for="f-name">Nombre</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Tu nombre y empresa" required>
+      </div>
+      <div class="field">
+        <label for="f-email">Correo corporativo</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" placeholder="nombre@empresa.com" required>
+      </div>
+      <div class="field">
+        <label for="f-message">¿Qué quieres auditar?</label>
+        <textarea id="f-message" name="message" rows="4" placeholder="Cuéntanos sobre tus operaciones: aduanas, volumen mensual, principales preocupaciones…"></textarea>
+      </div>
+      <button class="btn btn-primary btn-lg" type="submit" id="submitBtn" style="width:100%;justify-content:center">Solicitar auditoría</button>
+      <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center">Usaremos tus datos únicamente para contactarte sobre esta auditoría.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <a class="brand" href="#inicio">
+        <span class="logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.2 12.27 20 6H4l1.8 6.27a1 1 0 0 0 .95.73h10.5a1 1 0 0 0 .96-.73Z"/><path d="M8 13v9"/><path d="M16 22v-9"/><path d="m9 6 1 7"/><path d="m15 6-1 7"/><path d="M12 6V2"/><path d="M13 2h-2"/></svg>
+        </span>
+        <span><b>Control Tower</b><small>Validación previa aduanera</small></span>
+      </a>
+      <nav class="foot-links">
+        <a href="#auditoria">Auditoría</a>
+        <a href="#monitor">Monitor Forense</a>
+        <a href="#mve">MVE</a>
+        <a href="#solicita">Solicita tu auditoría</a>
+        <a href="https://ct.bondiact.io">Acceder</a>
+      </nav>
+    </div>
+    <p class="foot-legal">Control Tower Database Consulting es la base de datos de consulta de las disposiciones normativas relacionadas con el comercio exterior, por lo que su contenido no sustituye los textos jurídicos publicados por la autoridad a través del medio oficial. © 2026 Control Tower · bondiact.io/controltower</p>
+  </div>
+</footer>
 
 <script>
 (function(){
   "use strict";
-  var root=document.documentElement, reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
 
-  /* THEME */
-  function setTheme(name){
-    if(name==='verde'){root.removeAttribute('data-theme');}else{root.setAttribute('data-theme',name);}
-    try{localStorage.setItem('ct-theme',name);}catch(e){}
-    var btns=document.querySelectorAll('[data-theme-set]');
-    for(var i=0;i<btns.length;i++){btns[i].classList.toggle('active',btns[i].getAttribute('data-theme-set')===name);}
-  }
-  document.addEventListener('click',function(e){
-    var t=e.target.closest&&e.target.closest('[data-theme-set]');
-    if(t){setTheme(t.getAttribute('data-theme-set'));}
-  });
-  try{var saved=localStorage.getItem('ct-theme'); if(saved){setTheme(saved);}}catch(e){}
-
-  /* MOBILE MENU */
-  var mm=document.getElementById('mm');
-  document.getElementById('burger').addEventListener('click',function(){mm.classList.add('open');});
-  document.getElementById('mmClose').addEventListener('click',function(){mm.classList.remove('open');});
-  mm.addEventListener('click',function(e){if(e.target===mm){mm.classList.remove('open');}});
-  var mmLinks=mm.querySelectorAll('a.link, a.mm-cta');
-  for(var i=0;i<mmLinks.length;i++){mmLinks[i].addEventListener('click',function(){mm.classList.remove('open');});}
-
-  /* FAQ */
-  var faqs=[
-    {q:'Que cambia con la Reforma 2026?',a:'El regimen sancionador subio del 70-100% al 250-300% del valor comercial. Se formalizan obligaciones como la Manifestacion de Valor Electronica y se endurece la corresponsabilidad. Una operacion mal documentada queda mas expuesta que nunca a multas, a la baja del Padron y a la cancelacion de la patente.'},
-    {q:'Control Tower sustituye a mi agente aduanal?',a:'No. Control Tower es una capa de control sobre tu documentacion: auditamos y blindamos tu informacion para que tu operacion llegue ordenada y verificable a cada etapa. Tu y tu agente aduanal siguen siendo los responsables del despacho.'},
-    {q:'En que momento conviene usarlo?',a:'Antes de pagar el pedimento. El mejor momento para detectar un error es antes de que el SAT lo vea: una vez pagado, corregir implica una correccion de pedimento y depender de que tu agente aduanal la acepte.'},
-    {q:'La MVE esta incluida en la auditoria gratuita?',a:'No. La primera auditoria de Control Tower es de cortesia, pero la MVE es un servicio independiente y de paga: no esta incluida. Puedes contratarla por separado o sumarla a tu auditoria segun lo necesites.'},
-    {q:'Mis datos estan seguros?',a:'Si. Resguardamos tu documentacion en un expediente electronico con accesos controlados y una bitacora verificable de cada movimiento. Tu e.firma es tuya y la responsabilidad legal siempre es tuya.'}
-  ];
-  var faqList=document.getElementById('faqList');
-  faqs.forEach(function(f){
-    var item=document.createElement('div'); item.className='faq-item';
-    var btn=document.createElement('button'); btn.type='button'; btn.className='faq-q';
-    btn.innerHTML='<span></span><i>+</i>'; btn.querySelector('span').textContent=f.q;
-    var ans=document.createElement('div'); ans.className='faq-a';
-    var p=document.createElement('p'); p.textContent=f.a; ans.appendChild(p);
-    btn.addEventListener('click',function(){
-      var open=item.classList.toggle('open');
-      btn.querySelector('i').textContent=open?'\u2212':'+';
-      ans.style.maxHeight=open?(ans.scrollHeight+'px'):'0';
-    });
-    item.appendChild(btn); item.appendChild(ans); faqList.appendChild(item);
-  });
-
-  /* MODES */
-  var modes=[
-    {tag:'Antes de que salga la carga',title:'Modo Captura Pre-despacho',body:'Compartes temprano la factura proforma y los documentos del embarque; validamos mientras todavia hay tiempo de corregir antes de la salida del buque, avion o camion. La deteccion mas temprana posible.'},
-    {tag:'Antes del pago al SAT',title:'Modo Operacion',body:'Tu agente aduanal prepara el pedimento y lo auditamos contra 52+ reglas. Si detectamos un error critico, te lo senalamos para que se corrija antes del despacho. Prevencion real: evitas la multa por completo.'},
-    {tag:'Despues del pago al SAT',title:'Modo Forense',body:'Auditoria preventiva sobre operaciones ya pagadas: obligaciones fiscales, RRNAs, INCOTERMS, certificados de origen y calculo de contribuciones. Para defensa documental y due diligence ante un requerimiento.'}
-  ];
-  var seg=document.getElementById('modeSeg');
-  seg.addEventListener('click',function(e){
-    var b=e.target.closest('[data-mode]'); if(!b)return;
-    var idx=+b.getAttribute('data-mode'), m=modes[idx];
-    seg.querySelectorAll('.seg-btn').forEach(function(x){x.classList.toggle('active',x===b);});
-    document.getElementById('modeTag').textContent=m.tag;
-    document.getElementById('modeTitle').textContent=m.title;
-    document.getElementById('modeBody').textContent=m.body;
-  });
-
-  /* FORM */
-  var form=document.getElementById('leadForm'), errBox=document.getElementById('formErr'), errText=document.getElementById('formErrText'), submitBtn=document.getElementById('submitBtn');
-  var freeMail=['gmail.com','hotmail.com','hotmail.com.mx','outlook.com','outlook.es','yahoo.com','yahoo.com.mx','live.com','live.com.mx','icloud.com','me.com','aol.com','proton.me','protonmail.com','gmx.com','mail.com'];
-  function showErr(msg){errText.textContent=msg; errBox.style.display='flex';}
-  function clearErr(){errBox.style.display='none';}
-  function companyEmail(email){
-    var m=/^[^@\s]+@([^@\s]+\.[^@\s]+)$/.exec(String(email).trim().toLowerCase());
-    if(!m)return false; return freeMail.indexOf(m[1])===-1;
-  }
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var name=form.name.value.trim(), email=form.email.value.trim(), message=form.message.value.trim();
-    clearErr();
-    if(!name||!email){showErr('Completa tu nombre y tu correo.');return;}
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){showErr('Escribe un correo valido.');return;}
-    if(!companyEmail(email)){showErr('Usa un correo de empresa, no uno personal.');return;}
-    submitBtn.disabled=true; submitBtn.textContent='Enviando...';
-    fetch('/api/submit-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,email:email,message:message})})
-      .then(function(r){
-        if(!r.ok)throw new Error('bad');
-        form.style.display='none'; document.getElementById('formSuccess').style.display='block';
-      })
-      .catch(function(){
-        submitBtn.disabled=false; submitBtn.textContent='Enviar solicitud';
-        showErr('No pudimos enviar tu solicitud. Intenta de nuevo.');
-      });
-  });
-
-  /* COUNTERS */
-  function animCount(el){
-    var to=parseFloat(el.getAttribute('data-count'))||0, dur=1500, start=null;
-    function step(ts){if(!start)start=ts; var t=Math.min(1,(ts-start)/dur), e=1-Math.pow(1-t,3); el.textContent=Math.round(to*e).toLocaleString('es-MX'); if(t<1)requestAnimationFrame(step);}
-    requestAnimationFrame(step);
-  }
-
-  /* REVEAL + observers */
-  var reveals=[].slice.call(document.querySelectorAll('.reveal'));
-  function inView(el){var r=el.getBoundingClientRect(),h=window.innerHeight||document.documentElement.clientHeight;return r.top<h&&r.bottom>0;}
-  if(reduce){
-    var st=document.getElementById('stepsTrack'); if(st)st.classList.add('go');
-    document.querySelectorAll('[data-count]').forEach(function(el){el.textContent=(parseFloat(el.getAttribute('data-count'))||0).toLocaleString('es-MX');});
-  }else{
-    reveals.forEach(function(el){if(!inView(el))el.classList.add('hide');});
-    if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.remove('hide');en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
-      reveals.forEach(function(el){if(el.classList.contains('hide'))io.observe(el);});
-      var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){animCount(en.target);cio.unobserve(en.target);}});},{threshold:.6});
-      document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el);});
-      var st2=document.getElementById('stepsTrack');
-      if(st2){var sio=new IntersectionObserver(function(es){es.forEach(function(en){en.target.classList.toggle('go',en.isIntersecting);});},{threshold:.3});sio.observe(st2);}
-    }else{
-      reveals.forEach(function(el){el.classList.remove('hide');});
-      document.querySelectorAll('[data-count]').forEach(function(el){animCount(el);});
-      document.getElementById('stepsTrack').classList.add('go');
+  /* ---------- THEME ---------- */
+  var THEMES = ["azul","verde","claro"];
+  var KEY = "ct-landing-theme";
+  function applyTheme(t){
+    if(THEMES.indexOf(t) === -1) t = "azul";
+    root.setAttribute("data-theme", t);
+    var btns = document.querySelectorAll("[data-theme-btn]");
+    for(var i=0;i<btns.length;i++){
+      btns[i].setAttribute("aria-pressed", btns[i].getAttribute("data-theme-btn") === t ? "true" : "false");
     }
-    setTimeout(function(){reveals.forEach(function(el){if(el.classList.contains('hide')&&inView(el)){el.classList.remove('hide');el.classList.add('in');}});},900);
+    try{ localStorage.setItem(KEY, t); }catch(e){}
+  }
+  var saved = null;
+  try{ saved = localStorage.getItem(KEY); }catch(e){}
+  applyTheme(saved || "azul");
+  var tbtns = document.querySelectorAll("[data-theme-btn]");
+  for(var b=0;b<tbtns.length;b++){
+    tbtns[b].addEventListener("click", function(){ applyTheme(this.getAttribute("data-theme-btn")); });
   }
 
-  /* BACK TO TOP */
-  var bt=document.getElementById('backtop');
-  function onScroll(){if(window.scrollY>480)bt.classList.add('show');else bt.classList.remove('show');}
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  /* ---------- MOBILE MENU ---------- */
+  var hamb = document.getElementById("hambBtn");
+  function closeMenu(){ document.body.classList.remove("menu-open"); }
+  if(hamb){
+    hamb.addEventListener("click", function(){ document.body.classList.toggle("menu-open"); });
+  }
+  var mlinks = document.querySelectorAll(".mmenu a");
+  for(var m=0;m<mlinks.length;m++){ mlinks[m].addEventListener("click", closeMenu); }
+
+  /* ---------- SMOOTH SCROLL (offset for sticky nav) ---------- */
+  var navH = 68;
+  var anchors = document.querySelectorAll('a[href^="#"]');
+  for(var a=0;a<anchors.length;a++){
+    anchors[a].addEventListener("click", function(ev){
+      var id = this.getAttribute("href");
+      if(id.length < 2) return;
+      var target = document.querySelector(id);
+      if(!target) return;
+      ev.preventDefault();
+      closeMenu();
+      var y = target.getBoundingClientRect().top + window.pageYOffset - navH + 1;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    });
+  }
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add("in"); ro.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    for(var r=0;r<reveals.length;r++){ ro.observe(reveals[r]); }
+  } else {
+    for(var r2=0;r2<reveals.length;r2++){ reveals[r2].classList.add("in"); }
+  }
+
+  /* ---------- COUNTERS ---------- */
+  function animateCount(el){
+    var target = parseFloat(el.getAttribute("data-count")) || 0;
+    var dec = parseInt(el.getAttribute("data-decimals") || "0", 10);
+    var pre = el.getAttribute("data-prefix") || "";
+    var suf = el.getAttribute("data-suffix") || "";
+    var dur = 1500, start = null;
+    function fmt(v){
+      var s = dec > 0 ? v.toFixed(dec) : Math.round(v).toLocaleString("es-MX");
+      return pre + s + suf;
+    }
+    function frame(ts){
+      if(start === null) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * eased);
+      if(p < 1){ requestAnimationFrame(frame); } else { el.textContent = fmt(target); }
+    }
+    requestAnimationFrame(frame);
+  }
+  var counters = document.querySelectorAll("[data-count]");
+  if("IntersectionObserver" in window){
+    var co = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ animateCount(en.target); co.unobserve(en.target); }
+      });
+    }, { threshold: 0.5 });
+    for(var c=0;c<counters.length;c++){ co.observe(counters[c]); }
+  } else {
+    for(var c2=0;c2<counters.length;c2++){ animateCount(counters[c2]); }
+  }
+
+  /* ---------- LEAD FORM ---------- */
+  var form = document.getElementById("leadForm");
+  var msg = document.getElementById("formMsg");
+  var btn = document.getElementById("submitBtn");
+  function showMsg(text, kind){
+    msg.textContent = text;
+    msg.className = "form-msg " + kind;
+  }
+  if(form){
+    form.addEventListener("submit", function(ev){
+      ev.preventDefault();
+      var name = form.elements["name"].value.trim();
+      var email = form.elements["email"].value.trim();
+      var message = form.elements["message"].value.trim();
+      if(!name || !email){ showMsg("Por favor completa tu nombre y correo.", "err"); return; }
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if(!emailOk){ showMsg("Ingresa un correo válido.", "err"); return; }
+
+      btn.disabled = true;
+      var orig = btn.textContent;
+      btn.textContent = "Enviando…";
+      msg.className = "form-msg";
+
+      fetch("/api/submit-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name, email: email, message: message })
+      }).then(function(res){
+        if(res.ok){
+          form.reset();
+          showMsg("¡Listo! Recibimos tu solicitud. Te contactaremos muy pronto.", "ok");
+        } else {
+          showMsg("No pudimos enviar tu solicitud. Inténtalo de nuevo en un momento.", "err");
+        }
+      }).catch(function(){
+        showMsg("Hubo un problema de conexión. Inténtalo de nuevo.", "err");
+      }).then(function(){
+        btn.disabled = false;
+        btn.textContent = orig;
+      });
+    });
+  }
+  /* ---------- FAQ ACCORDION ---------- */
+  var faqItems = document.querySelectorAll(".faq-item");
+  function setFaq(item, open){
+    var ans = item.querySelector(".faq-a");
+    var q = item.querySelector(".faq-q");
+    if(open){ item.classList.add("open"); ans.style.maxHeight = ans.scrollHeight + "px"; q.setAttribute("aria-expanded","true"); }
+    else { item.classList.remove("open"); ans.style.maxHeight = "0px"; q.setAttribute("aria-expanded","false"); }
+  }
+  for(var fi=0; fi<faqItems.length; fi++){
+    (function(item){
+      if(item.classList.contains("open")){ var a=item.querySelector(".faq-a"); a.style.maxHeight = a.scrollHeight + "px"; }
+      item.querySelector(".faq-q").addEventListener("click", function(){
+        setFaq(item, !item.classList.contains("open"));
+      });
+    })(faqItems[fi]);
+  }
+  window.addEventListener("resize", function(){
+    for(var k=0;k<faqItems.length;k++){
+      if(faqItems[k].classList.contains("open")){
+        var a = faqItems[k].querySelector(".faq-a"); a.style.maxHeight = a.scrollHeight + "px";
+      }
+    }
+  });
+
 })();
 </script>
 </body>
