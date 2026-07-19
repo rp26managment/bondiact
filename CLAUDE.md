@@ -4,6 +4,51 @@
 
 ---
 
+## Hilo [2026-07-17 18:09]
+
+### Contexto
+Rod está reviviendo Shekhina Management (régimen general de ley) para comercio exterior/aduanas.
+Necesitaba (1) claridad fiscal sobre IVA en fletes de agente de carga y (2) un cotizador de
+exportación (limón persa MX→USA) funcional para uso de su contador.
+
+### Solicitudes
+- Analizar el PDF "IVA para Agentes de Carga versión 2014" (AMACARGA) y hacer un briefing forense
+  de qué sigue vigente en 2026, con logo Bondia CT, en PDF (solo texto, sin diseño).
+- Tomar el archivo `Cotizador_Exportacion_Limon_Contador.numbers`, meterle las fórmulas faltantes
+  y documentar qué impuestos aplican en cada línea y por qué.
+- Aclarar dudas puntuales: si el Bill of Lading sostiene la tasa 0%, si está obligado a emitir
+  Carta Porte como agente de carga sin flota propia, por qué desapareció el dropdown de Incoterm,
+  y dos bugs de fórmula que él mismo detectó (ISR mal leído; suma de columna D no cuadraba con la
+  utilidad oficial por $288 del arancel).
+
+### Ejecutado
+- `briefing_iva_agentes_carga_2026.pdf` + `.md`: vigente vs. derogado (Art. 16/29-V/15-VI LIVA,
+  retención 4%, Carta Porte 3.1, CFDI 4.0, materialidad 69-B), matriz de 10 escenarios de tráfico,
+  checklist contable para Shekhina. Presentado, no subido al repo público (contiene lineamientos
+  de negocio).
+- `Cotizador_Exportacion_Limon_Contador_v2.xlsx` (convertido de .numbers vía LibreOffice, editado
+  con openpyxl): fórmulas D19/E19 y D20/E20 corregidas (esta última traía un bug real — cotizaba
+  el despacho EUA sin margen), B21/D21 arreglado (arancel USA es pass-through 1:1, no ganancia),
+  hoja nueva "Notas_Fiscales" con tratamiento IVA/ISR/arancel por línea + matriz Incoterm×costo
+  (EXW/FCA/CPT-CIP/DAP/DDP), dropdowns de Incoterm y Origen T-MEC restaurados (se habían perdido
+  en la conversión .numbers→.xlsx, no en la edición de fórmulas), fila de verificación (E23/F23)
+  que suma D15:D21 y confirma que cuadra con la utilidad oficial (E27).
+- Respondidas en el hilo: BL/HBL sí sostiene tasa 0% si se factura como un solo servicio
+  internacional; NO está obligado a emitir Carta Porte (regla 2.7.1.9 RMF — solo el porteador
+  real la emite, agente de carga sin flota propia no); versión vigente es 3.1, no existe 3.5.
+
+### Pendiente
+- [ ] Rod preguntó por una "contraseña en el HTML" — no se ha creado ningún HTML en este hilo;
+      quedó pendiente que aclare a qué archivo/sesión se refiere.
+- [ ] Rod puede pedir automatizar la columna "A cargo de" (F15:F21) del cotizador según el
+      Incoterm elegido — se dejó manual a propósito (los tratos reales se desvían del Incoterm
+      de libro) pero quedó ofrecido como siguiente paso si lo pide.
+
+### Inputs requeridos
+- Aclaración de Rod sobre el archivo HTML con contraseña que mencionó.
+
+---
+
 ## Yo
 **Rod** (Rodrigo Pardo) — Scrum Master / PM · Lightman Freight Forwarding & Customs Brokerage, Guadalajara, Jalisco, México.  
 Email: rodrigo@bondiact.io / rodrigopardo6537@gmail.com  
