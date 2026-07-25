@@ -1,4 +1,4 @@
-# bondíaCT · LEEME — Bitácora del Proyecto
+# bondiaCT · LEEME — Bitácora del Proyecto
 > **Para Claude:** Lee este archivo primero en cada sesión nueva antes de tocar cualquier cosa.
 > **Para Rod:** No borres nada de este repo sin consultarme. Si algo se rompe, dime "revisa el LEEME de bondiact".
 
@@ -14,7 +14,7 @@ Esta regla aplica para: Claude, Comet, Gemini, Kimi, o cualquier otro asistente 
 ---
 
 ## ¿Qué es este proyecto?
-**bondíaCT** (`bondiact.io`) — Sitio web de Lightman Freight Forwarding & Customs Brokerage, Guadalajara, Jalisco, México.
+**bondiaCT** (`bondiact.io`) — Sitio web de Lightman Freight Forwarding & Customs Brokerage, Guadalajara, Jalisco, México.
 Servicios: Freight Forwarding, Agencia Aduanal, Depósito Fiscal, Sk3pl In-Bond.
 Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bondiact.io`
 
@@ -120,7 +120,7 @@ Contacto interno: Rod (Rodrigo Pardo) — `rodrigo@bondiact.io` · `contacto@bon
 
 ### 2026-03-12 — SEO completo bondiact.io · por Claude (Cowork)
 - ✅ Agregados a `index.html`: Canonical URL, Open Graph completo, Twitter Card, JSON-LD Schema.org Organization
-- ✅ Creado `og-image.png` (1200×630px) desde logos PDF de bondíaCT
+- ✅ Creado `og-image.png` (1200×630px) desde logos PDF de bondiaCT
 
 ### 2026-01-XX — LIGIE V2.13 · Buscador completo · por Kimi Agent
 - ✅ Extracción completa de PDF LIGIE V2.13 (19 dic 2024, 1315 págs)
