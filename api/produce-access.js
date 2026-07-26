@@ -153,6 +153,24 @@ export default async function handler(req, res) {
       );
       if (!r.ok) return res.status(401).json({ ok: false });
       const rows = await r.json();
+      // Nota: si el token es de admin, RLS regresa TODOS los perfiles (no solo
+      // el propio). Es el mismo candado de siempre (app_metadata.role), no
+      // logica extra aqui. El front decide si pinta panel admin con esto.
+      return res.status(200).json({ ok: true, rows });
+    }
+
+    if (action === 'access-log') {
+      // Panel admin: quien entro, cuando, desde que IP. RLS (produce_access_log
+      // _admin_read) solo deja pasar filas si el token trae role=admin en
+      // app_metadata; para cualquier otro usuario esto regresa arreglo vacio.
+      const { token } = body;
+      if (!token) return res.status(401).json({ ok: false });
+      const r = await fetch(
+        `${URLB}/rest/v1/produce_access_log?select=email,ip,user_agent,created_at&order=created_at.desc&limit=200`,
+        { headers: { apikey: ANON, Authorization: `Bearer ${token}` } }
+      );
+      if (!r.ok) return res.status(401).json({ ok: false });
+      const rows = await r.json();
       return res.status(200).json({ ok: true, rows });
     }
 
