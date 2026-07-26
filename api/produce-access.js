@@ -201,7 +201,15 @@ export default async function handler(req, res) {
   } catch (e) {
     // Al cliente: error generico, sin detalles que sirvan de huella digital.
     // A los logs de Vercel (privados): el mensaje, para poder diagnosticar.
-    console.error('[produce-access] excepcion en accion', action, ':', e && e.message);
+    // Solo el HOST (dato publico, va en cualquier frontend) y longitudes.
+    // NUNCA el valor de las llaves.
+    let host = 'ilegible';
+    try { host = new URL(URLB).host; } catch { host = 'URL invalida: ' + JSON.stringify(String(URLB).slice(0, 60)); }
+    console.error(
+      '[produce-access] excepcion en accion', action, ':', e && e.message,
+      '| host:', host,
+      '| largos anon/srk:', String(ANON).length, '/', String(SRK).length
+    );
     return res.status(500).json({ ok: false, code: 'EX' });
   }
 }
