@@ -41,7 +41,19 @@ export default async function handler(req, res) {
   const URLB = process.env.SUPABASE_URL;
   const ANON = process.env.SUPABASE_ANON_KEY;
   const SRK = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!URLB || !ANON || !SRK) return res.status(500).json({ ok: false });
+  if (!URLB || !ANON || !SRK) {
+    // Diagnostico SOLO en logs de Vercel: nombres de las que faltan, nunca valores.
+    const faltan = [];
+    if (!URLB) faltan.push('SUPABASE_URL');
+    if (!ANON) faltan.push('SUPABASE_ANON_KEY');
+    if (!SRK) faltan.push('SUPABASE_SERVICE_ROLE_KEY');
+    console.error('[produce-access] env faltantes:', faltan.join(','), '| node', process.version);
+    return res.status(500).json({ ok: false, code: 'ENV' });
+  }
+  if (typeof fetch !== 'function') {
+    console.error('[produce-access] fetch no disponible | node', process.version);
+    return res.status(500).json({ ok: false, code: 'FETCH' });
+  }
 
   let body = req.body;
   if (typeof body === 'string') {
@@ -186,8 +198,10 @@ export default async function handler(req, res) {
     }
 
     return res.status(400).json({ ok: false });
-  } catch {
-    // Error generico: sin detalles que sirvan de huella digital
-    return res.status(500).json({ ok: false });
+  } catch (e) {
+    // Al cliente: error generico, sin detalles que sirvan de huella digital.
+    // A los logs de Vercel (privados): el mensaje, para poder diagnosticar.
+    console.error('[produce-access] excepcion en accion', action, ':', e && e.message);
+    return res.status(500).json({ ok: false, code: 'EX' });
   }
 }
