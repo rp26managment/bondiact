@@ -155,27 +155,42 @@ export default async function handler(req, res) {
       if (!v.ok) return res.status(401).json({ ok: false });
       const vj = await v.json();
 
-      // Registro del acceso (server-side, el cliente no lo puede brincar)
-      const uRes = await fetch(`${URLB}/auth/v1/user`, {
-        headers: { apikey: ANON, Authorization: `Bearer ${vj.access_token}` },
-      });
-      if (uRes.ok) {
-        const user = await uRes.json();
-        await fetch(`${URLB}/rest/v1/produce_access_log`, {
-          method: 'POST',
-          headers: {
-            apikey: SRK,
-            Authorization: `Bearer ${SRK}`,
-            'Content-Type': 'application/json',
-            Prefer: 'return=minimal',
-          },
-          body: JSON.stringify({
-            user_id: user.id,
-            email: user.email || null,
-            ip: ip === 'unknown' ? null : ip,
-            user_agent: String(req.headers['user-agent'] || '').slice(0, 300),
-          }),
+      // Registro del acceso (server-side, el cliente no lo puede brincar).
+      // Si algo falla aqui NO se bloquea el login (el usuario ya entro bien),
+      // pero se deja rastro en los logs de Vercel para poder diagnosticar.
+      try {
+        const uRes = await fetch(`${URLB}/auth/v1/user`, {
+          headers: { apikey: ANON, Authorization: `Bearer ${vj.access_token}` },
         });
+        if (!uRes.ok) {
+          console.error('[produce-access] access-log: /auth/v1/user fallo, status', uRes.status);
+        } else {
+          const user = await uRes.json();
+          const logRes = await fetch(`${URLB}/rest/v1/produce_access_log`, {
+            method: 'POST',
+            headers: {
+              apikey: SRK,
+              Authorization: `Bearer ${SRK}`,
+              'Content-Type': 'application/json',
+              Prefer: 'return=minimal',
+            },
+            body: JSON.stringify({
+              user_id: user.id,
+              email: user.email || null,
+              ip: ip === 'unknown' ? null : ip,
+              user_agent: String(req.headers['user-agent'] || '').slice(0, 300),
+            }),
+          });
+          if (!logRes.ok) {
+            const errBody = await logRes.text().catch(() => '');
+            console.error(
+              '[produce-access] access-log: insert fallo, status', logRes.status,
+              '| body:', errBody.slice(0, 300)
+            );
+          }
+        }
+      } catch (logErr) {
+        console.error('[produce-access] access-log: excepcion', logErr && logErr.message);
       }
       return res.status(200).json({ ok: true, token: vj.access_token });
     }
