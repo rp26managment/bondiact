@@ -54,7 +54,7 @@ input,select{font-family:inherit;color:var(--text)}
 
 /* ===== Pieza 1: puerta ===== */
 #gate-root{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:radial-gradient(1200px 700px at 50% 0%, rgba(0,137,123,.30), transparent 60%), linear-gradient(rgba(13,18,20,.62), rgba(13,18,20,.74)), url("gate-bg.png") center/cover no-repeat fixed;
+  background:radial-gradient(1200px 700px at 50% 0%, rgba(0,137,123,.30), transparent 60%), linear-gradient(rgba(13,18,20,.62), rgba(13,18,20,.74)), url("/produce/gate-bg.png") center/cover no-repeat fixed;
   backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 #gate-root::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(135deg, rgba(0,137,123,.20) 0%, rgba(0,163,143,.10) 30%, transparent 55%)}
@@ -236,6 +236,10 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
 .gpanel .tt-grid{grid-template-columns:100px 1fr;font-size:.8rem;margin-top:14px}
 .gpanel .deliv{margin-top:16px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:.8rem;line-height:1.5}
 .gpanel .deliv h4{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:6px}
+.price-grid{display:flex;flex-direction:column;gap:8px}
+.price-grid label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.72rem;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.price-grid input{width:120px;padding:6px 8px;border:1px solid var(--teal-line);border-radius:8px;background:var(--surface);color:var(--text);font-size:.78rem;font-family:'Inter',sans-serif;outline:none}
+.price-grid input:focus{border-color:var(--primary);box-shadow:0 0 0 2px var(--teal-soft)}
 .foot{padding:20px 26px;border-top:1px solid var(--border);text-align:center;font-size:.74rem;color:var(--text2)}
 .foot b{font-family:'Hanken Grotesk',sans-serif;color:var(--text)}
 @media (max-width:640px){
@@ -1112,27 +1116,27 @@ var PHASES=[
  {num:"OP",cvar:"--cop",name:"Operacion (una vez en marcha)",note:""}
 ];
 var TASKS=[
- {id:"0",ph:0,name:"Reporte Forense de Auditoria + demo de Control Tower",resp:"BondiaCT",start:1,dur:1,durTxt:"1 dia",deps:[],deliv:"Reporte Forense de un pedimento (historico o por despachar) y demo en vivo de Control Tower, sin costo para el prospecto."},
- {id:"1.1",ph:1,name:"Cotizacion de Matriz de Seguridad para MVE (si el cliente importa)",resp:"BondiaCT",start:2,dur:1,durTxt:"1 dia",deps:[],deliv:"Cotizacion de Matriz de Seguridad, opcional si no cambia la ley."},
- {id:"1.2",ph:1,name:"DataStage Dashboard, analisis del historico de comercio exterior",resp:"BondiaCT",start:3,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Dashboard DataStage para analizar el historico de operaciones de exportacion y/o importacion."},
- {id:"1.3",ph:1,name:"Diagnostico y verificacion de expedientes completos",resp:"BondiaCT",start:4,dur:1,durTxt:"1 dia",deps:["1.2"],deliv:"Diagnostico de expedientes completos, en orden y secuencia."},
- {id:"2.1",ph:2,name:"Cliente tramita Matriz de Seguridad y comparte acuse",resp:"Cliente/SAT",start:3,dur:14,durTxt:"~10 dias habiles",deps:["1.1"],deliv:"Acuse de Matriz de Seguridad tramitada via ANAM."},
- {id:"2.2",ph:2,name:"Cliente solicita DataStage al SAT y comparte acuse",resp:"Cliente/SAT",start:4,dur:14,durTxt:"~10 dias habiles",deps:["1.2"],deliv:"Acuse de solicitud de DataStage ante el SAT."},
- {id:"2.3",ph:2,name:"Alta de hasta 1 usuario por empresa",resp:"BondiaCT",start:4,dur:2,durTxt:"1 a 2 dias",deps:["1.2"],deliv:"Usuario dado de alta y validado en Control Tower (hasta 1 por empresa)."},
- {id:"3.1",ph:3,name:"Diagnostico e interpretacion de 5 años, propuesta SWOT y WIP",resp:"BondiaCT",start:17,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Diagnostico del historico de 5 años con propuesta SWOT y WIP, sobre dashboard referencial."},
- {id:"4.1",ph:4,name:"Propuesta Control Tower 360 + Validacion Previa",resp:"BondiaCT",start:18,dur:1,durTxt:"1 dia",deps:["3.1"],deliv:"Propuesta para cumplir Materialidad y Trazabilidad, con despachos en tiempo real."},
- {id:"4.2",ph:4,name:"Resolucion del historico caso por caso (si hay incidencias)",resp:"BondiaCT",start:19,dur:2,durTxt:"1 a 2 dias",deps:["4.1"],deliv:"Plan de resolucion de incidencias del historico, caso por caso."},
- {id:"4.3",ph:4,name:"Cliente verifica si sus expedientes estan completos",resp:"Cliente",start:21,dur:1,durTxt:"1 dia",deps:["4.2"],deliv:"Confirmacion del cliente sobre la completitud de sus expedientes."},
- {id:"5.1",ph:5,name:"Digitalizar y comprobar Materialidad y Trazabilidad (si falta expediente)",resp:"BondiaCT",start:21,dur:1,durTxt:"1 dia",deps:["4.3"],deliv:"Propuesta de digitalizacion y comprobacion de Materialidad y Trazabilidad para expedientes incompletos."},
- {id:"5.2",ph:5,name:"Opcion mensual: CT 360 Cloud + Validacion Previa",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Control Tower 360 Cloud + Validacion Previa de pedimentos historicos + modo en operacion, hasta 100 pedimentos en los ultimos 5 años."},
- {id:"5.3",ph:5,name:"Opcion anual: mismo alcance que la mensual",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Mismo alcance que la opcion mensual, con vigencia anual."},
- {id:"5.4",ph:5,name:"Sin hosting: Validacion Previa de Pedimento en tiempo real",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Validacion Previa en modo operacion, sin obligar a usar la red de agentes aduanales de BondiaCT. Se emiten 2 dictamenes (cliente y tecnico para el agente aduanal), con verificacion de correccion y aviso automatico para proceder al pago y despacho."},
- {id:"5.5",ph:5,name:"Presentacion de MVE ante VUCEM",resp:"BondiaCT",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Trazabilidad y seguimiento de sellos eDocuments, cargo por evento. Solo disponible si el cliente usa Control Tower."},
- {id:"5.6",ph:5,name:"Acceso a la consulta LIGIE/TIGIE",resp:"BondiaCT",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Consulta de mas de 11,000 fracciones arancelarias y NICOs vigentes."},
- {id:"OP1",ph:6,name:"Vinculacion de pedimentos en tiempo real al repositorio",resp:"Control Tower",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Hasta 100 pedimentos anuales vinculados al repositorio. Excluye R1, IMMEX, maquila y deposito fiscal, que se cotizan aparte."},
- {id:"OP2",ph:6,name:"Configuracion inicial de Control Tower",resp:"Control Tower",start:23,dur:1,durTxt:"Mismo dia",deps:[],deliv:"Control Tower configurado para el cliente."},
- {id:"OP3",ph:6,name:"Cliente ve su historico + pedimentos + repositorio documental",resp:"Control Tower",start:24,dur:2,durTxt:"1 a 2 dias",deps:["3.1","4.1"],deliv:"Acceso del cliente a su historico, pedimentos y repositorio documental."},
- {id:"MVE",ph:6,name:"Primera transmision COVE de prueba (testing previo a operacion)",resp:"CT/Cliente",start:24,dur:5,durTxt:"Dia 24+",deps:["2.1","2.3"],milestone:true,deliv:"Primera transmision COVE de prueba, si se autorizo Control Tower 360 All In. Requiere e.firma vigente del cliente y Matriz de Seguridad recibida."}
+ {id:"0",ph:0,name:"Reporte Forense de Auditoria + demo de Control Tower",resp:"BondiaCT",start:1,dur:1,durTxt:"1 dia",deps:[],deliv:"Reporte Forense de un pedimento (historico o por despachar) y demo en vivo de Control Tower, sin costo para el prospecto.",fee:"",disc:"Cortesia",net:""},
+ {id:"1.1",ph:1,name:"Cotizacion de Matriz de Seguridad para MVE (si el cliente importa)",resp:"BondiaCT",start:2,dur:1,durTxt:"1 dia",deps:[],deliv:"Cotizacion de Matriz de Seguridad, opcional si no cambia la ley.",fee:"$5,000",disc:"25%",net:"$6,000"},
+ {id:"1.2",ph:1,name:"DataStage Dashboard, analisis del historico de comercio exterior",resp:"BondiaCT",start:3,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Dashboard DataStage para analizar el historico de operaciones de exportacion y/o importacion.",fee:"$20,000",disc:"25%",net:"$18,000"},
+ {id:"1.3",ph:1,name:"Diagnostico y verificacion de expedientes completos",resp:"BondiaCT",start:4,dur:1,durTxt:"1 dia",deps:["1.2"],deliv:"Diagnostico de expedientes completos, en orden y secuencia.",fee:"-",disc:"-",net:"-"},
+ {id:"2.1",ph:2,name:"Cliente tramita Matriz de Seguridad y comparte acuse",resp:"Cliente/SAT",start:3,dur:14,durTxt:"~10 dias habiles",deps:["1.1"],deliv:"Acuse de Matriz de Seguridad tramitada via ANAM.",fee:"-",disc:"Tramite gratuito SAT",net:"-"},
+ {id:"2.2",ph:2,name:"Cliente solicita DataStage al SAT y comparte acuse",resp:"Cliente/SAT",start:4,dur:14,durTxt:"~10 dias habiles",deps:["1.2"],deliv:"Acuse de solicitud de DataStage ante el SAT.",fee:"-",disc:"Tramite gratuito SAT",net:"-"},
+ {id:"2.3",ph:2,name:"Alta de hasta 1 usuario por empresa",resp:"BondiaCT",start:4,dur:2,durTxt:"1 a 2 dias",deps:["1.2"],deliv:"Usuario dado de alta y validado en Control Tower (hasta 1 por empresa).",fee:"-",disc:"Incluido",net:"-"},
+ {id:"3.1",ph:3,name:"Diagnostico e interpretacion de 5 años, propuesta SWOT y WIP",resp:"BondiaCT",start:17,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Diagnostico del historico de 5 años con propuesta SWOT y WIP, sobre dashboard referencial.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"4.1",ph:4,name:"Propuesta Control Tower 360 + Validacion Previa",resp:"BondiaCT",start:18,dur:1,durTxt:"1 dia",deps:["3.1"],deliv:"Propuesta para cumplir Materialidad y Trazabilidad, con despachos en tiempo real.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"4.2",ph:4,name:"Resolucion del historico caso por caso (si hay incidencias)",resp:"BondiaCT",start:19,dur:2,durTxt:"1 a 2 dias",deps:["4.1"],deliv:"Plan de resolucion de incidencias del historico, caso por caso.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"4.3",ph:4,name:"Cliente verifica si sus expedientes estan completos",resp:"Cliente",start:21,dur:1,durTxt:"1 dia",deps:["4.2"],deliv:"Confirmacion del cliente sobre la completitud de sus expedientes.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"5.1",ph:5,name:"Digitalizar y comprobar Materialidad y Trazabilidad (si falta expediente)",resp:"BondiaCT",start:21,dur:1,durTxt:"1 dia",deps:["4.3"],deliv:"Propuesta de digitalizacion y comprobacion de Materialidad y Trazabilidad para expedientes incompletos.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"5.2",ph:5,name:"Opcion mensual: CT 360 Cloud + Validacion Previa",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Control Tower 360 Cloud + Validacion Previa de pedimentos historicos + modo en operacion, hasta 100 pedimentos en los ultimos 5 años.",fee:"$8,125",disc:"25%",net:"$6,500"},
+ {id:"5.3",ph:5,name:"Opcion anual: mismo alcance que la mensual",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Mismo alcance que la opcion mensual, con vigencia anual.",fee:"$81,250",disc:"25%",net:"$65,000"},
+ {id:"5.4",ph:5,name:"Sin hosting: Validacion Previa de Pedimento en tiempo real",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Validacion Previa en modo operacion, sin obligar a usar la red de agentes aduanales de BondiaCT. Se emiten 2 dictamenes (cliente y tecnico para el agente aduanal), con verificacion de correccion y aviso automatico para proceder al pago y despacho.",fee:"-",disc:"0%",net:""},
+ {id:"5.5",ph:5,name:"Presentacion de MVE ante VUCEM",resp:"BondiaCT",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Trazabilidad y seguimiento de sellos eDocuments, cargo por evento. Solo disponible si el cliente usa Control Tower.",fee:"-",disc:"0%",net:""},
+ {id:"5.6",ph:5,name:"Acceso a la consulta LIGIE/TIGIE",resp:"BondiaCT",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Consulta de mas de 11,000 fracciones arancelarias y NICOs vigentes.",fee:"-",disc:"0%",net:""},
+ {id:"OP1",ph:6,name:"Vinculacion de pedimentos en tiempo real al repositorio",resp:"Control Tower",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Hasta 100 pedimentos anuales vinculados al repositorio. Excluye R1, IMMEX, maquila y deposito fiscal, que se cotizan aparte.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"OP2",ph:6,name:"Configuracion inicial de Control Tower",resp:"Control Tower",start:23,dur:1,durTxt:"Mismo dia",deps:[],deliv:"Control Tower configurado para el cliente.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"OP3",ph:6,name:"Cliente ve su historico + pedimentos + repositorio documental",resp:"Control Tower",start:24,dur:2,durTxt:"1 a 2 dias",deps:["3.1","4.1"],deliv:"Acceso del cliente a su historico, pedimentos y repositorio documental.",fee:"-",disc:"Incluido",net:"-"},
+ {id:"MVE",ph:6,name:"Primera transmision COVE de prueba (testing previo a operacion)",resp:"CT/Cliente",start:24,dur:5,durTxt:"Dia 24+",deps:["2.1","2.3"],milestone:true,deliv:"Primera transmision COVE de prueba, si se autorizo Control Tower 360 All In. Requiere e.firma vigente del cliente y Matriz de Seguridad recibida.",fee:"-",disc:"Incluido",net:"-"}
 ];
 var byId={};TASKS.forEach(function(t){byId[t.id]=t;});
 function phaseColor(ph){return getComputedStyle(document.documentElement).getPropertyValue(PHASES[ph].cvar).trim();}
@@ -1241,9 +1245,21 @@ function depNames(t){
  if(!t.deps.length)return"Sin dependencias";
  return t.deps.map(function(d){return d+(byId[d]?" ("+byId[d].name+")":"");}).join(", ");
 }
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");}
+function priceBlockHtml(t){
+ var editable=d.body.classList.contains("admin");
+ if(editable){
+  return '<div class="deliv price-block"><h4>Precio (editable, admin)</h4><div class="price-grid">'
+   +'<label>Tarifa<input type="text" class="price-input" data-taskid="'+t.id+'" data-field="fee" value="'+esc(t.fee)+'"></label>'
+   +'<label>Descuento CEO<input type="text" class="price-input" data-taskid="'+t.id+'" data-field="disc" value="'+esc(t.disc)+'"></label>'
+   +'<label>Neto<input type="text" class="price-input" data-taskid="'+t.id+'" data-field="net" value="'+esc(t.net)+'"></label>'
+   +'</div></div>';
+ }
+ return '<div class="deliv price-block"><h4>Precio</h4><dl class="tt-grid"><dt>Tarifa</dt><dd>'+esc(t.fee||"-")+'</dd><dt>Descuento CEO</dt><dd>'+esc(t.disc||"-")+'</dd><dt>Neto</dt><dd>'+esc(t.net||"-")+'</dd></dl></div>';
+}
 function taskHTML(t,full){
  var p=PHASES[t.ph];
- return '<span class="tt-id" style="background:'+phaseColor(t.ph)+'">'+p.num+" / "+t.id+'</span><div class="tt-name">'+t.name+'</div><dl class="tt-grid"><dt>Responsable</dt><dd>'+t.resp+'</dd><dt>Duracion</dt><dd>'+t.durTxt+'</dd><dt>Ubicacion</dt><dd>Dia '+t.start+(t.dur>1?" a "+Math.min(t.start+t.dur-1,DAYS):"")+(t.milestone?"+":"")+'</dd><dt>Dependencias</dt><dd>'+depNames(t)+'</dd></dl>'+(full?'<div class="deliv"><h4>Entregable</h4>'+t.deliv+'</div>':'');
+ return '<span class="tt-id" style="background:'+phaseColor(t.ph)+'">'+p.num+" / "+t.id+'</span><div class="tt-name">'+t.name+'</div><dl class="tt-grid"><dt>Responsable</dt><dd>'+t.resp+'</dd><dt>Duracion</dt><dd>'+t.durTxt+'</dd><dt>Ubicacion</dt><dd>Dia '+t.start+(t.dur>1?" a "+Math.min(t.start+t.dur-1,DAYS):"")+(t.milestone?"+":"")+'</dd><dt>Dependencias</dt><dd>'+depNames(t)+'</dd></dl>'+(full?'<div class="deliv"><h4>Entregable</h4>'+t.deliv+'</div>'+priceBlockHtml(t):'');
 }
 function showTooltip(t,e){tooltip.innerHTML=taskHTML(t,false);tooltip.classList.add("show");moveTooltip(e);}
 function moveTooltip(e){
@@ -1260,6 +1276,13 @@ function selectBar(bar){
  grid.querySelectorAll(".bar.sel").forEach(function(b){b.classList.remove("sel");});
  bar.classList.add("sel");
 }
+panelBody.addEventListener("input",function(e){
+ var inp=e.target.closest?e.target.closest(".price-input"):null;
+ if(!inp)return;
+ var t=byId[inp.dataset.taskid];
+ if(!t)return;
+ t[inp.dataset.field]=inp.value;
+});
 document.getElementById("gpanelClose").addEventListener("click",function(){
  panel.classList.remove("open");
  grid.querySelectorAll(".bar.sel").forEach(function(b){b.classList.remove("sel");});
