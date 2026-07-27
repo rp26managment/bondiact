@@ -184,7 +184,7 @@ export default async function handler(req, res) {
       const { token } = body;
       if (!token) return res.status(401).json({ ok: false });
       const r = await fetch(
-        `${URLB}/rest/v1/produce_profiles?select=commodity,aduana,agri_code,contenido`,
+        `${URLB}/rest/v1/produce_profiles?select=id,commodity,aduana,agri_code,contenido,created_at,updated_at`,
         { headers: { apikey: ANON, Authorization: `Bearer ${token}` } }
       );
       if (!r.ok) return res.status(401).json({ ok: false });
@@ -208,6 +208,76 @@ export default async function handler(req, res) {
       if (!r.ok) return res.status(401).json({ ok: false });
       const rows = await r.json();
       return res.status(200).json({ ok: true, rows });
+    }
+
+    if (action === 'documents-list') {
+      // Sin profileId: RLS decide. Admin ve TODOS los documentos (Kanban
+      // general); un agricultor normal solo ve los suyos.
+      const { token, profileId } = body;
+      if (!token) return res.status(401).json({ ok: false });
+      let url = `${URLB}/rest/v1/produce_documents?select=id,profile_id,tipo_documento,estatus,subido_por,nota,created_at,updated_at&order=created_at.desc`;
+      if (profileId) url += `&profile_id=eq.${encodeURIComponent(profileId)}`;
+      const r = await fetch(url, {
+        headers: { apikey: ANON, Authorization: `Bearer ${token}` },
+      });
+      if (!r.ok) return res.status(401).json({ ok: false });
+      const rows = await r.json();
+      return res.status(200).json({ ok: true, rows });
+    }
+
+    if (action === 'documents-add') {
+      // Solo admin puede escribir (RLS lo hace cumplir de todos modos).
+      const { token, profileId, tipoDocumento } = body;
+      if (!token || !profileId || !tipoDocumento)
+        return res.status(400).json({ ok: false });
+      const r = await fetch(`${URLB}/rest/v1/produce_documents`, {
+        method: 'POST',
+        headers: {
+          apikey: ANON,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify({
+          profile_id: profileId,
+          tipo_documento: String(tipoDocumento).slice(0, 120),
+        }),
+      });
+      if (!r.ok) return res.status(400).json({ ok: false });
+      const rows = await r.json();
+      return res.status(200).json({ ok: true, rows });
+    }
+
+    if (action === 'documents-status') {
+      const { token, docId, estatus, subidoPor } = body;
+      const validos = ['pendiente', 'proceso', 'revision', 'listo'];
+      if (!token || !docId || !validos.includes(estatus))
+        return res.status(400).json({ ok: false });
+      const patch = { estatus };
+      if (typeof subidoPor === 'string') patch.subido_por = subidoPor.slice(0, 120);
+      const r = await fetch(`${URLB}/rest/v1/produce_documents?id=eq.${encodeURIComponent(docId)}`, {
+        method: 'PATCH',
+        headers: {
+          apikey: ANON,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(patch),
+      });
+      if (!r.ok) return res.status(400).json({ ok: false });
+      return res.status(200).json({ ok: true });
+    }
+
+    if (action === 'documents-delete') {
+      const { token, docId } = body;
+      if (!token || !docId) return res.status(400).json({ ok: false });
+      const r = await fetch(`${URLB}/rest/v1/produce_documents?id=eq.${encodeURIComponent(docId)}`, {
+        method: 'DELETE',
+        headers: { apikey: ANON, Authorization: `Bearer ${token}` },
+      });
+      if (!r.ok) return res.status(400).json({ ok: false });
+      return res.status(200).json({ ok: true });
     }
 
     if (action === 'logout') {

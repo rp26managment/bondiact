@@ -17,7 +17,7 @@
   --shadow:0 24px 60px rgba(18,18,18,.18);
   --barInk:#FFFFFF; --dep:#5B6B70;
   --c0:#00897B; --c1:#00695C; --c2:#14708C; --c3:#2A5D79; --c4:#3A4E63; --c5:#263238; --cop:#56707C;
-  --day:34px; --labelW:280px; --respW:118px;
+  --day:46px; --labelW:320px; --respW:140px;
 }
 [data-theme="dark"]{
   --bg:#0D1214; --surface:#161D20; --surface2:#1C2529; --text:#F5F7F7; --text2:#9FB0B5;
@@ -92,6 +92,17 @@ body.admin td.num[contenteditable]:focus{outline-style:solid;outline-color:var(-
 body.rol-admin #btn-logout{margin-left:0}
 body.rol-admin #btn-admin{margin-left:auto}
 .main{flex:1;width:100%;max-width:1240px;margin:0 auto;padding:28px 26px 40px}
+#admin-panel-root{width:100%;background:var(--teal-soft);border-bottom:1px solid var(--teal-line)}
+#admin-panel-root .admin-inner{max-width:1240px;margin:0 auto;padding:22px 26px 26px}
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px}
+@media (max-width:900px){.kanban{grid-template-columns:repeat(2,1fr)}}
+.kcol{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px;min-height:80px}
+.kcol-h{font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);margin-bottom:8px;padding:0 4px}
+.kcards{display:flex;flex-direction:column;gap:8px;min-height:40px}
+.kcard{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 10px;font-size:.8rem}
+.kcard .kcard-code{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--primary);font-weight:600;display:block;margin-bottom:2px}
+.kcard .kcard-tipo{font-weight:600;display:block;margin-bottom:6px;line-height:1.3}
+.kcard select{width:100%;font-size:.72rem;padding:4px 6px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--text)}
 
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:28px}
 .summary.six{grid-template-columns:repeat(3,1fr)}
@@ -122,6 +133,16 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
 .status.ok{color:var(--primary);background:var(--teal-soft);border:1px solid var(--teal-line)}
 .status.pend{color:#B4762F;background:rgba(180,118,47,.12);border:1px solid rgba(180,118,47,.35)}
 .status.na{color:var(--text2);background:var(--surface2);border:1px solid var(--border)}
+.status-sel,.docstatus-sel{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:4px 24px 4px 10px;border-radius:999px;cursor:pointer;-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234A5A60' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat:no-repeat;background-position:right 6px center;background-size:12px}
+.status-sel.status-ok{color:var(--primary);background-color:var(--teal-soft);border:1px solid var(--teal-line)}
+.status-sel.status-pend{color:#B4762F;background-color:rgba(180,118,47,.12);border:1px solid rgba(180,118,47,.35)}
+.status-sel.status-na{color:var(--text2);background-color:var(--surface2);border:1px solid var(--border)}
+.docstatus-sel.docstatus-pendiente{color:var(--text2);background-color:var(--surface2);border:1px solid var(--border)}
+.docstatus-sel.docstatus-proceso{color:#B4762F;background-color:rgba(180,118,47,.12);border:1px solid rgba(180,118,47,.35)}
+.docstatus-sel.docstatus-revision{color:#2A5D79;background-color:rgba(42,93,121,.12);border:1px solid rgba(42,93,121,.35)}
+.docstatus-sel.docstatus-listo{color:var(--primary);background-color:var(--teal-soft);border:1px solid var(--teal-line)}
 .sec-title{font-size:1.15rem;font-weight:800;letter-spacing:-.01em;margin:32px 0 12px}
 .gantt-sec{margin-top:32px}
 .gantt-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-bottom:12px}
@@ -143,14 +164,14 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
 .cell-resp{width:var(--respW);flex:0 0 var(--respW);position:sticky;left:var(--labelW);z-index:5;background:var(--surface);padding:8px 10px;border-right:1px solid var(--border);display:flex;align-items:center}
 body.no-resp .cell-resp{display:none}
 .cell-track{position:relative;flex:0 0 auto}
-.task-name{font-size:.8rem;font-weight:500;line-height:1.3}
-.task-id{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text2);display:block;margin-bottom:2px;letter-spacing:.06em}
-.resp-chip{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:3px 8px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);white-space:nowrap}
+.task-name{font-size:.95rem;font-weight:500;line-height:1.35}
+.task-id{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--text2);display:block;margin-bottom:2px;letter-spacing:.06em}
+.resp-chip{font-family:'JetBrains Mono',monospace;font-size:.74rem;padding:4px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);white-space:nowrap}
 .grow.phase-row{background:var(--surface2)}
 .grow.phase-row .cell-label,.grow.phase-row .cell-resp{background:var(--surface2)}
-.phase-title{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.8rem;display:flex;align-items:center;gap:8px}
+.phase-title{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:8px}
 .phase-num{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--barInk);letter-spacing:.05em}
-.phase-note{font-size:.68rem;color:var(--text2);margin-top:2px;line-height:1.35}
+.phase-note{font-size:.8rem;color:var(--text2);margin-top:2px;line-height:1.4}
 .grow.ghead{border-top:none}
 .grow.ghead .cell-label,.grow.ghead .cell-resp{z-index:6}
 .weeks,.days{display:flex}
@@ -258,7 +279,7 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     <div class="hdr-sel">
       <label for="sel-commodity" data-i18n="lbl_commodity">Commodity</label>
       <select id="sel-commodity">
-        <option>Aguacate</option><option>Berries</option><option>Limon persa</option><option>Mango</option><option>Esparrago</option>
+        <option>Aguacate</option><option>Berries</option><option>Limon persa</option><option>Mango</option><option>Cebolla</option>
       </select>
     </div>
     <div class="hdr-sel">
@@ -283,13 +304,87 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     </button>
   </header>
 
+  <!-- ===== PANEL ADMIN: franja completa arriba de todo, oculta hasta confirmar rol admin ===== -->
+  <section id="admin-panel-root" style="display:none" aria-label="Panel Admin">
+    <div class="admin-inner">
+      <h2 class="sec-title" style="margin-top:0" data-i18n="admin_title">Panel Admin</h2>
+      <h3 class="eyebrow" style="margin:0 0 10px" data-i18n="admin_growers">Agricultores</h3>
+      <div class="tbl-wrap" style="margin-bottom:24px">
+        <table style="min-width:760px">
+          <thead>
+            <tr>
+              <th data-i18n="th_code">Codigo</th>
+              <th data-i18n="lbl_commodity">Commodity</th>
+              <th data-i18n="lbl_aduana">Aduana</th>
+              <th data-i18n="lbl_avance">Avance</th>
+              <th data-i18n="th_created">Creado</th>
+              <th data-i18n="th_updated">Ultima actualizacion</th>
+            </tr>
+          </thead>
+          <tbody id="admin-profiles-body">
+            <tr><td colspan="6" class="muted" style="text-align:center;padding:22px" data-i18n="admin_empty">Sin datos, se cargan al conectar el servicio</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="eyebrow" style="margin:0 0 10px" data-i18n="admin_access">Accesos</h3>
+      <div class="tbl-wrap" style="margin-bottom:0">
+        <table style="min-width:640px">
+          <thead>
+            <tr>
+              <th data-i18n="lbl_email">Correo electronico</th>
+              <th data-i18n="th_date">Fecha</th>
+              <th>IP</th>
+            </tr>
+          </thead>
+          <tbody id="admin-access-body">
+            <tr><td colspan="3" class="muted" style="text-align:center;padding:22px" data-i18n="admin_empty">Sin datos, se cargan al conectar el servicio</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="eyebrow" style="margin:24px 0 10px" data-i18n="admin_kanban">Documentos, todos los agricultores</h3>
+      <div class="kanban" id="kanban-board">
+        <div class="kcol" data-estatus="pendiente"><div class="kcol-h" data-i18n="kanban_pendiente">Pendiente de subir</div><div class="kcards" id="kcol-pendiente"></div></div>
+        <div class="kcol" data-estatus="proceso"><div class="kcol-h" data-i18n="kanban_proceso">En proceso</div><div class="kcards" id="kcol-proceso"></div></div>
+        <div class="kcol" data-estatus="revision"><div class="kcol-h" data-i18n="kanban_revision">En revision</div><div class="kcards" id="kcol-revision"></div></div>
+        <div class="kcol" data-estatus="listo"><div class="kcol-h" data-i18n="kanban_listo">Listo</div><div class="kcards" id="kcol-listo"></div></div>
+      </div>
+
+      <h3 class="eyebrow" style="margin:24px 0 10px" data-i18n="admin_checklist">Checklist por agricultor</h3>
+      <div class="hdr-sel" style="margin-bottom:12px">
+        <label for="admin-doc-grower" data-i18n="admin_pick_grower">Agricultor</label>
+        <select id="admin-doc-grower"><option value="">-</option></select>
+      </div>
+      <div class="tbl-wrap" style="margin-bottom:12px">
+        <table style="min-width:640px">
+          <thead>
+            <tr>
+              <th data-i18n="doc_tipo">Documento</th>
+              <th data-i18n="th_status">Estatus</th>
+              <th data-i18n="doc_subido_por">Subido por</th>
+              <th data-i18n="th_updated">Ultima actualizacion</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="admin-doc-checklist">
+            <tr><td colspan="5" class="muted" style="text-align:center;padding:22px" data-i18n="admin_pick_grower_hint">Elige un agricultor arriba</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="hdr-sel">
+        <input type="text" id="doc-nuevo-tipo" placeholder="Ej. INE, Acta constitutiva" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.84rem;min-width:220px">
+        <button class="btn-primary" id="btn-doc-agregar" type="button" style="width:auto;padding:9px 16px" data-i18n="doc_agregar">Agregar documento</button>
+      </div>
+    </div>
+  </section>
+
   <main class="main">
     <section class="summary six" aria-label="Resumen">
       <div class="sum-cell"><div class="k" data-i18n="lbl_commodity">Commodity</div><div class="v" id="sum-commodity">Aguacate</div></div>
       <div class="sum-cell"><div class="k" data-i18n="lbl_fraccion">Fraccion / NICO</div><div class="v mono" id="sum-fraccion" style="font-size:1rem">0804.40.01 / 00</div></div>
       <div class="sum-cell"><div class="k" data-i18n="lbl_aduana">Aduana</div><div class="v" id="sum-aduana">Nuevo Laredo</div></div>
       <div class="sum-cell"><div class="k" data-i18n="lbl_destino">Destino</div><div class="v" id="sum-destino">USA</div></div>
-      <div class="sum-cell"><div class="k" data-i18n="lbl_avance">Avance</div><div class="v">35%</div><div class="pbar"><i></i></div></div>
+      <div class="sum-cell"><div class="k" data-i18n="lbl_avance">Avance</div><div class="v" id="avance-pct">0%</div><div class="pbar"><i id="avance-bar" style="width:0%"></i></div></div>
       <div class="sum-cell"><div class="k" data-i18n="lbl_code">Codigo del agricultor</div><div class="v"><span id="agri-code">PR-1234</span></div></div>
     </section>
 
@@ -315,13 +410,13 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
             <td><input type="checkbox" checked aria-label="Avance"></td>
             <td class="code">PR-0101</td><td class="task">Alta del agricultor y firma de acuerdo</td>
             <td>BondiaCT</td><td class="muted">3 dias</td><td class="muted">Ninguna</td>
-            <td>Expediente de alta</td><td class="num">$1,500</td><td class="num">20%</td><td class="neto">$1,200</td>
+            <td>Expediente de alta</td><td class="num">$0</td><td class="num">0%</td><td class="neto">$0</td>
           </tr>
           <tr>
             <td><input type="checkbox" checked aria-label="Avance"></td>
             <td class="code">PR-0102</td><td class="task">Diagnostico documental del perfil exportador</td>
             <td>Consultor</td><td class="muted">5 dias</td><td class="muted">PR-0101</td>
-            <td>Reporte de brechas</td><td class="num">$2,500</td><td class="num">20%</td><td class="neto">$2,000</td>
+            <td>Reporte de brechas</td><td class="num">$0</td><td class="num">0%</td><td class="neto">$0</td>
           </tr>
           <tr class="fase"><td colspan="10">Fase 1. Matriz de Seguridad + DataStage</td></tr>
           <tr>
@@ -401,41 +496,6 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
       </table>
     </div>
 
-    <!-- ===== PIEZA 3: PANEL ADMIN (oculto por default, lo muestra el script de rol) ===== -->
-    <section id="admin-panel-root" style="display:none" aria-label="Panel Admin">
-      <h2 class="sec-title" data-i18n="admin_title">Panel Admin</h2>
-      <h3 class="eyebrow" style="margin:0 0 10px" data-i18n="admin_growers">Agricultores</h3>
-      <div class="tbl-wrap" style="margin-bottom:24px">
-        <table style="min-width:640px">
-          <thead>
-            <tr>
-              <th data-i18n="th_code">Codigo</th>
-              <th data-i18n="lbl_commodity">Commodity</th>
-              <th data-i18n="lbl_aduana">Aduana</th>
-              <th data-i18n="lbl_avance">Avance</th>
-            </tr>
-          </thead>
-          <tbody id="admin-profiles-body">
-            <tr><td colspan="4" class="muted" style="text-align:center;padding:22px" data-i18n="admin_empty">Sin datos, se cargan al conectar el servicio</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <h3 class="eyebrow" style="margin:0 0 10px" data-i18n="admin_access">Accesos</h3>
-      <div class="tbl-wrap" style="margin-bottom:8px">
-        <table style="min-width:640px">
-          <thead>
-            <tr>
-              <th data-i18n="lbl_email">Correo electronico</th>
-              <th data-i18n="th_date">Fecha</th>
-              <th>IP</th>
-            </tr>
-          </thead>
-          <tbody id="admin-access-body">
-            <tr><td colspan="3" class="muted" style="text-align:center;padding:22px" data-i18n="admin_empty">Sin datos, se cargan al conectar el servicio</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
 
     <section class="gantt-sec" aria-label="Carta Gantt">
       <div class="gantt-head">
@@ -513,6 +573,22 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     admin_access:{es:"Accesos",en:"Access log"},
     admin_empty:{es:"Sin datos, se cargan al conectar el servicio",en:"No data, loaded once the service is connected"},
     th_date:{es:"Fecha",en:"Date"},
+    th_created:{es:"Creado",en:"Created"},
+    th_updated:{es:"Ultima actualizacion",en:"Last updated"},
+    status_vigente:{es:"Vigente",en:"Valid"},
+    status_pend:{es:"En tramite",en:"In process"},
+    status_na:{es:"No aplica",en:"N/A"},
+    admin_kanban:{es:"Documentos, todos los agricultores",en:"Documents, all growers"},
+    kanban_pendiente:{es:"Pendiente de subir",en:"Pending upload"},
+    kanban_proceso:{es:"En proceso",en:"In progress"},
+    kanban_revision:{es:"En revision",en:"In review"},
+    kanban_listo:{es:"Listo",en:"Done"},
+    admin_checklist:{es:"Checklist por agricultor",en:"Grower checklist"},
+    admin_pick_grower:{es:"Agricultor",en:"Grower"},
+    admin_pick_grower_hint:{es:"Elige un agricultor arriba",en:"Pick a grower above"},
+    doc_tipo:{es:"Documento",en:"Document"},
+    doc_subido_por:{es:"Subido por",en:"Uploaded by"},
+    doc_agregar:{es:"Agregar documento",en:"Add document"},
     err_creds:{es:"Credenciales incorrectas",en:"Incorrect credentials"}
   };
   var lang="es";
@@ -575,14 +651,148 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
       if(row.aduana){$("sum-aduana").textContent=row.aduana;setSelectValue($("sel-aduana"),row.aduana);}
       renderReq();
       if(IS_ADMIN){
-        var html="";
-        res.rows.forEach(function(r){
-          html+='<tr><td class="code">'+(r.agri_code||"-")+'</td><td>'+(r.commodity||"-")+'</td><td>'+(r.aduana||"-")+'</td><td class="muted">-</td></tr>';
-        });
-        $("admin-profiles-body").innerHTML=html||$("admin-profiles-body").innerHTML;
+        PROFILES={};
+        res.rows.forEach(function(r){ if(r.id)PROFILES[r.id]=r; });
+        renderGrowerSelect();
+        refreshAdminDocs();
+      }else if(row.id){
+        CURRENT_PROFILE_ID=row.id;
+        loadOwnDocuments();
       }
     });
   }
+
+  /* ===== checklist de documentos (Kanban) ===== */
+  var PROFILES={}, ALL_DOCS=[], CURRENT_PROFILE_ID=null;
+  var DOC_STATUS_OPTS=[["pendiente","Pendiente de subir"],["proceso","En proceso"],["revision","En revision"],["listo","Listo"]];
+
+  function docStatusHtml(docId,estatus){
+    var opts=DOC_STATUS_OPTS.map(function(o){
+      return '<option value="'+o[0]+'"'+(o[0]===estatus?" selected":"")+'>'+o[1]+'</option>';
+    }).join("");
+    return '<select class="docstatus-sel docstatus-'+estatus+' doc-status-sel" data-docid="'+docId+'">'+opts+'</select>';
+  }
+  function calcAvance(docs){
+    if(!docs||!docs.length)return 0;
+    var listo=docs.filter(function(d){return d.estatus==="listo";}).length;
+    return Math.round(100*listo/docs.length);
+  }
+  function pintarBateria(pct){
+    if($("avance-pct"))$("avance-pct").textContent=pct+"%";
+    if($("avance-bar"))$("avance-bar").style.width=pct+"%";
+  }
+  function loadOwnDocuments(){
+    apiCall("documents-list",{token:SESSION_TOKEN,profileId:CURRENT_PROFILE_ID}).then(function(res){
+      if(!res.ok)return;
+      pintarBateria(calcAvance(res.rows||[]));
+    });
+  }
+  function renderGrowerSelect(){
+    var sel=$("admin-doc-grower");
+    if(!sel)return;
+    var actual=sel.value;
+    var html='<option value="">-</option>';
+    Object.keys(PROFILES).forEach(function(id){
+      var p=PROFILES[id];
+      html+='<option value="'+id+'">'+(p.agri_code||id)+' / '+(p.commodity||"-")+'</option>';
+    });
+    sel.innerHTML=html;
+    if(actual&&PROFILES[actual])sel.value=actual;
+  }
+  function renderGrowersTable(){
+    var body=$("admin-profiles-body");
+    if(!body)return;
+    var ids=Object.keys(PROFILES);
+    if(!ids.length)return;
+    var html="";
+    ids.forEach(function(id){
+      var r=PROFILES[id];
+      var docs=ALL_DOCS.filter(function(d){return d.profile_id===id;});
+      var pct=calcAvance(docs);
+      var creado=r.created_at?new Date(r.created_at).toLocaleString():"-";
+      var actualizado=r.updated_at?new Date(r.updated_at).toLocaleString():"-";
+      html+='<tr><td class="code">'+(r.agri_code||"-")+'</td><td>'+(r.commodity||"-")+'</td><td>'+(r.aduana||"-")+'</td><td>'+pct+'%</td><td class="muted">'+creado+'</td><td class="muted">'+actualizado+'</td></tr>';
+    });
+    body.innerHTML=html;
+  }
+  function renderKanban(){
+    var cols={pendiente:"",proceso:"",revision:"",listo:""};
+    ALL_DOCS.forEach(function(d){
+      var p=PROFILES[d.profile_id]||{};
+      var card='<div class="kcard"><span class="kcard-code">'+(p.agri_code||"-")+'</span><span class="kcard-tipo">'+d.tipo_documento+'</span>'+docStatusHtml(d.id,d.estatus)+'</div>';
+      if(cols[d.estatus]!==undefined)cols[d.estatus]+=card;
+    });
+    Object.keys(cols).forEach(function(k){
+      var el=$("kcol-"+k);
+      if(el)el.innerHTML=cols[k]||'<span class="muted" style="font-size:.76rem;padding:0 4px">-</span>';
+    });
+  }
+  function renderChecklistFor(profileId){
+    var body=$("admin-doc-checklist");
+    if(!body)return;
+    if(!profileId){
+      body.innerHTML='<tr><td colspan="5" class="muted" style="text-align:center;padding:22px" data-i18n="admin_pick_grower_hint">Elige un agricultor arriba</td></tr>';
+      return;
+    }
+    var docs=ALL_DOCS.filter(function(d){return d.profile_id===profileId;});
+    if(!docs.length){
+      body.innerHTML='<tr><td colspan="5" class="muted" style="text-align:center;padding:22px">Sin documentos, agrega el primero abajo</td></tr>';
+      return;
+    }
+    var html="";
+    docs.forEach(function(d){
+      var actualizado=d.updated_at?new Date(d.updated_at).toLocaleString():"-";
+      html+='<tr>'
+        +'<td>'+d.tipo_documento+'</td>'
+        +'<td>'+docStatusHtml(d.id,d.estatus)+'</td>'
+        +'<td><input type="text" class="doc-subido-por" data-docid="'+d.id+'" value="'+(d.subido_por||"")+'" placeholder="Nombre" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:8px;background:var(--surface2);font-size:.8rem"></td>'
+        +'<td class="muted">'+actualizado+'</td>'
+        +'<td><button type="button" class="doc-borrar" data-docid="'+d.id+'" title="Borrar" style="border:1px solid var(--border);background:transparent;border-radius:8px;padding:5px 9px;color:#C62828;font-size:.76rem">&times;</button></td>'
+        +'</tr>';
+    });
+    body.innerHTML=html;
+  }
+  function refreshAdminDocs(){
+    apiCall("documents-list",{token:SESSION_TOKEN}).then(function(res){
+      if(!res.ok)return;
+      ALL_DOCS=res.rows||[];
+      renderGrowersTable();
+      renderKanban();
+      var sel=$("admin-doc-grower");
+      renderChecklistFor(sel?sel.value:"");
+    });
+  }
+  var docGrowerSel=$("admin-doc-grower");
+  if(docGrowerSel)docGrowerSel.addEventListener("change",function(){renderChecklistFor(this.value);});
+  var btnDocAgregar=$("btn-doc-agregar");
+  if(btnDocAgregar)btnDocAgregar.addEventListener("click",function(){
+    var sel=$("admin-doc-grower"),tipo=$("doc-nuevo-tipo");
+    if(!sel.value||!tipo.value.trim())return;
+    apiCall("documents-add",{token:SESSION_TOKEN,profileId:sel.value,tipoDocumento:tipo.value.trim()}).then(function(res){
+      if(res.ok){tipo.value="";refreshAdminDocs();}
+    });
+  });
+  d.addEventListener("change",function(e){
+    var sel=e.target.closest?e.target.closest(".doc-status-sel"):null;
+    if(sel){
+      apiCall("documents-status",{token:SESSION_TOKEN,docId:sel.dataset.docid,estatus:sel.value}).then(function(res){
+        if(res.ok)refreshAdminDocs();
+      });
+      return;
+    }
+    var input=e.target.closest?e.target.closest(".doc-subido-por"):null;
+    if(input){
+      apiCall("documents-status",{token:SESSION_TOKEN,docId:input.dataset.docid,estatus:input.closest("tr").querySelector(".doc-status-sel").value,subidoPor:input.value}).then(function(){});
+    }
+  });
+  d.addEventListener("click",function(e){
+    var btn=e.target.closest?e.target.closest(".doc-borrar"):null;
+    if(!btn)return;
+    if(!confirm("Borrar este documento del checklist?"))return;
+    apiCall("documents-delete",{token:SESSION_TOKEN,docId:btn.dataset.docid}).then(function(res){
+      if(res.ok)refreshAdminDocs();
+    });
+  });
   function loadAccessLog(){
     apiCall("access-log",{token:SESSION_TOKEN}).then(function(res){
       if(!res.ok||!res.rows||!res.rows.length)return;
@@ -683,23 +893,38 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     "Berries":"0810.40.01 / 00",
     "Limon persa":"0805.50.02 / 00",
     "Mango":"0804.50.03 / 01",
-    "Esparrago":"0709.20.01 / 00"
+    "Cebolla":"0703.10.01 / verificar NICO"
   };
   var HANDLING={
     "Aguacate":{temp:"5 a 7 °C",hr:"90 a 95%",vida:"3 a 4 semanas",nota:"Sensible al frio debajo de 4 °C. No mezclar con emisores de etileno."},
     "Berries":{temp:"0 a 1 °C",hr:"90 a 95%",vida:"7 a 14 dias",nota:"Cadena de frio estricta, preenfriado dentro de las primeras 4 horas."},
     "Limon persa":{temp:"9 a 10 °C",hr:"85 a 90%",vida:"4 a 6 semanas",nota:"Dano por frio debajo de 8 °C. Evitar condensacion en el contenedor."},
     "Mango":{temp:"10 a 13 °C",hr:"85 a 90%",vida:"2 a 3 semanas",nota:"Dano por frio debajo de 10 °C. Cosecha en madurez fisiologica."},
-    "Esparrago":{temp:"0 a 2 °C",hr:"95 a 99%",vida:"2 a 3 semanas",nota:"Hidroenfriado obligatorio. Altamente perecedero, transportar vertical."}
+    "Cebolla":{temp:"0 a 4 °C",hr:"60 a 70%",vida:"hasta 6 meses en frio",nota:"Bien curada y ventilada aguanta meses. Fuente: National Onion Association / WFLO Commodity Storage Manual."}
   };
   var TRAT={
     "Mango":{"USA":"Hidrotermico (APHIS)","Canada":"Hidrotermico","Union Europea":"Sin tratamiento, con LMR UE","Japon":"Vapor caliente (MAFF)"},
     "Aguacate":{"USA":"Sin tratamiento, plan APHIS","Canada":"Sin tratamiento","Union Europea":"Sin tratamiento","Japon":"Sin tratamiento, protocolo MAFF"},
     "Berries":{"USA":"Sin tratamiento, monitoreo de plagas","Canada":"Sin tratamiento","Union Europea":"Sin tratamiento","Japon":"Fumigacion si hay deteccion"},
     "Limon persa":{"USA":"Sin tratamiento","Canada":"Sin tratamiento","Union Europea":"Certificado zona libre","Japon":"Fumigacion con bromuro de metilo"},
-    "Esparrago":{"USA":"Sin tratamiento","Canada":"Sin tratamiento","Union Europea":"Sin tratamiento","Japon":"Inspeccion en origen"}
+    "Cebolla":{"USA":"Sin tratamiento, certificado fitosanitario (7 CFR 319.56-3)","Canada":"Verificar con CFIA","Union Europea":"Verificar con TRACES NT","Japon":"Verificar con MAFF"}
   };
-  function st(s){return s==="ok"?'<span class="status ok">Vigente</span>':s==="na"?'<span class="status na">No aplica</span>':'<span class="status pend">En tramite</span>';}
+  var STATUS_OPTS=[["ok","Vigente"],["pend","En tramite"],["na","No aplica"]];
+  var rrnaRowId=0;
+  function st(s,rowId){
+    var opts=STATUS_OPTS.map(function(o){
+      return '<option value="'+o[0]+'"'+(o[0]===s?" selected":"")+'>'+o[1]+'</option>';
+    }).join("");
+    return '<select class="status-sel status-'+s+'" data-row="'+rowId+'" aria-label="Estatus">'+opts+'</select>';
+  }
+  /* Cambiar el estatus a mano SOLO cambia el color/etiqueta en pantalla por ahora.
+     Cuando armemos el expediente con documentos (checklist real en Supabase),
+     este cambio se va a guardar ahi. Hoy es una vista, no hay tabla que lo reciba. */
+  d.addEventListener("change",function(e){
+    var sel=e.target.closest?e.target.closest(".status-sel"):null;
+    if(!sel)return;
+    sel.className="status-sel status-"+sel.value;
+  });
   function rrnaRows(c,dst){
     var rows=[
       ["Certificado fitosanitario internacional","Ley Federal de Sanidad Vegetal","SENASICA","Certificado por embarque","Exportacion MX","ok"],
@@ -737,7 +962,8 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     $("req-note").textContent=h.nota;
     var html="";
     rrnaRows(c,dst).forEach(function(r){
-      html+='<tr><td class="task">'+r[0]+'</td><td class="muted">'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td class="muted">'+r[4]+'</td><td>'+st(r[5])+'</td></tr>';
+      rrnaRowId++;
+      html+='<tr><td class="task">'+r[0]+'</td><td class="muted">'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td class="muted">'+r[4]+'</td><td>'+st(r[5],rrnaRowId)+'</td></tr>';
     });
     $("rrna-body").innerHTML=html;
   }
@@ -784,7 +1010,7 @@ var PHASES=[
  {num:"F0",cvar:"--c0",name:"Regalo de bienvenida",note:"Reporte Forense de Auditoria de un pedimento + demo de Control Tower, gratis al prospecto."},
  {num:"F1",cvar:"--c1",name:"Matriz de Seguridad + DataStage",note:""},
  {num:"F2",cvar:"--c2",name:"Solicitud de documentos al cliente",note:"Matriz de Seguridad via ANAM + DataStage via SAT + confirmar e.firma vigente. BondiaCT no solicita ni guarda e.firma, FIEL ni SAT ID."},
- {num:"F3",cvar:"--c3",name:"Carga del historico de 5 anios en Control Tower",note:"DataStage SAT con datos reales del cliente, acceso solo al dashboard historico referencial."},
+ {num:"F3",cvar:"--c3",name:"Carga del historico de 5 años en Control Tower",note:"DataStage SAT con datos reales del cliente, acceso solo al dashboard historico referencial."},
  {num:"F4",cvar:"--c4",name:"Alternativas y propuesta",note:""},
  {num:"F5",cvar:"--c5",name:"Propuesta Control Tower 360 Cloud + Validacion Previa",note:"Entregables y opciones, sin montos."},
  {num:"OP",cvar:"--cop",name:"Operacion (una vez en marcha)",note:""}
@@ -797,12 +1023,12 @@ var TASKS=[
  {id:"2.1",ph:2,name:"Cliente tramita Matriz de Seguridad y comparte acuse",resp:"Cliente/SAT",start:3,dur:14,durTxt:"~10 dias habiles",deps:["1.1"],deliv:"Acuse de Matriz de Seguridad tramitada via ANAM."},
  {id:"2.2",ph:2,name:"Cliente solicita DataStage al SAT y comparte acuse",resp:"Cliente/SAT",start:4,dur:14,durTxt:"~10 dias habiles",deps:["1.2"],deliv:"Acuse de solicitud de DataStage ante el SAT."},
  {id:"2.3",ph:2,name:"Alta de hasta 1 usuario por empresa",resp:"BondiaCT",start:4,dur:2,durTxt:"1 a 2 dias",deps:["1.2"],deliv:"Usuario dado de alta y validado en Control Tower (hasta 1 por empresa)."},
- {id:"3.1",ph:3,name:"Diagnostico e interpretacion de 5 anios, propuesta SWOT y WIP",resp:"BondiaCT",start:17,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Diagnostico del historico de 5 anios con propuesta SWOT y WIP, sobre dashboard referencial."},
+ {id:"3.1",ph:3,name:"Diagnostico e interpretacion de 5 años, propuesta SWOT y WIP",resp:"BondiaCT",start:17,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Diagnostico del historico de 5 años con propuesta SWOT y WIP, sobre dashboard referencial."},
  {id:"4.1",ph:4,name:"Propuesta Control Tower 360 + Validacion Previa",resp:"BondiaCT",start:18,dur:1,durTxt:"1 dia",deps:["3.1"],deliv:"Propuesta para cumplir Materialidad y Trazabilidad, con despachos en tiempo real."},
  {id:"4.2",ph:4,name:"Resolucion del historico caso por caso (si hay incidencias)",resp:"BondiaCT",start:19,dur:2,durTxt:"1 a 2 dias",deps:["4.1"],deliv:"Plan de resolucion de incidencias del historico, caso por caso."},
  {id:"4.3",ph:4,name:"Cliente verifica si sus expedientes estan completos",resp:"Cliente",start:21,dur:1,durTxt:"1 dia",deps:["4.2"],deliv:"Confirmacion del cliente sobre la completitud de sus expedientes."},
  {id:"5.1",ph:5,name:"Digitalizar y comprobar Materialidad y Trazabilidad (si falta expediente)",resp:"BondiaCT",start:21,dur:1,durTxt:"1 dia",deps:["4.3"],deliv:"Propuesta de digitalizacion y comprobacion de Materialidad y Trazabilidad para expedientes incompletos."},
- {id:"5.2",ph:5,name:"Opcion mensual: CT 360 Cloud + Validacion Previa",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Control Tower 360 Cloud + Validacion Previa de pedimentos historicos + modo en operacion, hasta 100 pedimentos en los ultimos 5 anios."},
+ {id:"5.2",ph:5,name:"Opcion mensual: CT 360 Cloud + Validacion Previa",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Control Tower 360 Cloud + Validacion Previa de pedimentos historicos + modo en operacion, hasta 100 pedimentos en los ultimos 5 años."},
  {id:"5.3",ph:5,name:"Opcion anual: mismo alcance que la mensual",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Mismo alcance que la opcion mensual, con vigencia anual."},
  {id:"5.4",ph:5,name:"Sin hosting: Validacion Previa de Pedimento en tiempo real",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Validacion Previa en modo operacion, sin obligar a usar la red de agentes aduanales de BondiaCT. Se emiten 2 dictamenes (cliente y tecnico para el agente aduanal), con verificacion de correccion y aviso automatico para proceder al pago y despacho."},
  {id:"5.5",ph:5,name:"Presentacion de MVE ante VUCEM",resp:"BondiaCT",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Trazabilidad y seguimiento de sellos eDocuments, cargo por evento. Solo disponible si el cliente usa Control Tower."},
@@ -857,7 +1083,7 @@ function buildRows(){
    ptrack.style.width=trackWidth()+"px";ptrack.appendChild(trackBg());
    pr.appendChild(ptrack);grid.appendChild(pr);
   }
-  var row=document.createElement("div");row.className="grow task-row";row.style.minHeight="44px";
+  var row=document.createElement("div");row.className="grow task-row";row.style.minHeight="52px";
   row.innerHTML='<div class="cell-label"><span class="task-id">'+t.id+'</span><div class="task-name">'+t.name+'</div></div><div class="cell-resp"><span class="resp-chip">'+t.resp+'</span></div>';
   var track=document.createElement("div");track.className="cell-track";
   track.style.width=trackWidth()+"px";track.appendChild(trackBg());
