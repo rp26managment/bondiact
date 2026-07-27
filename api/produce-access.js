@@ -16,6 +16,26 @@
 // de tablas). Regla de higiene anti-reconocimiento. Rate limit por IP.
 // ──────────────────────────────────────────────────────────────────────────
 
+// Checklist estandar de documentos para exportacion/importacion MX (mismo
+// listado del "Requisitos 2026" que se usa para tramitar despachos aduanales).
+// Se siembra completo al dar de alta a un agricultor, con estatus 'pendiente'.
+const CHECKLIST_ESTANDAR = [
+  'Constancia de situacion fiscal (del mes en curso)',
+  'Comprobante de domicilio fiscal (no mayor a 2 meses)',
+  'Acta constitutiva con Registro Publico de la Propiedad',
+  'Poder del representante legal (actos de administracion, pleitos y cobranza)',
+  'Identificacion oficial del representante legal (pasaporte, INE o FM2-FM3)',
+  'Constancia de Situacion Fiscal del representante legal (SAT, del mes en curso)',
+  'Opinion del Cumplimiento de Obligaciones Fiscales (SAT, del mes en curso)',
+  'IMMEX, PROSEC, Certificacion IVA/IEPS, ECEX, etc. (cuando aplique)',
+  'Cartas encomienda (en original)',
+  'Encargo conferido al Agente Aduanal ante el SAT',
+  'Sello digital para ventanilla unica: COVE/VUCEM (.CER, .KEY, contrasena y clave web)',
+  'Verificacion de domicilio fiscal (acta SAT o estatus en el portal SAT)',
+  'Fotografias del domicilio fiscal (fachada, maquinaria, oficina, personal, transporte)',
+  'Documento que acredite la legal propiedad o posesion del inmueble y activos',
+];
+
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 60_000;
 const RATE_LIMIT_MAX = 12;
@@ -208,6 +228,45 @@ export default async function handler(req, res) {
       // el propio). Es el mismo candado de siempre (app_metadata.role), no
       // logica extra aqui. El front decide si pinta panel admin con esto.
       return res.status(200).json({ ok: true, rows });
+    }
+
+    if (action === 'profiles-create') {
+      // Alta de agricultor: SOLO admin (RLS produce_profiles_write lo exige de
+      // todos modos). userId debe ser el UUID de un usuario YA invitado en
+      // Supabase Auth (Rod lo crea a mano, esta accion no crea cuentas).
+      const { token, userId, commodity, aduana, seedChecklist } = body;
+      if (!token || !userId || !commodity || !aduana)
+        return res.status(400).json({ ok: false });
+      const r = await fetch(`${URLB}/rest/v1/produce_profiles`, {
+        method: 'POST',
+        headers: {
+          apikey: ANON,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify({ user_id: userId, commodity, aduana }),
+      });
+      if (!r.ok) return res.status(400).json({ ok: false });
+      const rows = await r.json();
+      const profile = rows && rows[0];
+      if (seedChecklist && profile && profile.id) {
+        const docs = CHECKLIST_ESTANDAR.map((tipo) => ({
+          profile_id: profile.id,
+          tipo_documento: tipo,
+        }));
+        await fetch(`${URLB}/rest/v1/produce_documents`, {
+          method: 'POST',
+          headers: {
+            apikey: ANON,
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal',
+          },
+          body: JSON.stringify(docs),
+        }).catch(() => {});
+      }
+      return res.status(200).json({ ok: true, profile });
     }
 
     if (action === 'access-log') {

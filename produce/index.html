@@ -107,6 +107,8 @@ body.rol-admin #btn-admin{margin-left:auto}
 .main{flex:1;width:100%;max-width:1240px;margin:0 auto;padding:28px 26px 40px}
 #admin-panel-root{width:100%;background:var(--teal-soft);border-bottom:1px solid var(--teal-line)}
 #admin-panel-root .admin-inner{max-width:1240px;margin:0 auto;padding:22px 26px 26px}
+.alta-box{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--dlg-shadow)}
+.alta-box .hdr-sel select{padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.84rem}
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px}
 @media (max-width:900px){.kanban{grid-template-columns:repeat(2,1fr)}}
 .kcol{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px;min-height:80px;box-shadow:var(--dlg-shadow)}
@@ -346,6 +348,20 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     <div class="admin-inner">
       <h2 class="sec-title" style="margin-top:0" data-i18n="admin_title">Panel Admin</h2>
       <h3 class="eyebrow" style="margin:0 0 10px" data-i18n="admin_growers">Agricultores</h3>
+      <div class="alta-box" style="margin-bottom:16px">
+        <div class="hdr-sel"><label for="alta-userid" data-i18n="alta_userid">User ID (Supabase Auth)</label><input type="text" id="alta-userid" placeholder="uuid del usuario ya invitado" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.8rem;min-width:280px"></div>
+        <div class="hdr-sel">
+          <label for="alta-commodity" data-i18n="lbl_commodity">Commodity</label>
+          <select id="alta-commodity"><option>Aguacate</option><option>Berries</option><option>Limon persa</option><option>Mango</option><option>Cebolla</option></select>
+        </div>
+        <div class="hdr-sel">
+          <label for="alta-aduana" data-i18n="lbl_aduana">Aduana</label>
+          <select id="alta-aduana"><option>Nuevo Laredo</option><option>Colombia NL</option><option>Reynosa-McAllen</option><option>Manzanillo</option><option>Veracruz</option><option>Lazaro Cardenas</option></select>
+        </div>
+        <label class="hdr-sel" style="cursor:pointer"><input type="checkbox" id="alta-seed" checked><span data-i18n="alta_seed" style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-weight:600">Sembrar checklist estandar (14 documentos)</span></label>
+        <button class="btn-primary" id="btn-alta-crear" type="button" style="width:auto;padding:9px 16px" data-i18n="alta_crear">Crear agricultor</button>
+        <p id="alta-msg" class="muted" style="font-size:.78rem;margin-top:8px"></p>
+      </div>
       <div class="tbl-wrap" style="margin-bottom:24px">
         <table style="min-width:760px">
           <thead>
@@ -611,6 +627,9 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     th_net:{es:"Neto",en:"Net"},
     admin_title:{es:"Panel Admin",en:"Admin Panel"},
     admin_growers:{es:"Agricultores",en:"Growers"},
+    alta_userid:{es:"User ID (Supabase Auth)",en:"User ID (Supabase Auth)"},
+    alta_seed:{es:"Sembrar checklist estandar (14 documentos)",en:"Seed standard checklist (14 documents)"},
+    alta_crear:{es:"Crear agricultor",en:"Create grower"},
     admin_access:{es:"Accesos",en:"Access log"},
     admin_empty:{es:"Sin datos, se cargan al conectar el servicio",en:"No data, loaded once the service is connected"},
     th_date:{es:"Fecha",en:"Date"},
@@ -687,18 +706,21 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
   }
   function loadProfile(){
     apiCall("profile",{token:SESSION_TOKEN}).then(function(res){
-      if(!res.ok||!res.rows||!res.rows.length)return;
-      var row=res.rows[0];
-      if(row.agri_code)$("agri-code").textContent=row.agri_code;
-      if(row.commodity){$("sum-commodity").textContent=row.commodity;setSelectValue($("sel-commodity"),row.commodity);}
-      if(row.aduana){$("sum-aduana").textContent=row.aduana;setSelectValue($("sel-aduana"),row.aduana);}
-      renderReq();
+      if(!res.ok)return;
+      var rows=res.rows||[];
+      var row=rows[0];
+      if(row){
+        if(row.agri_code)$("agri-code").textContent=row.agri_code;
+        if(row.commodity){$("sum-commodity").textContent=row.commodity;setSelectValue($("sel-commodity"),row.commodity);}
+        if(row.aduana){$("sum-aduana").textContent=row.aduana;setSelectValue($("sel-aduana"),row.aduana);}
+        renderReq();
+      }
       if(IS_ADMIN){
         PROFILES={};
-        res.rows.forEach(function(r){ if(r.id)PROFILES[r.id]=r; });
+        rows.forEach(function(r){ if(r.id)PROFILES[r.id]=r; });
         renderGrowerSelect();
         refreshAdminDocs();
-      }else if(row.id){
+      }else if(row&&row.id){
         CURRENT_PROFILE_ID=row.id;
         loadOwnDocuments();
       }
@@ -791,7 +813,10 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     var body=$("admin-profiles-body");
     if(!body)return;
     var ids=Object.keys(PROFILES);
-    if(!ids.length)return;
+    if(!ids.length){
+      body.innerHTML='<tr><td colspan="6" class="muted" style="text-align:center;padding:22px">Sin agricultores dados de alta todavia, usa el formulario de arriba</td></tr>';
+      return;
+    }
     var html="";
     ids.forEach(function(id){
       var r=PROFILES[id];
@@ -858,6 +883,20 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
   if(docGrowerSel)docGrowerSel.addEventListener("change",function(){renderChecklistFor(this.value);});
   var kanbanFilterSel=$("admin-kanban-filter");
   if(kanbanFilterSel)kanbanFilterSel.addEventListener("change",function(){renderKanban();});
+  var btnAltaCrear=$("btn-alta-crear");
+  if(btnAltaCrear)btnAltaCrear.addEventListener("click",function(){
+    var uid=$("alta-userid").value.trim(),commodity=$("alta-commodity").value,aduana=$("alta-aduana").value,seed=$("alta-seed").checked;
+    var msg=$("alta-msg");
+    if(!uid){msg.textContent="Falta el User ID del agricultor (ya invitado en Supabase Auth).";return;}
+    btnAltaCrear.disabled=true;msg.textContent="Creando...";
+    apiCall("profiles-create",{token:SESSION_TOKEN,userId:uid,commodity:commodity,aduana:aduana,seedChecklist:seed}).then(function(res){
+      btnAltaCrear.disabled=false;
+      if(!res.ok||!res.profile){msg.textContent="No se pudo crear (revisa el User ID o si ya tiene perfil con ese commodity/aduana).";return;}
+      msg.textContent="Agricultor creado: "+(res.profile.agri_code||res.profile.id)+(seed?" con checklist de 14 documentos.":"");
+      $("alta-userid").value="";
+      loadProfile();
+    });
+  });
   var btnDocAgregar=$("btn-doc-agregar");
   if(btnDocAgregar)btnDocAgregar.addEventListener("click",function(){
     var sel=$("admin-doc-grower"),tipo=$("doc-nuevo-tipo");
