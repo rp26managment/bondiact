@@ -98,6 +98,9 @@ input,select{font-family:inherit;color:var(--text)}
 #btn-logout{margin-left:auto;display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text);font-size:.82rem;font-weight:600;transition:border-color .2s,color .2s}
 #btn-logout:hover{border-color:#C62828;color:#C62828}
 #btn-admin{margin-left:auto;display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text2);font-size:.78rem;font-weight:600;font-family:'JetBrains Mono',monospace;transition:border-color .2s,color .2s}
+#btn-view-gantt,#btn-view-checklist{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text2);font-size:.78rem;font-weight:600;font-family:'JetBrains Mono',monospace;transition:border-color .2s,color .2s}
+#btn-view-gantt:hover,#btn-view-checklist:hover{border-color:var(--teal-line);color:var(--primary)}
+#btn-view-gantt.on,#btn-view-checklist.on{border-color:var(--primary);color:var(--primary);background:var(--teal-soft)}
 #btn-admin:hover{border-color:var(--teal-line);color:var(--primary)}
 body.admin #btn-admin{border-color:var(--primary);color:var(--primary);background:var(--teal-soft)}
 body.admin td.num[contenteditable]{outline:1.5px dashed var(--teal-line);outline-offset:-1.5px;border-radius:6px;cursor:text;background:var(--teal-soft)}
@@ -179,69 +182,6 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
 .docstatus-sel.docstatus-revision{color:#2A5D79;background-color:rgba(42,93,121,.12);border:1px solid rgba(42,93,121,.35)}
 .docstatus-sel.docstatus-listo{color:var(--primary);background-color:var(--teal-soft);border:1px solid var(--teal-line)}
 .sec-title{font-size:1.15rem;font-weight:800;letter-spacing:-.01em;margin:32px 0 12px}
-.gantt-sec{margin-top:32px}
-.gantt-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-bottom:12px}
-.gantt-head h2{font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
-.gantt-toggle{display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--text2);cursor:pointer;user-select:none;margin-left:auto}
-.gantt-toggle .sw{width:34px;height:19px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);position:relative;transition:background .2s}
-.gantt-toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--text2);transition:left .2s,background .2s}
-.gantt-toggle.on .sw{background:var(--primary);border-color:var(--primary)}
-.gantt-toggle.on .sw::after{left:17px;background:#fff}
-.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 12px}
-.legend span{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text2)}
-.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
-.board{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--dlg-shadow)}
-.scroller{overflow-x:auto;position:relative}
-.grid{position:relative;min-width:max-content}
-.grow{display:flex;min-width:max-content;border-top:1px solid var(--border);position:relative}
-.grow:first-child{border-top:none}
-.cell-label{width:var(--labelW);flex:0 0 var(--labelW);position:sticky;left:0;z-index:5;background:var(--surface);padding:8px 14px;border-right:1px solid var(--border)}
-.cell-resp{width:var(--respW);flex:0 0 var(--respW);position:sticky;left:var(--labelW);z-index:5;background:var(--surface);padding:8px 10px;border-right:1px solid var(--border);display:flex;align-items:center}
-body.no-resp .cell-resp{display:none}
-.cell-track{position:relative;flex:0 0 auto}
-.task-name{font-size:.95rem;font-weight:500;line-height:1.35}
-.task-id{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--text2);display:block;margin-bottom:2px;letter-spacing:.06em}
-.resp-chip{font-family:'JetBrains Mono',monospace;font-size:.74rem;padding:4px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);white-space:nowrap}
-.grow.phase-row{background:var(--surface2)}
-.grow.phase-row .cell-label,.grow.phase-row .cell-resp{background:var(--surface2)}
-.phase-title{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:8px}
-.phase-num{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--barInk);letter-spacing:.05em}
-.phase-note{font-size:.8rem;color:var(--text2);margin-top:2px;line-height:1.4}
-.grow.ghead{border-top:none}
-.grow.ghead .cell-label,.grow.ghead .cell-resp{z-index:6}
-.weeks,.days{display:flex}
-.week{border-right:1px solid var(--border);text-align:center;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.72rem;padding:7px 0 3px;color:var(--text)}
-.day{width:var(--day);flex:0 0 var(--day);text-align:center;font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--text2);padding:2px 0 6px}
-.head-inner{border-bottom:1px solid var(--border)}
-.colhead{font-family:'JetBrains Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);align-self:flex-end;padding-bottom:8px}
-.track-bg{position:absolute;inset:0;pointer-events:none}
-.track-bg .wk{position:absolute;top:0;bottom:0;border-right:1px solid var(--border);opacity:.6}
-.bar{position:absolute;top:50%;transform:translateY(-50%);height:22px;border-radius:6px;cursor:pointer;display:flex;align-items:center;padding:0 8px;transition:filter .15s,box-shadow .15s}
-.bar:hover,.bar.sel{filter:brightness(1.12);box-shadow:0 0 0 2px var(--bg),0 0 0 4px currentColor}
-.bar .dur{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;color:var(--barInk);white-space:nowrap;overflow:hidden}
-.bar.milestone{border-radius:4px 12px 12px 4px;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.14) 0 6px,transparent 6px 12px)}
-svg.deps{position:absolute;inset:0;pointer-events:none;z-index:4;color:var(--dep)}
-svg.deps path{fill:none;stroke:currentColor;stroke-width:1.3;opacity:.32}
-svg.deps path.hot{opacity:.95;stroke-width:1.8;stroke:var(--primary)}
-svg.deps polygon{fill:currentColor;opacity:.32}
-svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
-.gtooltip{position:fixed;z-index:70;max-width:330px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow),var(--dlg-shadow);padding:12px 14px;pointer-events:none;opacity:0;transition:opacity .12s}
-.gtooltip.show{opacity:1}
-.tt-id{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.06em;margin-bottom:4px;display:inline-block;padding:2px 7px;border-radius:5px;color:var(--barInk)}
-.tt-name{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.85rem;margin-bottom:8px;line-height:1.25}
-.tt-grid{display:grid;grid-template-columns:92px 1fr;gap:4px 10px;font-size:.74rem}
-.tt-grid dt{color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;padding-top:1px}
-.tt-grid dd{color:var(--text)}
-.gpanel{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:var(--surface);border-left:1px solid var(--border);box-shadow:var(--shadow),var(--dlg-shadow);z-index:80;transform:translateX(105%);transition:transform .25s ease;padding:26px 24px;overflow-y:auto}
-.gpanel.open{transform:translateX(0)}
-.gpanel .close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;cursor:pointer;line-height:1}
-.gpanel .tt-grid{grid-template-columns:100px 1fr;font-size:.8rem;margin-top:14px}
-.gpanel .deliv{margin-top:16px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:.8rem;line-height:1.5}
-.gpanel .deliv h4{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:6px}
-.price-grid{display:flex;flex-direction:column;gap:8px}
-.price-grid label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.72rem;color:var(--text2);font-family:'JetBrains Mono',monospace}
-.price-grid input{width:120px;padding:6px 8px;border:1px solid var(--teal-line);border-radius:8px;background:var(--surface);color:var(--text);font-size:.78rem;font-family:'Inter',sans-serif;outline:none}
-.price-grid input:focus{border-color:var(--primary);box-shadow:0 0 0 2px var(--teal-soft)}
 .foot{padding:20px 26px;border-top:1px solid var(--border);text-align:center;font-size:.74rem;color:var(--text2)}
 .foot b{font-family:'Hanken Grotesk',sans-serif;color:var(--text)}
 @media (max-width:640px){
@@ -333,6 +273,14 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
         <option>USA</option><option>Canada</option><option>Union Europea</option><option>Japon</option>
       </select>
     </div>
+    <button id="btn-view-gantt" type="button">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-5 3 3 5-7"/></svg>
+      <span data-i18n="btn_view_gantt">Ver Carta Gantt</span>
+    </button>
+    <button id="btn-view-checklist" type="button">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span data-i18n="btn_view_checklist">Modo Checklist</span>
+    </button>
     <button id="btn-admin" type="button" title="Solo visible para rol admin" style="display:none">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
       <span data-i18n="btn_admin">Editar precios</span>
@@ -395,6 +343,14 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
         </table>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ===== MODO CHECKLIST: bateria + kanban + expediente por agricultor. Fuera del panel admin
+       para que sea alcanzable con un boton (equipo de CEO en el futuro, hoy Rod). ===== -->
+  <section id="checklist-view" style="display:none" aria-label="Modo Checklist">
+    <div class="admin-inner" style="max-width:1240px;margin:0 auto;padding:22px 26px 6px">
+      <h2 class="sec-title" style="margin-top:0" data-i18n="checklist_view_title">Modo Checklist</h2>
       <h3 class="eyebrow" style="margin:24px 0 10px" data-i18n="admin_kanban">Tablero de Kan Ban de Documentacion de los agricultores</h3>
       <div class="hdr-sel" style="margin:0 0 12px">
         <label for="admin-kanban-filter" data-i18n="admin_filter_view">Ver informacion de</label>
@@ -428,9 +384,19 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
           </tbody>
         </table>
       </div>
-      <div class="hdr-sel">
+      <div class="hdr-sel" id="doc-agregar-wrap" style="margin-bottom:22px">
         <input type="text" id="doc-nuevo-tipo" placeholder="Ej. INE, Acta constitutiva" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.84rem;min-width:220px">
         <button class="btn-primary" id="btn-doc-agregar" type="button" style="width:auto;padding:9px 16px" data-i18n="doc_agregar">Agregar documento</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VER CARTA GANTT: iframe aislado (propio CSS/JS, sin choques de tema con Produce) ===== -->
+  <section id="gantt-view" style="display:none" aria-label="Carta Gantt">
+    <div class="admin-inner" style="max-width:1240px;margin:0 auto;padding:22px 26px">
+      <h2 class="sec-title" style="margin-top:0" data-i18n="gantt_title">Carta Gantt del programa</h2>
+      <div class="tbl-wrap" style="overflow:hidden">
+        <iframe id="gantt-frame" title="Carta Gantt" style="width:100%;height:82vh;border:0;display:block;background:var(--surface)"></iframe>
       </div>
     </div>
   </section>
@@ -554,30 +520,10 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     </div>
 
 
-    <section class="gantt-sec" aria-label="Carta Gantt">
-      <div class="gantt-head">
-        <h2 data-i18n="gantt_title">Carta Gantt del programa</h2>
-        <div class="gantt-toggle on" id="respToggle" role="switch" aria-checked="true" tabindex="0">
-          <span data-i18n="gantt_resp">Columna Responsable</span><span class="sw"></span>
-        </div>
-      </div>
-      <div class="legend" id="legend"></div>
-      <div class="board">
-        <div class="scroller" id="scroller">
-          <div class="grid" id="grid"></div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="foot"><b>BondiaCT</b> 2026</footer>
 </div>
-
-<div class="gtooltip" id="gtooltip"></div>
-<aside class="gpanel" id="gpanel" aria-label="Detalle de tarea">
-  <button class="close" id="gpanelClose" aria-label="Cerrar">&times;</button>
-  <div id="gpanelBody"></div>
-</aside>
 
 <script>
 (function(){
@@ -627,6 +573,9 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
     th_net:{es:"Neto",en:"Net"},
     admin_title:{es:"Panel Admin",en:"Admin Panel"},
     admin_growers:{es:"Agricultores",en:"Growers"},
+    btn_view_gantt:{es:"Ver Carta Gantt",en:"View Gantt chart"},
+    btn_view_checklist:{es:"Modo Checklist",en:"Checklist mode"},
+    checklist_view_title:{es:"Modo Checklist",en:"Checklist mode"},
     alta_userid:{es:"User ID (Supabase Auth)",en:"User ID (Supabase Auth)"},
     alta_seed:{es:"Sembrar checklist estandar (14 documentos)",en:"Seed standard checklist (14 documents)"},
     alta_crear:{es:"Crear agricultor",en:"Create grower"},
@@ -879,6 +828,7 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
       renderChecklistFor(sel?sel.value:"");
     });
   }
+  window.refreshAdminDocs=refreshAdminDocs;
   var docGrowerSel=$("admin-doc-grower");
   if(docGrowerSel)docGrowerSel.addEventListener("change",function(){renderChecklistFor(this.value);});
   var kanbanFilterSel=$("admin-kanban-filter");
@@ -1143,204 +1093,24 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
 </script>
 <script>
 (function(){
-var DAYS=28;
-var WEEKS=[{label:"Semana 1",from:1,to:7},{label:"Semana 2",from:8,to:14},{label:"Semana 3",from:15,to:21},{label:"Semana 4+",from:22,to:28}];
-var PHASES=[
- {num:"F0",cvar:"--c0",name:"Regalo de bienvenida",note:"Reporte Forense de Auditoria de un pedimento + demo de Control Tower, gratis al prospecto."},
- {num:"F1",cvar:"--c1",name:"Matriz de Seguridad + DataStage",note:""},
- {num:"F2",cvar:"--c2",name:"Solicitud de documentos al cliente",note:"Matriz de Seguridad via ANAM + DataStage via SAT + confirmar e.firma vigente. BondiaCT no solicita ni guarda e.firma, FIEL ni SAT ID."},
- {num:"F3",cvar:"--c3",name:"Carga del historico de 5 años en Control Tower",note:"DataStage SAT con datos reales del cliente, acceso solo al dashboard historico referencial."},
- {num:"F4",cvar:"--c4",name:"Alternativas y propuesta",note:""},
- {num:"F5",cvar:"--c5",name:"Propuesta Control Tower 360 Cloud + Validacion Previa",note:"Entregables y opciones, sin montos."},
- {num:"OP",cvar:"--cop",name:"Operacion (una vez en marcha)",note:""}
-];
-var TASKS=[
- {id:"0",ph:0,name:"Reporte Forense de Auditoria + demo de Control Tower",resp:"BondiaCT",start:1,dur:1,durTxt:"1 dia",deps:[],deliv:"Reporte Forense de un pedimento (historico o por despachar) y demo en vivo de Control Tower, sin costo para el prospecto.",fee:"",disc:"Cortesia",net:""},
- {id:"1.1",ph:1,name:"Cotizacion de Matriz de Seguridad para MVE (si el cliente importa)",resp:"BondiaCT",start:2,dur:1,durTxt:"1 dia",deps:[],deliv:"Cotizacion de Matriz de Seguridad, opcional si no cambia la ley.",fee:"$5,000",disc:"25%",net:"$6,000"},
- {id:"1.2",ph:1,name:"DataStage Dashboard, analisis del historico de comercio exterior",resp:"BondiaCT",start:3,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Dashboard DataStage para analizar el historico de operaciones de exportacion y/o importacion.",fee:"$20,000",disc:"25%",net:"$18,000"},
- {id:"1.3",ph:1,name:"Diagnostico y verificacion de expedientes completos",resp:"BondiaCT",start:4,dur:1,durTxt:"1 dia",deps:["1.2"],deliv:"Diagnostico de expedientes completos, en orden y secuencia.",fee:"-",disc:"-",net:"-"},
- {id:"2.1",ph:2,name:"Cliente tramita Matriz de Seguridad y comparte acuse",resp:"Cliente/SAT",start:3,dur:14,durTxt:"~10 dias habiles",deps:["1.1"],deliv:"Acuse de Matriz de Seguridad tramitada via ANAM.",fee:"-",disc:"Tramite gratuito SAT",net:"-"},
- {id:"2.2",ph:2,name:"Cliente solicita DataStage al SAT y comparte acuse",resp:"Cliente/SAT",start:4,dur:14,durTxt:"~10 dias habiles",deps:["1.2"],deliv:"Acuse de solicitud de DataStage ante el SAT.",fee:"-",disc:"Tramite gratuito SAT",net:"-"},
- {id:"2.3",ph:2,name:"Alta de hasta 1 usuario por empresa",resp:"BondiaCT",start:4,dur:2,durTxt:"1 a 2 dias",deps:["1.2"],deliv:"Usuario dado de alta y validado en Control Tower (hasta 1 por empresa).",fee:"-",disc:"Incluido",net:"-"},
- {id:"3.1",ph:3,name:"Diagnostico e interpretacion de 5 años, propuesta SWOT y WIP",resp:"BondiaCT",start:17,dur:1,durTxt:"1 dia",deps:["1.1"],deliv:"Diagnostico del historico de 5 años con propuesta SWOT y WIP, sobre dashboard referencial.",fee:"-",disc:"Incluido",net:"-"},
- {id:"4.1",ph:4,name:"Propuesta Control Tower 360 + Validacion Previa",resp:"BondiaCT",start:18,dur:1,durTxt:"1 dia",deps:["3.1"],deliv:"Propuesta para cumplir Materialidad y Trazabilidad, con despachos en tiempo real.",fee:"-",disc:"Incluido",net:"-"},
- {id:"4.2",ph:4,name:"Resolucion del historico caso por caso (si hay incidencias)",resp:"BondiaCT",start:19,dur:2,durTxt:"1 a 2 dias",deps:["4.1"],deliv:"Plan de resolucion de incidencias del historico, caso por caso.",fee:"-",disc:"Incluido",net:"-"},
- {id:"4.3",ph:4,name:"Cliente verifica si sus expedientes estan completos",resp:"Cliente",start:21,dur:1,durTxt:"1 dia",deps:["4.2"],deliv:"Confirmacion del cliente sobre la completitud de sus expedientes.",fee:"-",disc:"Incluido",net:"-"},
- {id:"5.1",ph:5,name:"Digitalizar y comprobar Materialidad y Trazabilidad (si falta expediente)",resp:"BondiaCT",start:21,dur:1,durTxt:"1 dia",deps:["4.3"],deliv:"Propuesta de digitalizacion y comprobacion de Materialidad y Trazabilidad para expedientes incompletos.",fee:"-",disc:"Incluido",net:"-"},
- {id:"5.2",ph:5,name:"Opcion mensual: CT 360 Cloud + Validacion Previa",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Control Tower 360 Cloud + Validacion Previa de pedimentos historicos + modo en operacion, hasta 100 pedimentos en los ultimos 5 años.",fee:"$8,125",disc:"25%",net:"$6,500"},
- {id:"5.3",ph:5,name:"Opcion anual: mismo alcance que la mensual",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Mismo alcance que la opcion mensual, con vigencia anual.",fee:"$81,250",disc:"25%",net:"$65,000"},
- {id:"5.4",ph:5,name:"Sin hosting: Validacion Previa de Pedimento en tiempo real",resp:"BondiaCT",start:22,dur:1,durTxt:"1 dia",deps:["5.1"],deliv:"Validacion Previa en modo operacion, sin obligar a usar la red de agentes aduanales de BondiaCT. Se emiten 2 dictamenes (cliente y tecnico para el agente aduanal), con verificacion de correccion y aviso automatico para proceder al pago y despacho.",fee:"-",disc:"0%",net:""},
- {id:"5.5",ph:5,name:"Presentacion de MVE ante VUCEM",resp:"BondiaCT",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Trazabilidad y seguimiento de sellos eDocuments, cargo por evento. Solo disponible si el cliente usa Control Tower.",fee:"-",disc:"0%",net:""},
- {id:"5.6",ph:5,name:"Acceso a la consulta LIGIE/TIGIE",resp:"BondiaCT",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Consulta de mas de 11,000 fracciones arancelarias y NICOs vigentes.",fee:"-",disc:"0%",net:""},
- {id:"OP1",ph:6,name:"Vinculacion de pedimentos en tiempo real al repositorio",resp:"Control Tower",start:23,dur:1,durTxt:"1 dia",deps:[],deliv:"Hasta 100 pedimentos anuales vinculados al repositorio. Excluye R1, IMMEX, maquila y deposito fiscal, que se cotizan aparte.",fee:"-",disc:"Incluido",net:"-"},
- {id:"OP2",ph:6,name:"Configuracion inicial de Control Tower",resp:"Control Tower",start:23,dur:1,durTxt:"Mismo dia",deps:[],deliv:"Control Tower configurado para el cliente.",fee:"-",disc:"Incluido",net:"-"},
- {id:"OP3",ph:6,name:"Cliente ve su historico + pedimentos + repositorio documental",resp:"Control Tower",start:24,dur:2,durTxt:"1 a 2 dias",deps:["3.1","4.1"],deliv:"Acceso del cliente a su historico, pedimentos y repositorio documental.",fee:"-",disc:"Incluido",net:"-"},
- {id:"MVE",ph:6,name:"Primera transmision COVE de prueba (testing previo a operacion)",resp:"CT/Cliente",start:24,dur:5,durTxt:"Dia 24+",deps:["2.1","2.3"],milestone:true,deliv:"Primera transmision COVE de prueba, si se autorizo Control Tower 360 All In. Requiere e.firma vigente del cliente y Matriz de Seguridad recibida.",fee:"-",disc:"Incluido",net:"-"}
-];
-var byId={};TASKS.forEach(function(t){byId[t.id]=t;});
-function phaseColor(ph){return getComputedStyle(document.documentElement).getPropertyValue(PHASES[ph].cvar).trim();}
-function dayW(){return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--day"));}
-var legendEl=document.getElementById("legend");
-PHASES.forEach(function(p,i){
- var s=document.createElement("span");
- s.innerHTML='<i data-ph="'+i+'"></i>'+p.num+" "+(i===6?"Operacion":p.name.split(",")[0]);
- legendEl.appendChild(s);
-});
-var grid=document.getElementById("grid");
-function trackWidth(){return DAYS*dayW();}
-function buildHead(){
- var row=document.createElement("div");
- row.className="grow ghead";
- row.innerHTML='<div class="cell-label colhead">Fase / Tarea</div><div class="cell-resp colhead">Responsable</div>';
- var track=document.createElement("div");
- track.className="cell-track head-inner";
- track.style.width=trackWidth()+"px";
- var weeks=document.createElement("div");weeks.className="weeks";
- WEEKS.forEach(function(w){
-  var d=document.createElement("div");d.className="week";
-  d.style.width=((w.to-w.from+1)*dayW())+"px";d.textContent=w.label;weeks.appendChild(d);
- });
- var days=document.createElement("div");days.className="days";
- for(var i=1;i<=DAYS;i++){var d2=document.createElement("div");d2.className="day";d2.textContent=i===24?"24+":i;days.appendChild(d2);}
- track.appendChild(weeks);track.appendChild(days);
- row.appendChild(track);grid.appendChild(row);
-}
-function trackBg(){
- var bg=document.createElement("div");bg.className="track-bg";var acc=0;
- WEEKS.forEach(function(w){acc+=(w.to-w.from+1);
-  var l=document.createElement("div");l.className="wk";
-  l.style.left=(acc*dayW()-1)+"px";l.style.width="0";bg.appendChild(l);});
- return bg;
-}
-function buildRows(){
- var lastPh=-1;
- TASKS.forEach(function(t){
-  if(t.ph!==lastPh){lastPh=t.ph;var p=PHASES[t.ph];
-   var pr=document.createElement("div");pr.className="grow phase-row";
-   pr.innerHTML='<div class="cell-label"><div class="phase-title"><span class="phase-num" data-ph="'+t.ph+'">'+p.num+'</span>'+p.name+'</div>'+(p.note?'<div class="phase-note">'+p.note+'</div>':'')+'</div><div class="cell-resp"></div>';
-   var ptrack=document.createElement("div");ptrack.className="cell-track";
-   ptrack.style.width=trackWidth()+"px";ptrack.appendChild(trackBg());
-   pr.appendChild(ptrack);grid.appendChild(pr);
-  }
-  var row=document.createElement("div");row.className="grow task-row";row.style.minHeight="52px";
-  row.innerHTML='<div class="cell-label"><span class="task-id">'+t.id+'</span><div class="task-name">'+t.name+'</div></div><div class="cell-resp"><span class="resp-chip">'+t.resp+'</span></div>';
-  var track=document.createElement("div");track.className="cell-track";
-  track.style.width=trackWidth()+"px";track.appendChild(trackBg());
-  var bar=document.createElement("div");
-  bar.className="bar"+(t.milestone?" milestone":"");
-  bar.dataset.id=t.id;
-  bar.style.left=((t.start-1)*dayW()+3)+"px";
-  bar.style.width=(t.dur*dayW()-6)+"px";
-  var barW=t.dur*dayW()-6;
-  if(barW-16>t.durTxt.length*6.2)bar.innerHTML='<span class="dur">'+t.durTxt+'</span>';
-  bar.addEventListener("mouseenter",function(e){showTooltip(t,e);hotDeps(t.id,true);});
-  bar.addEventListener("mousemove",moveTooltip);
-  bar.addEventListener("mouseleave",function(){hideTooltip();hotDeps(t.id,false);});
-  bar.addEventListener("click",function(){openPanel(t);selectBar(bar);});
-  track.appendChild(bar);row.appendChild(track);grid.appendChild(row);
- });
-}
-function paintColors(){
- grid.querySelectorAll(".bar").forEach(function(b){var t=byId[b.dataset.id];b.style.background=phaseColor(t.ph);b.style.color=phaseColor(t.ph);});
- document.querySelectorAll(".phase-num").forEach(function(n){n.style.background=phaseColor(+n.dataset.ph);});
- document.querySelectorAll(".legend i").forEach(function(n){n.style.background=phaseColor(+n.dataset.ph);});
-}
-var svg=null;
-function drawDeps(){
- if(svg)svg.remove();
- svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
- svg.setAttribute("class","deps");
- var gRect=grid.getBoundingClientRect();
- if(gRect.width===0)return;
- svg.setAttribute("width",grid.scrollWidth);
- svg.setAttribute("height",grid.scrollHeight);
- TASKS.forEach(function(t){
-  var toBar=grid.querySelector('.bar[data-id="'+t.id+'"]');
-  if(!toBar)return;
-  t.deps.forEach(function(depId){
-   var fromBar=grid.querySelector('.bar[data-id="'+depId+'"]');
-   if(!fromBar)return;
-   var f=fromBar.getBoundingClientRect(),o=toBar.getBoundingClientRect();
-   var x1=f.right-gRect.left,y1=f.top+f.height/2-gRect.top;
-   var x2=o.left-gRect.left,y2=o.top+o.height/2-gRect.top;
-   var d;
-   if(x2>x1+14)d="M"+x1+" "+y1+" H"+(x2-10)+" V"+y2+" H"+(x2-3);
-   else d="M"+x1+" "+y1+" H"+(x1+8)+" V"+((y1+y2)/2)+" H"+(x2-10)+" V"+y2+" H"+(x2-3);
-   var p=document.createElementNS("http://www.w3.org/2000/svg","path");
-   p.setAttribute("d",d);p.dataset.to=t.id;p.dataset.from=depId;svg.appendChild(p);
-   var ah=document.createElementNS("http://www.w3.org/2000/svg","polygon");
-   ah.setAttribute("points",(x2-3)+","+y2+" "+(x2-9)+","+(y2-3.5)+" "+(x2-9)+","+(y2+3.5));
-   ah.dataset.to=t.id;ah.dataset.from=depId;svg.appendChild(ah);
+  var d=document;
+  function $(id){return d.getElementById(id)}
+  var gantt=$("gantt-view"), checklistView=$("checklist-view");
+  var btnGantt=$("btn-view-gantt"), btnChecklist=$("btn-view-checklist");
+  var ganttLoaded=false;
+  if(btnGantt)btnGantt.addEventListener("click",function(){
+    var show=gantt.style.display==="none";
+    gantt.style.display=show?"block":"none";
+    btnGantt.classList.toggle("on",show);
+    if(show&&!ganttLoaded){$("gantt-frame").src="/produce/gantt.html";ganttLoaded=true;}
+    if(show){checklistView.style.display="none";if(btnChecklist)btnChecklist.classList.remove("on");}
   });
- });
- grid.appendChild(svg);
-}
-function hotDeps(id,on){
- if(!svg)return;
- svg.querySelectorAll('[data-to="'+id+'"], [data-from="'+id+'"]').forEach(function(el){el.classList.toggle("hot",on);});
-}
-var tooltip=document.getElementById("gtooltip");
-function depNames(t){
- if(!t.deps.length)return"Sin dependencias";
- return t.deps.map(function(d){return d+(byId[d]?" ("+byId[d].name+")":"");}).join(", ");
-}
-function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");}
-function priceBlockHtml(t){
- var editable=d.body.classList.contains("admin");
- if(editable){
-  return '<div class="deliv price-block"><h4>Precio (editable, admin)</h4><div class="price-grid">'
-   +'<label>Tarifa<input type="text" class="price-input" data-taskid="'+t.id+'" data-field="fee" value="'+esc(t.fee)+'"></label>'
-   +'<label>Descuento CEO<input type="text" class="price-input" data-taskid="'+t.id+'" data-field="disc" value="'+esc(t.disc)+'"></label>'
-   +'<label>Neto<input type="text" class="price-input" data-taskid="'+t.id+'" data-field="net" value="'+esc(t.net)+'"></label>'
-   +'</div></div>';
- }
- return '<div class="deliv price-block"><h4>Precio</h4><dl class="tt-grid"><dt>Tarifa</dt><dd>'+esc(t.fee||"-")+'</dd><dt>Descuento CEO</dt><dd>'+esc(t.disc||"-")+'</dd><dt>Neto</dt><dd>'+esc(t.net||"-")+'</dd></dl></div>';
-}
-function taskHTML(t,full){
- var p=PHASES[t.ph];
- return '<span class="tt-id" style="background:'+phaseColor(t.ph)+'">'+p.num+" / "+t.id+'</span><div class="tt-name">'+t.name+'</div><dl class="tt-grid"><dt>Responsable</dt><dd>'+t.resp+'</dd><dt>Duracion</dt><dd>'+t.durTxt+'</dd><dt>Ubicacion</dt><dd>Dia '+t.start+(t.dur>1?" a "+Math.min(t.start+t.dur-1,DAYS):"")+(t.milestone?"+":"")+'</dd><dt>Dependencias</dt><dd>'+depNames(t)+'</dd></dl>'+(full?'<div class="deliv"><h4>Entregable</h4>'+t.deliv+'</div>'+priceBlockHtml(t):'');
-}
-function showTooltip(t,e){tooltip.innerHTML=taskHTML(t,false);tooltip.classList.add("show");moveTooltip(e);}
-function moveTooltip(e){
- var w=tooltip.offsetWidth,h=tooltip.offsetHeight;
- var x=Math.min(e.clientX+14,window.innerWidth-w-12);
- var y=e.clientY+16;
- if(y+h>window.innerHeight-10)y=e.clientY-h-12;
- tooltip.style.left=x+"px";tooltip.style.top=y+"px";
-}
-function hideTooltip(){tooltip.classList.remove("show");}
-var panel=document.getElementById("gpanel"),panelBody=document.getElementById("gpanelBody");
-function openPanel(t){panelBody.innerHTML=taskHTML(t,true);panel.classList.add("open");hideTooltip();}
-function selectBar(bar){
- grid.querySelectorAll(".bar.sel").forEach(function(b){b.classList.remove("sel");});
- bar.classList.add("sel");
-}
-panelBody.addEventListener("input",function(e){
- var inp=e.target.closest?e.target.closest(".price-input"):null;
- if(!inp)return;
- var t=byId[inp.dataset.taskid];
- if(!t)return;
- t[inp.dataset.field]=inp.value;
-});
-document.getElementById("gpanelClose").addEventListener("click",function(){
- panel.classList.remove("open");
- grid.querySelectorAll(".bar.sel").forEach(function(b){b.classList.remove("sel");});
-});
-document.addEventListener("keydown",function(e){if(e.key==="Escape")panel.classList.remove("open");});
-var respToggle=document.getElementById("respToggle");
-function flipResp(){
- var on=respToggle.classList.toggle("on");
- respToggle.setAttribute("aria-checked",on);
- document.body.classList.toggle("no-resp",!on);
- drawDeps();
-}
-respToggle.addEventListener("click",flipResp);
-respToggle.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();flipResp();}});
-buildHead();buildRows();paintColors();drawDeps();
-window.addEventListener("resize",drawDeps);
-document.getElementById("scroller").addEventListener("scroll",function(){hideTooltip();});
-document.getElementById("tgl-theme").addEventListener("click",paintColors);
-document.getElementById("gate-totp-btn").addEventListener("click",function(){setTimeout(function(){paintColors();drawDeps();},60);});
+  if(btnChecklist)btnChecklist.addEventListener("click",function(){
+    var show=checklistView.style.display==="none";
+    checklistView.style.display=show?"block":"none";
+    btnChecklist.classList.toggle("on",show);
+    if(show){gantt.style.display="none";if(btnGantt)btnGantt.classList.remove("on");if(window.refreshAdminDocs)window.refreshAdminDocs();}
+  });
 })();
 </script>
 </body>
