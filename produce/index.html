@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es" data-theme="claro">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,27 +9,52 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
+/* ===== 5 paletas, las mismas de Control Tower v2 y de la Carta Gantt =====
+   Un solo selector manda a Produce y al iframe de la Gantt (postMessage). */
+:root, [data-theme="claro"]{
   --primary:#00897B; --secondary:#263238; --tertiary:#F5F7F7; --neutral:#121212;
-  --bg:#F5F7F7; --surface:#FFFFFF; --surface2:#EDF1F1; --text:#121212; --text2:#4A5A60;
-  --border:rgba(38,50,56,.14); --glow:rgba(0,137,123,.28);
+  --bg:#F5F7F7; --surface:#FFFFFF; --surface2:#EDF1F1; --text:#1A2327; --text2:#5B6B70;
+  --border:#DCE3E3; --glow:rgba(0,137,123,.28);
   --teal-soft:rgba(0,137,123,.10); --teal-line:rgba(0,137,123,.32);
-  --shadow:0 24px 60px rgba(18,18,18,.18);
-  --barInk:#FFFFFF; --dep:#5B6B70;
-  --c0:#00897B; --c1:#00695C; --c2:#14708C; --c3:#2A5D79; --c4:#3A4E63; --c5:#263238; --cop:#56707C;
-  --day:46px; --labelW:320px; --respW:140px;
+  --shadow:0 24px 60px rgba(38,50,56,.14);
   --dlg-shadow:2px 2px 16px rgba(0,137,123,.20);
   --diamond-line:rgba(0,137,123,.07);
 }
-[data-theme="dark"]{
-  --bg:#0D1214; --surface:#161D20; --surface2:#1C2529; --text:#F5F7F7; --text2:#9FB0B5;
-  --border:rgba(245,247,247,.12); --glow:rgba(0,137,123,.4);
-  --teal-soft:rgba(0,137,123,.16); --teal-line:rgba(0,137,123,.45);
+[data-theme="oscuro"]{
+  --primary:#2BB3A3;
+  --bg:#121212; --surface:#1C1E1E; --surface2:#242727; --text:#ECF1F0; --text2:#98A6A4;
+  --border:#2E3434; --glow:rgba(43,179,163,.40);
+  --teal-soft:rgba(43,179,163,.16); --teal-line:rgba(43,179,163,.45);
   --shadow:0 24px 60px rgba(0,0,0,.5);
-  --barInk:#0B1917; --dep:#8CA3AD;
-  --c0:#3AC7B2; --c1:#2AA893; --c2:#45B4CE; --c3:#6FA6DB; --c4:#93B5CC; --c5:#B4C2C9; --cop:#8FA8B2;
-  --dlg-shadow:2px 2px 18px rgba(58,199,178,.30);
-  --diamond-line:rgba(58,199,178,.09);
+  --dlg-shadow:2px 2px 18px rgba(43,179,163,.30);
+  --diamond-line:rgba(43,179,163,.09);
+}
+[data-theme="azul"]{
+  --primary:#4FA9E0;
+  --bg:#0C1926; --surface:#122536; --surface2:#183048; --text:#DCE8F2; --text2:#8AA3B8;
+  --border:#20405A; --glow:rgba(79,169,224,.40);
+  --teal-soft:rgba(79,169,224,.16); --teal-line:rgba(79,169,224,.45);
+  --shadow:0 24px 60px rgba(0,0,0,.5);
+  --dlg-shadow:2px 2px 18px rgba(79,169,224,.30);
+  --diamond-line:rgba(79,169,224,.09);
+}
+[data-theme="verde"]{
+  --primary:#3FBFA1;
+  --bg:#0E1917; --surface:#142420; --surface2:#1B302A; --text:#DFF0EA; --text2:#8FAFA4;
+  --border:#25473D; --glow:rgba(63,191,161,.40);
+  --teal-soft:rgba(63,191,161,.16); --teal-line:rgba(63,191,161,.45);
+  --shadow:0 24px 60px rgba(0,0,0,.5);
+  --dlg-shadow:2px 2px 18px rgba(63,191,161,.30);
+  --diamond-line:rgba(63,191,161,.09);
+}
+[data-theme="arena"]{
+  --primary:#B4762F;
+  --bg:#F5EFE3; --surface:#FFFAF0; --surface2:#F0E7D4; --text:#3B2F1F; --text2:#7C6B52;
+  --border:#E1D4B8; --glow:rgba(180,118,47,.28);
+  --teal-soft:rgba(180,118,47,.12); --teal-line:rgba(180,118,47,.38);
+  --shadow:0 24px 60px rgba(78,66,52,.18);
+  --dlg-shadow:2px 2px 16px rgba(180,118,47,.22);
+  --diamond-line:rgba(180,118,47,.08);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
@@ -41,7 +66,7 @@ body{font-family:'Inter',sans-serif;color:var(--text);min-height:100vh;transitio
   background-attachment:fixed}
 h1,h2,h3{font-family:'Hanken Grotesk',sans-serif}
 a{color:var(--primary);text-decoration:none}
-a:hover{color:#00695C;text-decoration:underline}
+a:hover{color:var(--text);text-decoration:underline}
 button{font-family:inherit;cursor:pointer}
 input,select{font-family:inherit;color:var(--text)}
 .mono{font-family:'JetBrains Mono',monospace}
@@ -51,6 +76,12 @@ input,select{font-family:inherit;color:var(--text)}
 .top-toggles{position:fixed;top:14px;right:16px;display:flex;gap:8px;z-index:60}
 .tgl{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:7px 13px;font-size:.75rem;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;transition:border-color .2s}
 .tgl:hover{border-color:var(--teal-line)}
+.themes{display:flex;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px;box-shadow:var(--dlg-shadow)}
+.themes button{font-family:'JetBrains Mono',monospace;font-size:.7rem;padding:5px 11px;border:none;border-radius:999px;background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s,color .2s}
+.themes button .dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.themes button.on{background:var(--primary);color:#fff}
+.themes button.on .dot{border-color:#fff}
+@media (max-width:760px){.themes button span.lbl{display:none}.themes button{padding:6px 8px}}
 
 /* ===== Pieza 1: puerta ===== */
 #gate-root{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px;
@@ -76,7 +107,7 @@ input,select{font-family:inherit;color:var(--text)}
   background:linear-gradient(135deg,#00A38F 0%,#00897B 55%,#00695C 100%);box-shadow:0 8px 22px rgba(0,137,123,.38);transition:transform .15s,box-shadow .2s}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(0,137,123,.48)}
 #gate-msg{display:none;margin:14px 0 0;padding:10px 12px;border-radius:10px;background:rgba(198,40,40,.1);border:1px solid rgba(198,40,40,.3);color:#C62828;font-size:.8rem;font-weight:500}
-[data-theme="dark"] #gate-msg{color:#EF9A9A}
+[data-theme="oscuro"] #gate-msg,[data-theme="azul"] #gate-msg,[data-theme="verde"] #gate-msg{color:#EF9A9A}
 #gate-totp-step{display:none;margin-top:4px}
 .totp-lead{font-size:.86rem;color:var(--text2);margin-bottom:16px}
 #gate-totp{letter-spacing:.55em;text-align:center;font-family:'JetBrains Mono',monospace;font-size:1.15rem;font-weight:600}
@@ -195,7 +226,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
 
 <div class="top-toggles">
   <button class="tgl" id="tgl-lang" type="button">ES / EN</button>
-  <button class="tgl" id="tgl-theme" type="button" aria-label="Tema">◐</button>
+  <div class="themes" id="themes" role="group" aria-label="Tema de color"></div>
 </div>
 
 <!-- ===== PIEZA 1: PUERTA DE ACCESO ===== -->
@@ -615,11 +646,47 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   }
   $("tgl-lang").addEventListener("click",function(){lang=lang==="es"?"en":"es";applyLang();});
 
-  /* ===== tema ===== */
-  $("tgl-theme").addEventListener("click",function(){
-    var r=d.documentElement;
-    r.setAttribute("data-theme", r.getAttribute("data-theme")==="light" ? "dark" : "light");
-  });
+  /* ===== tema: 5 paletas, mismas de Control Tower v2 y de la Carta Gantt =====
+     El selector manda a Produce (atributo data-theme en <html>) y al iframe de
+     la Gantt por postMessage, para que todo el ecosistema vaya parejo. */
+  var THEMES=[
+    {key:"claro",label:"Claro",dot:"#00897B"},
+    {key:"oscuro",label:"Oscuro",dot:"#2BB3A3"},
+    {key:"azul",label:"Azul",dot:"#4FA9E0"},
+    {key:"verde",label:"Verde",dot:"#3FBFA1"},
+    {key:"arena",label:"Arena",dot:"#B4762F"}
+  ];
+  var THEME_KEY="produce-theme";
+  function temaActual(){return d.documentElement.getAttribute("data-theme")||"claro";}
+  function avisarGantt(key){
+    var fr=$("gantt-frame");
+    if(fr&&fr.contentWindow)fr.contentWindow.postMessage({tipo:"tema",tema:key},window.location.origin);
+  }
+  window.avisarGanttTema=function(){avisarGantt(temaActual());};
+  function aplicarTema(key){
+    d.documentElement.setAttribute("data-theme",key);
+    try{window.localStorage.setItem(THEME_KEY,key);}catch(e){}
+    var btns=$("themes").querySelectorAll("button");
+    for(var i=0;i<btns.length;i++)btns[i].classList.toggle("on",btns[i].dataset.key===key);
+    avisarGantt(key);
+  }
+  (function montarTemas(){
+    var guardado=null;
+    try{guardado=window.localStorage.getItem(THEME_KEY);}catch(e){}
+    var inicial="claro";
+    THEMES.forEach(function(t){if(t.key===guardado)inicial=guardado;});
+    d.documentElement.setAttribute("data-theme",inicial);
+    var cont=$("themes");
+    THEMES.forEach(function(t){
+      var b=d.createElement("button");
+      b.type="button";
+      b.dataset.key=t.key;
+      b.innerHTML='<span class="dot" style="background:'+t.dot+'"></span><span class="lbl">'+t.label+'</span>';
+      if(t.key===inicial)b.className="on";
+      b.addEventListener("click",function(){aplicarTema(t.key);});
+      cont.appendChild(b);
+    });
+  })();
 
   /* ===== ojo contrasena ===== */
   $("gate-eye").addEventListener("click",function(){
@@ -1102,7 +1169,12 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     var show=gantt.style.display==="none";
     gantt.style.display=show?"block":"none";
     btnGantt.classList.toggle("on",show);
-    if(show&&!ganttLoaded){$("gantt-frame").src="/produce/gantt.html";ganttLoaded=true;}
+    if(show&&!ganttLoaded){
+      var fr=$("gantt-frame");
+      fr.addEventListener("load",function(){if(window.avisarGanttTema)window.avisarGanttTema();});
+      fr.src="/produce/gantt.html";
+      ganttLoaded=true;
+    }else if(show&&window.avisarGanttTema){window.avisarGanttTema();}
     if(show){checklistView.style.display="none";if(btnChecklist)btnChecklist.classList.remove("on");}
   });
   if(btnChecklist)btnChecklist.addEventListener("click",function(){

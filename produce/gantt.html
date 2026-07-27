@@ -609,6 +609,22 @@ gateInp.addEventListener("keydown", function (e) { if (e.key === "Enter") tryKey
 priceToggle.addEventListener("click", flipPrice);
 priceToggle.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flipPrice(); } });
 
+// Embebida dentro de Produce: el tema lo manda el selector unico de Produce,
+// asi que se esconde el selector propio y se escucha el mensaje del padre.
+var embebida = false;
+try { embebida = window.self !== window.top; } catch (e) { embebida = true; }
+if (embebida) {
+  themesEl.style.display = "none";
+  window.addEventListener("message", function (ev) {
+    if (ev.origin !== window.location.origin) return;
+    var msg = ev.data;
+    if (!msg || msg.tipo !== "tema") return;
+    if (!THEMES.some(function (t) { return t.key === msg.tema; })) return;
+    document.body.dataset.theme = msg.tema;
+    paintColors();
+  });
+}
+
 buildHead();
 buildRows();
 wirePrices();
