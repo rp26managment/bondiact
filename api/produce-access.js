@@ -88,6 +88,30 @@ export default async function handler(req, res) {
     if (action === 'enroll') {
       const { token } = body;
       if (!token) return res.status(401).json({ ok: false });
+
+      // Limpieza: cada intento fallido deja un factor TOTP a medias.
+      // Supabase topa en 10 por usuario, asi que se borran los pendientes
+      // antes de crear el nuevo. Los ya verificados NO se tocan.
+      try {
+        const uR = await fetch(`${URLB}/auth/v1/user`, {
+          headers: { apikey: ANON, Authorization: `Bearer ${token}` },
+        });
+        if (uR.ok) {
+          const u = await uR.json();
+          const pendientes = ((u && u.factors) || []).filter(
+            (f) => f.factor_type === 'totp' && f.status !== 'verified'
+          );
+          for (const f of pendientes) {
+            await fetch(`${URLB}/auth/v1/factors/${f.id}`, {
+              method: 'DELETE',
+              headers: { apikey: ANON, Authorization: `Bearer ${token}` },
+            });
+          }
+        }
+      } catch {
+        // Si la limpieza falla, se continua: no debe bloquear el alta.
+      }
+
       const r = await fetch(`${URLB}/auth/v1/factors`, {
         method: 'POST',
         headers: {

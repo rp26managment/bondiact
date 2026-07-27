@@ -594,6 +594,23 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
       $("admin-access-body").innerHTML=html;
     });
   }
+  /* Supabase manda el QR de dos formas segun version: como data URL
+     (data:image/...) o como codigo SVG en texto. Se cubren ambas.
+     El SVG se convierte a data URL para meterlo en un <img>: asi no se
+     inyecta markup vivo en la pagina y la CSP (img-src data:) lo permite. */
+  function pintarQR(q){
+    var box=$("gate-totp-qr");
+    if(!box||!q)return;
+    try{
+      if(/^data:/i.test(q)){
+        box.innerHTML='<img src="'+q+'" width="140" height="140" alt="QR">';
+      }else if(/<svg/i.test(q)){
+        var b64=btoa(unescape(encodeURIComponent(q)));
+        box.innerHTML='<img src="data:image/svg+xml;base64,'+b64+'" width="140" height="140" alt="QR">';
+      }
+    }catch(e){/* si falla, se queda el icono generico */}
+  }
+
   function resetGate(){
     SESSION_TOKEN=null;SESSION_FACTOR=null;IS_ADMIN=false;
     $("profile-root").style.display="none";
@@ -623,7 +640,7 @@ svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
         apiCall("enroll",{token:SESSION_TOKEN}).then(function(er){
           if(er.ok){
             SESSION_FACTOR=er.factorId;
-            if(er.qr)$("gate-totp-qr").innerHTML='<img src="'+er.qr+'" width="140" height="140" alt="QR">';
+            pintarQR(er.qr);
           }
         });
       }else{
