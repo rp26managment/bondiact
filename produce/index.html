@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ===== 5 paletas, las mismas de Control Tower v2 y de la Carta Gantt =====
-   Un solo selector manda a Produce y al iframe de la Gantt (postMessage). */
+   Un solo selector manda a toda la pagina, perfil y Carta Gantt. */
 :root, [data-theme="claro"]{
   --primary:#00897B; --secondary:#263238; --tertiary:#F5F7F7; --neutral:#121212;
   --bg:#F5F7F7; --surface:#FFFFFF; --surface2:#EDF1F1; --text:#1A2327; --text2:#5B6B70;
@@ -19,6 +19,8 @@
   --shadow:0 24px 60px rgba(38,50,56,.14);
   --dlg-shadow:2px 2px 16px rgba(0,137,123,.20);
   --diamond-line:rgba(0,137,123,.07);
+  --barInk:#FFFFFF; --dep:#5B6B70;
+  --c0:#00897B; --c1:#00695C; --c2:#14708C; --c3:#2A5D79; --c4:#3A4E63; --c5:#263238; --cop:#56707C;
 }
 [data-theme="oscuro"]{
   --primary:#2BB3A3;
@@ -28,6 +30,8 @@
   --shadow:0 24px 60px rgba(0,0,0,.5);
   --dlg-shadow:2px 2px 18px rgba(43,179,163,.30);
   --diamond-line:rgba(43,179,163,.09);
+  --barInk:#0B1614; --dep:#8CA3AD;
+  --c0:#3AC7B2; --c1:#2AA893; --c2:#45B4CE; --c3:#6FA6DB; --c4:#93B5CC; --c5:#B4C2C9; --cop:#8FA8B2;
 }
 [data-theme="azul"]{
   --primary:#4FA9E0;
@@ -37,6 +41,8 @@
   --shadow:0 24px 60px rgba(0,0,0,.5);
   --dlg-shadow:2px 2px 18px rgba(79,169,224,.30);
   --diamond-line:rgba(79,169,224,.09);
+  --barInk:#07131E; --dep:#7EA0B8;
+  --c0:#4FA9E0; --c1:#3E8FC4; --c2:#38BCB4; --c3:#74C4E8; --c4:#96B3D0; --c5:#B8CADB; --cop:#7FA2BB;
 }
 [data-theme="verde"]{
   --primary:#3FBFA1;
@@ -46,6 +52,8 @@
   --shadow:0 24px 60px rgba(0,0,0,.5);
   --dlg-shadow:2px 2px 18px rgba(63,191,161,.30);
   --diamond-line:rgba(63,191,161,.09);
+  --barInk:#071612; --dep:#77A99B;
+  --c0:#3FBFA1; --c1:#2FA98C; --c2:#5BCDB8; --c3:#41A3BD; --c4:#82C2B1; --c5:#ACCCC2; --cop:#79AB9D;
 }
 [data-theme="arena"]{
   --primary:#B4762F;
@@ -55,6 +63,8 @@
   --shadow:0 24px 60px rgba(78,66,52,.18);
   --dlg-shadow:2px 2px 16px rgba(180,118,47,.22);
   --diamond-line:rgba(180,118,47,.08);
+  --barInk:#FFF8EC; --dep:#8C6F4A;
+  --c0:#B4762F; --c1:#9C5F2A; --c2:#C08A3E; --c3:#87683A; --c4:#6E5A3B; --c5:#4E4234; --cop:#8C6F4A;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
@@ -213,6 +223,82 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
 .docstatus-sel.docstatus-revision{color:#2A5D79;background-color:rgba(42,93,121,.12);border:1px solid rgba(42,93,121,.35)}
 .docstatus-sel.docstatus-listo{color:var(--primary);background-color:var(--teal-soft);border:1px solid var(--teal-line)}
 .sec-title{font-size:1.15rem;font-weight:800;letter-spacing:-.01em;margin:32px 0 12px}
+
+/* ===== Carta Gantt (integrada nativa, CSS scoped bajo .gantt-scope) =====
+   No va en iframe a proposito: la CSP del sitio bloquea frames (frame-ancestors
+   'none' + X-Frame-Options DENY) y NO se debilita la seguridad para acomodar UI. */
+.gantt-scope{--day:38px;--labelW:300px;--respW:118px;--tarW:92px;--descW:130px;--netW:108px}
+.gantt-scope .gantt-bar-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-bottom:12px}
+.gantt-scope .gtoggle{display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--text2);cursor:pointer;user-select:none}
+.gantt-scope .gtoggle .sw{width:34px;height:19px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);position:relative;transition:background .2s}
+.gantt-scope .gtoggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--text2);transition:left .2s,background .2s}
+.gantt-scope .gtoggle.on .sw{background:var(--primary);border-color:var(--primary)}
+.gantt-scope .gtoggle.on .sw::after{left:17px;background:var(--barInk)}
+.gantt-scope .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 12px}
+.gantt-scope .legend span{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text2)}
+.gantt-scope .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.gantt-scope .board{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--dlg-shadow);overflow:hidden}
+.gantt-scope .scroller{overflow-x:auto;position:relative}
+.gantt-scope .grid{position:relative;min-width:max-content}
+.gantt-scope .row{display:flex;min-width:max-content;border-top:1px solid var(--border);position:relative}
+.gantt-scope .row:first-child{border-top:none}
+.gantt-scope .cell-label{width:var(--labelW);flex:0 0 var(--labelW);position:sticky;left:0;z-index:5;background:var(--surface);padding:8px 14px;border-right:1px solid var(--border)}
+.gantt-scope .cell-resp{width:var(--respW);flex:0 0 var(--respW);position:sticky;left:var(--labelW);z-index:5;background:var(--surface);padding:8px 10px;border-right:1px solid var(--border);display:flex;align-items:center}
+.gantt-scope.no-resp .cell-resp{display:none}
+.gantt-scope.no-resp{--respW:0px}
+.gantt-scope.no-price .cell-price{display:none}
+.gantt-scope .cell-price{position:sticky;z-index:5;background:var(--surface);border-right:1px solid var(--border);flex:0 0 auto;display:flex;align-items:center;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:.68rem}
+.gantt-scope .cell-tar{width:var(--tarW);left:calc(var(--labelW) + var(--respW));justify-content:flex-end;color:var(--text2)}
+.gantt-scope .cell-tar.cut{text-decoration:line-through}
+.gantt-scope .cell-desc{width:var(--descW);left:calc(var(--labelW) + var(--respW) + var(--tarW));gap:6px}
+.gantt-scope .cell-desc input[type=range]{width:62px;accent-color:var(--primary)}
+.gantt-scope .cell-net{width:var(--netW);left:calc(var(--labelW) + var(--respW) + var(--tarW) + var(--descW));flex-direction:column;align-items:flex-end;justify-content:center;font-weight:700;font-size:.72rem}
+.gantt-scope .cell-net small{font-size:.52rem;font-weight:400;color:var(--text2)}
+.gantt-scope .cell-net.floor{color:var(--primary)}
+.gantt-scope .cell-incl{font-size:.58rem;font-weight:400;color:var(--text2);text-align:right;line-height:1.25}
+.gantt-scope .row.phase-row .cell-price{background:var(--surface2)}
+.gantt-scope .cell-track{position:relative;flex:0 0 auto}
+.gantt-scope .task-name{font-size:.8rem;font-weight:500;line-height:1.3}
+.gantt-scope .task-id{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text2);display:block;margin-bottom:2px;letter-spacing:.06em}
+.gantt-scope .resp-chip{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:3px 8px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);white-space:nowrap}
+.gantt-scope .row.phase-row{background:var(--surface2)}
+.gantt-scope .row.phase-row .cell-label,.gantt-scope .row.phase-row .cell-resp{background:var(--surface2)}
+.gantt-scope .phase-title{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.8rem;display:flex;align-items:center;gap:8px}
+.gantt-scope .phase-num{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:5px;color:var(--barInk);letter-spacing:.05em}
+.gantt-scope .phase-note{font-size:.68rem;color:var(--text2);margin-top:2px;line-height:1.35}
+.gantt-scope .row.head{border-top:none}
+.gantt-scope .row.head .cell-label,.gantt-scope .row.head .cell-resp{z-index:6}
+.gantt-scope .weeks,.gantt-scope .days{display:flex}
+.gantt-scope .week{border-right:1px solid var(--border);text-align:center;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.72rem;padding:7px 0 3px;color:var(--text)}
+.gantt-scope .day{width:var(--day);flex:0 0 var(--day);text-align:center;font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--text2);padding:2px 0 6px}
+.gantt-scope .head-inner{border-bottom:1px solid var(--border)}
+.gantt-scope .colhead{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);align-self:flex-end;padding-bottom:8px}
+.gantt-scope .track-bg{position:absolute;inset:0;pointer-events:none}
+.gantt-scope .track-bg .wk{position:absolute;top:0;bottom:0;border-right:1px solid var(--border);opacity:.6}
+.gantt-scope .bar{position:absolute;top:50%;transform:translateY(-50%);height:22px;border-radius:6px;cursor:pointer;display:flex;align-items:center;padding:0 8px;transition:filter .15s,box-shadow .15s}
+.gantt-scope .bar:hover,.gantt-scope .bar.sel{filter:brightness(1.12);box-shadow:0 0 0 2px var(--bg),0 0 0 4px currentColor}
+.gantt-scope .bar .dur{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;color:var(--barInk);white-space:nowrap;overflow:hidden}
+.gantt-scope .bar.milestone{border-radius:4px 12px 12px 4px;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.14) 0 6px,transparent 6px 12px)}
+.gantt-scope svg.deps{position:absolute;inset:0;pointer-events:none;z-index:4;color:var(--dep)}
+.gantt-scope svg.deps path{fill:none;stroke:currentColor;stroke-width:1.3;opacity:.32}
+.gantt-scope svg.deps path.hot{opacity:.95;stroke-width:1.8;stroke:var(--primary)}
+.gantt-scope svg.deps polygon{fill:currentColor;opacity:.32}
+.gantt-scope svg.deps polygon.hot{opacity:.95;fill:var(--primary)}
+.gantt-scope .gantt-fine{margin-top:14px;font-size:.68rem;color:var(--text2);line-height:1.5}
+.gtooltip{position:fixed;z-index:70;max-width:330px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow),var(--dlg-shadow);padding:12px 14px;pointer-events:none;opacity:0;transition:opacity .12s}
+.gtooltip.show{opacity:1}
+.tt-id{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.06em;margin-bottom:4px;display:inline-block;padding:2px 7px;border-radius:5px;color:var(--barInk)}
+.tt-name{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.85rem;margin-bottom:8px;line-height:1.25}
+.tt-grid{display:grid;grid-template-columns:92px 1fr;gap:4px 10px;font-size:.74rem}
+.tt-grid dt{color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;padding-top:1px}
+.tt-grid dd{color:var(--text)}
+.gpanel{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:var(--surface);border-left:1px solid var(--border);box-shadow:var(--shadow),var(--dlg-shadow);z-index:80;transform:translateX(105%);transition:transform .25s ease;padding:26px 24px;overflow-y:auto}
+.gpanel.open{transform:translateX(0)}
+.gpanel .close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;cursor:pointer;line-height:1}
+.gpanel .tt-grid{grid-template-columns:100px 1fr;font-size:.8rem;margin-top:14px}
+.gpanel .deliv{margin-top:16px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:.8rem;line-height:1.5}
+.gpanel .deliv h4{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:6px}
+@media (max-width:900px){.gantt-scope{--labelW:210px;--day:30px}}
 .foot{padding:20px 26px;border-top:1px solid var(--border);text-align:center;font-size:.74rem;color:var(--text2)}
 .foot b{font-family:'Hanken Grotesk',sans-serif;color:var(--text)}
 @media (max-width:640px){
@@ -328,7 +414,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       <h2 class="sec-title" style="margin-top:0" data-i18n="admin_title">Panel Admin</h2>
       <h3 class="eyebrow" style="margin:0 0 10px" data-i18n="admin_growers">Agricultores</h3>
       <div class="alta-box" style="margin-bottom:16px">
-        <div class="hdr-sel"><label for="alta-userid" data-i18n="alta_userid">User ID (Supabase Auth)</label><input type="text" id="alta-userid" placeholder="uuid del usuario ya invitado" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.8rem;min-width:280px"></div>
+        <div class="hdr-sel"><label for="alta-userid" data-i18n="alta_userid">Identificador del agricultor</label><input type="text" id="alta-userid" placeholder="Identificador interno" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.8rem;min-width:280px"></div>
         <div class="hdr-sel">
           <label for="alta-commodity" data-i18n="lbl_commodity">Commodity</label>
           <select id="alta-commodity"><option>Aguacate</option><option>Berries</option><option>Limon persa</option><option>Mango</option><option>Cebolla</option></select>
@@ -422,12 +508,107 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     </div>
   </section>
 
-  <!-- ===== VER CARTA GANTT: iframe aislado (propio CSS/JS, sin choques de tema con Produce) ===== -->
+  <!-- ===== VER CARTA GANTT: el flujo de trabajo completo, aparte del perfil ===== -->
   <section id="gantt-view" style="display:none" aria-label="Carta Gantt">
-    <div class="admin-inner" style="max-width:1240px;margin:0 auto;padding:22px 26px">
+    <div class="gantt-scope no-price" id="gantt-scope" style="max-width:1240px;margin:0 auto;padding:22px 26px">
       <h2 class="sec-title" style="margin-top:0" data-i18n="gantt_title">Carta Gantt del programa</h2>
-      <div class="tbl-wrap" style="overflow:hidden">
-        <iframe id="gantt-frame" title="Carta Gantt" style="width:100%;height:82vh;border:0;display:block;background:var(--surface)"></iframe>
+      <div class="gantt-bar-top">
+        <div class="gtoggle on" id="respToggle" role="switch" aria-checked="true" tabindex="0">
+          <span data-i18n="gantt_resp">Columna Responsable</span><span class="sw"></span>
+        </div>
+        <div class="gtoggle" id="priceToggle" role="switch" aria-checked="false" tabindex="0">
+          <span data-i18n="gantt_precios">Precios y descuentos</span><span class="sw"></span>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="board">
+        <div class="scroller" id="scroller">
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+      <p class="gantt-fine" data-i18n="gantt_fine1">Precios mas IVA. Cada servicio tiene un neto minimo, el descuento no puede bajar de ese piso. Hasta 100 pedimentos en los ultimos 5 años y hasta 100 pedimentos anuales en operacion, fuera de ese escenario se cotiza por separado.</p>
+      <p class="gantt-fine" data-i18n="gantt_fine2">Se cotizan por separado: desarrollos y adaptaciones a medida, uso de servidor propio del cliente, operaciones especiales (deposito fiscal, IMMEX, maquila). Se excluyen importaciones textiles, de acero e hidrocarburos.</p>
+
+      <h3 class="sec-title" data-i18n="plan_alta_title">Plan de alta del agricultor</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th data-i18n="th_code">Codigo</th>
+              <th data-i18n="th_task">Tarea</th>
+              <th data-i18n="th_resp">Responsable</th>
+              <th data-i18n="th_dur">Duracion</th>
+              <th data-i18n="th_dep">Dependencias</th>
+              <th data-i18n="th_del">Entregable</th>
+              <th data-i18n="th_fee">Tarifa</th>
+              <th data-i18n="th_disc">Descuento CEO</th>
+              <th data-i18n="th_net">Neto</th>
+            </tr>
+          </thead>
+          <tbody id="checklist-body">
+            <tr class="fase"><td colspan="10">Fase 0. Alta y diagnostico</td></tr>
+            <tr>
+              <td><input type="checkbox" checked aria-label="Avance"></td>
+              <td class="code">PR-0101</td><td class="task">Alta del agricultor y firma de acuerdo</td>
+              <td>BondiaCT</td><td class="muted">3 dias</td><td class="muted">Ninguna</td>
+              <td>Expediente de alta</td><td class="num">$0</td><td class="num">0%</td><td class="neto">$0</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked aria-label="Avance"></td>
+              <td class="code">PR-0102</td><td class="task">Diagnostico documental del perfil exportador</td>
+              <td>Consultor</td><td class="muted">5 dias</td><td class="muted">PR-0101</td>
+              <td>Reporte de brechas</td><td class="num">$0</td><td class="num">0%</td><td class="neto">$0</td>
+            </tr>
+            <tr class="fase"><td colspan="10">Fase 1. Matriz de Seguridad + DataStage</td></tr>
+            <tr>
+              <td><input type="checkbox" checked aria-label="Avance"></td>
+              <td class="code">PR-0201</td><td class="task">Matriz de Seguridad + DataStage</td>
+              <td>BondiaCT</td><td class="muted">10 dias</td><td class="muted">PR-0102</td>
+              <td>Matriz validada y carga en DataStage</td><td class="num">$5,000</td><td class="num">20%</td><td class="neto">$4,000</td>
+            </tr>
+            <tr class="fase"><td colspan="10">Fase 2. Expediente y certificaciones</td></tr>
+            <tr>
+              <td><input type="checkbox" aria-label="Avance"></td>
+              <td class="code">PR-0301</td><td class="task">Registro en padron de exportadores sectorial</td>
+              <td>Agricultor + BondiaCT</td><td class="muted">15 dias</td><td class="muted">PR-0201</td>
+              <td>Acuse de registro</td><td class="num">$3,000</td><td class="num">15%</td><td class="neto">$2,550</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" aria-label="Avance"></td>
+              <td class="code">PR-0302</td><td class="task">Certificado fitosanitario y plan SENASICA</td>
+              <td>Consultor</td><td class="muted">20 dias</td><td class="muted">PR-0301</td>
+              <td>Certificado vigente</td><td class="num">$4,500</td><td class="num">15%</td><td class="neto">$3,825</td>
+            </tr>
+            <tr class="fase"><td colspan="10">Fase 3. Logistica y aduana</td></tr>
+            <tr>
+              <td><input type="checkbox" aria-label="Avance"></td>
+              <td class="code">PR-0401</td><td class="task">Asignacion de agente aduanal y encargo conferido</td>
+              <td>BondiaCT</td><td class="muted">7 dias</td><td class="muted">PR-0302</td>
+              <td>Encargo activo</td><td class="num">$2,000</td><td class="num">10%</td><td class="neto">$1,800</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" aria-label="Avance"></td>
+              <td class="code">PR-0402</td><td class="task">Ruta logistica y reserva de transporte refrigerado</td>
+              <td>Operador logistico</td><td class="muted">10 dias</td><td class="muted">PR-0401</td>
+              <td>Plan de ruta confirmado</td><td class="num">$3,500</td><td class="num">10%</td><td class="neto">$3,150</td>
+            </tr>
+            <tr class="fase"><td colspan="10">Fase 4. Exportacion piloto</td></tr>
+            <tr>
+              <td><input type="checkbox" aria-label="Avance"></td>
+              <td class="code">PR-0501</td><td class="task">Primer embarque piloto con previo en origen</td>
+              <td>BondiaCT + Agente</td><td class="muted">12 dias</td><td class="muted">PR-0402</td>
+              <td>Pedimento y evidencia de cruce</td><td class="num">$6,000</td><td class="num">25%</td><td class="neto">$4,500</td>
+            </tr>
+            <tr class="fase"><td colspan="10">Fase 5. Operacion continua</td></tr>
+            <tr>
+              <td><input type="checkbox" aria-label="Avance"></td>
+              <td class="code">PR-0601</td><td class="task">Monitoreo mensual de cumplimiento y tarifas</td>
+              <td>BondiaCT</td><td class="muted">Continuo</td><td class="muted">PR-0501</td>
+              <td>Reporte mensual</td><td class="num">$1,200</td><td class="num">0%</td><td class="neto">$1,200</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -442,83 +623,19 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       <div class="sum-cell"><div class="k" data-i18n="lbl_code">Codigo del agricultor</div><div class="v"><span id="agri-code">PR-1234</span></div></div>
     </section>
 
+    <h2 class="sec-title" style="margin-top:0" data-i18n="mis_docs_title">Mi expediente de documentos</h2>
     <div class="tbl-wrap">
-      <table>
+      <table style="min-width:640px">
         <thead>
           <tr>
-            <th></th>
-            <th data-i18n="th_code">Codigo</th>
-            <th data-i18n="th_task">Tarea</th>
-            <th data-i18n="th_resp">Responsable</th>
-            <th data-i18n="th_dur">Duracion</th>
-            <th data-i18n="th_dep">Dependencias</th>
-            <th data-i18n="th_del">Entregable</th>
-            <th data-i18n="th_fee">Tarifa</th>
-            <th data-i18n="th_disc">Descuento CEO</th>
-            <th data-i18n="th_net">Neto</th>
+            <th data-i18n="doc_tipo">Documento</th>
+            <th data-i18n="th_status">Estatus</th>
+            <th data-i18n="doc_subido_por">Subido por</th>
+            <th data-i18n="th_updated">Ultima actualizacion</th>
           </tr>
         </thead>
-        <tbody id="checklist-body">
-          <tr class="fase"><td colspan="10">Fase 0. Alta y diagnostico</td></tr>
-          <tr>
-            <td><input type="checkbox" checked aria-label="Avance"></td>
-            <td class="code">PR-0101</td><td class="task">Alta del agricultor y firma de acuerdo</td>
-            <td>BondiaCT</td><td class="muted">3 dias</td><td class="muted">Ninguna</td>
-            <td>Expediente de alta</td><td class="num">$0</td><td class="num">0%</td><td class="neto">$0</td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" checked aria-label="Avance"></td>
-            <td class="code">PR-0102</td><td class="task">Diagnostico documental del perfil exportador</td>
-            <td>Consultor</td><td class="muted">5 dias</td><td class="muted">PR-0101</td>
-            <td>Reporte de brechas</td><td class="num">$0</td><td class="num">0%</td><td class="neto">$0</td>
-          </tr>
-          <tr class="fase"><td colspan="10">Fase 1. Matriz de Seguridad + DataStage</td></tr>
-          <tr>
-            <td><input type="checkbox" checked aria-label="Avance"></td>
-            <td class="code">PR-0201</td><td class="task">Matriz de Seguridad + DataStage</td>
-            <td>BondiaCT</td><td class="muted">10 dias</td><td class="muted">PR-0102</td>
-            <td>Matriz validada y carga en DataStage</td><td class="num">$5,000</td><td class="num">20%</td><td class="neto">$4,000</td>
-          </tr>
-          <tr class="fase"><td colspan="10">Fase 2. Expediente y certificaciones</td></tr>
-          <tr>
-            <td><input type="checkbox" aria-label="Avance"></td>
-            <td class="code">PR-0301</td><td class="task">Registro en padron de exportadores sectorial</td>
-            <td>Agricultor + BondiaCT</td><td class="muted">15 dias</td><td class="muted">PR-0201</td>
-            <td>Acuse de registro</td><td class="num">$3,000</td><td class="num">15%</td><td class="neto">$2,550</td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" aria-label="Avance"></td>
-            <td class="code">PR-0302</td><td class="task">Certificado fitosanitario y plan SENASICA</td>
-            <td>Consultor</td><td class="muted">20 dias</td><td class="muted">PR-0301</td>
-            <td>Certificado vigente</td><td class="num">$4,500</td><td class="num">15%</td><td class="neto">$3,825</td>
-          </tr>
-          <tr class="fase"><td colspan="10">Fase 3. Logistica y aduana</td></tr>
-          <tr>
-            <td><input type="checkbox" aria-label="Avance"></td>
-            <td class="code">PR-0401</td><td class="task">Asignacion de agente aduanal y encargo conferido</td>
-            <td>BondiaCT</td><td class="muted">7 dias</td><td class="muted">PR-0302</td>
-            <td>Encargo activo</td><td class="num">$2,000</td><td class="num">10%</td><td class="neto">$1,800</td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" aria-label="Avance"></td>
-            <td class="code">PR-0402</td><td class="task">Ruta logistica y reserva de transporte refrigerado</td>
-            <td>Operador logistico</td><td class="muted">10 dias</td><td class="muted">PR-0401</td>
-            <td>Plan de ruta confirmado</td><td class="num">$3,500</td><td class="num">10%</td><td class="neto">$3,150</td>
-          </tr>
-          <tr class="fase"><td colspan="10">Fase 4. Exportacion piloto</td></tr>
-          <tr>
-            <td><input type="checkbox" aria-label="Avance"></td>
-            <td class="code">PR-0501</td><td class="task">Primer embarque piloto con previo en origen</td>
-            <td>BondiaCT + Agente</td><td class="muted">12 dias</td><td class="muted">PR-0402</td>
-            <td>Pedimento y evidencia de cruce</td><td class="num">$6,000</td><td class="num">25%</td><td class="neto">$4,500</td>
-          </tr>
-          <tr class="fase"><td colspan="10">Fase 5. Operacion continua</td></tr>
-          <tr>
-            <td><input type="checkbox" aria-label="Avance"></td>
-            <td class="code">PR-0601</td><td class="task">Monitoreo mensual de cumplimiento y tarifas</td>
-            <td>BondiaCT</td><td class="muted">Continuo</td><td class="muted">PR-0501</td>
-            <td>Reporte mensual</td><td class="num">$1,200</td><td class="num">0%</td><td class="neto">$1,200</td>
-          </tr>
+        <tbody id="mis-docs-body">
+          <tr><td colspan="4" class="muted" style="text-align:center;padding:22px" data-i18n="mis_docs_vacio">Aun no hay documentos en tu expediente</td></tr>
         </tbody>
       </table>
     </div>
@@ -556,6 +673,14 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   <footer class="foot"><b>BondiaCT</b> 2026</footer>
 </div>
 
+<div class="gtooltip" id="gtooltip"></div>
+<aside class="gpanel" id="gpanel" aria-label="Detalle de tarea">
+  <button class="close" id="gpanelClose" aria-label="Cerrar">&times;</button>
+  <div id="gpanelBody"></div>
+</aside>
+<div style="display:none">
+</div>
+
 <script>
 (function(){
   var d=document;
@@ -563,7 +688,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   /* ===== i18n ===== */
   var i18n={
     gate_title:{es:"Acceso Produce",en:"Produce Access"},
-    gate_sub:{es:"Perfil por commodity y aduana, bondiact.io",en:"Profile by commodity and customs office, bondiact.io"},
+    gate_sub:{es:"Acceso a Partner CEO Agricola",en:"CEO Agricola Partner access"},
     lbl_email:{es:"Correo electronico",en:"Email address"},
     lbl_pass:{es:"Contrasena",en:"Password"},
     btn_enter:{es:"Entrar",en:"Sign in"},
@@ -607,7 +732,13 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     btn_view_gantt:{es:"Ver Carta Gantt",en:"View Gantt chart"},
     btn_view_checklist:{es:"Modo Checklist",en:"Checklist mode"},
     checklist_view_title:{es:"Modo Checklist",en:"Checklist mode"},
-    alta_userid:{es:"User ID (Supabase Auth)",en:"User ID (Supabase Auth)"},
+    gantt_precios:{es:"Precios y descuentos",en:"Pricing and discounts"},
+    gantt_fine1:{es:"Precios mas IVA. Cada servicio tiene un neto minimo, el descuento no puede bajar de ese piso. Hasta 100 pedimentos en los ultimos 5 años y hasta 100 pedimentos anuales en operacion, fuera de ese escenario se cotiza por separado.",en:"Prices plus VAT. Each service has a minimum net, the discount cannot go below that floor. Up to 100 customs entries in the last 5 years and up to 100 per year in operation, beyond that it is quoted separately."},
+    gantt_fine2:{es:"Se cotizan por separado: desarrollos y adaptaciones a medida, uso de servidor propio del cliente, operaciones especiales (deposito fiscal, IMMEX, maquila). Se excluyen importaciones textiles, de acero e hidrocarburos.",en:"Quoted separately: custom development, client-hosted servers, special operations (bonded warehouse, IMMEX, maquila). Textile, steel and fuel imports are excluded."},
+    plan_alta_title:{es:"Plan de alta del agricultor",en:"Grower onboarding plan"},
+    mis_docs_title:{es:"Mi expediente de documentos",en:"My document file"},
+    mis_docs_vacio:{es:"Aun no hay documentos en tu expediente",en:"No documents in your file yet"},
+    alta_userid:{es:"Identificador del agricultor",en:"Grower identifier"},
     alta_seed:{es:"Sembrar checklist estandar (14 documentos)",en:"Seed standard checklist (14 documents)"},
     alta_crear:{es:"Crear agricultor",en:"Create grower"},
     admin_access:{es:"Accesos",en:"Access log"},
@@ -647,8 +778,8 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   $("tgl-lang").addEventListener("click",function(){lang=lang==="es"?"en":"es";applyLang();});
 
   /* ===== tema: 5 paletas, mismas de Control Tower v2 y de la Carta Gantt =====
-     El selector manda a Produce (atributo data-theme en <html>) y al iframe de
-     la Gantt por postMessage, para que todo el ecosistema vaya parejo. */
+     El selector fija data-theme en <html> y repinta la Gantt, para que todo
+     el ecosistema vaya parejo. */
   var THEMES=[
     {key:"claro",label:"Claro",dot:"#00897B"},
     {key:"oscuro",label:"Oscuro",dot:"#2BB3A3"},
@@ -658,17 +789,13 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   ];
   var THEME_KEY="produce-theme";
   function temaActual(){return d.documentElement.getAttribute("data-theme")||"claro";}
-  function avisarGantt(key){
-    var fr=$("gantt-frame");
-    if(fr&&fr.contentWindow)fr.contentWindow.postMessage({tipo:"tema",tema:key},window.location.origin);
-  }
-  window.avisarGanttTema=function(){avisarGantt(temaActual());};
+  function avisarGantt(){ if(window.ganttRepintar)window.ganttRepintar(); }
   function aplicarTema(key){
     d.documentElement.setAttribute("data-theme",key);
     try{window.localStorage.setItem(THEME_KEY,key);}catch(e){}
     var btns=$("themes").querySelectorAll("button");
     for(var i=0;i<btns.length;i++)btns[i].classList.toggle("on",btns[i].dataset.key===key);
-    avisarGantt(key);
+    avisarGantt();
   }
   (function montarTemas(){
     var guardado=null;
@@ -696,7 +823,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     $("eye-closed").style.display=show?"block":"none";
   });
 
-  /* ===== auth real contra /api/produce-access (Supabase server-side) ===== */
+  /* ===== auth real contra /api/produce-access (validacion server-side) ===== */
   var SESSION_TOKEN=null, SESSION_FACTOR=null, IS_ADMIN=false;
 
   function apiCall(action,extra){
@@ -804,10 +931,32 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     if($("avance-battery"))$("avance-battery").innerHTML=batterySegsHtml(docs);
     if($("avance-legend"))$("avance-legend").innerHTML=batteryLegendHtml(docs);
   }
+  /* Expediente del agricultor: su propio checklist, en solo lectura. La bateria
+     y el Kanban se llenan solos conforme cada documento cambia de estatus. */
+  function esc(x){return String(x==null?"":x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");}
+  var DOC_LABEL={pendiente:"Pendiente de subir",proceso:"En proceso",revision:"En revision",listo:"Listo"};
+  function pintarMisDocs(docs){
+    var body=$("mis-docs-body");
+    if(!body)return;
+    if(!docs||!docs.length){
+      body.innerHTML='<tr><td colspan="4" class="muted" style="text-align:center;padding:22px">'+i18n.mis_docs_vacio[lang]+'</td></tr>';
+      return;
+    }
+    var html="";
+    docs.forEach(function(dd){
+      var actualizado=dd.updated_at?new Date(dd.updated_at).toLocaleString():"-";
+      html+='<tr><td class="task">'+esc(dd.tipo_documento)+'</td>'
+        +'<td><span class="docstatus-sel docstatus-'+dd.estatus+'" style="display:inline-block;padding:4px 10px">'+(DOC_LABEL[dd.estatus]||dd.estatus)+'</span></td>'
+        +'<td><div class="persona-cell">'+avatarHtml(dd.subido_por)+'<span>'+esc(dd.subido_por||"-")+'</span></div></td>'
+        +'<td class="muted">'+actualizado+'</td></tr>';
+    });
+    body.innerHTML=html;
+  }
   function loadOwnDocuments(){
     apiCall("documents-list",{token:SESSION_TOKEN,profileId:CURRENT_PROFILE_ID}).then(function(res){
       if(!res.ok)return;
       pintarBateria(res.rows||[]);
+      pintarMisDocs(res.rows||[]);
     });
   }
   function populateGrowerOptions(sel,placeholder){
@@ -904,11 +1053,11 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   if(btnAltaCrear)btnAltaCrear.addEventListener("click",function(){
     var uid=$("alta-userid").value.trim(),commodity=$("alta-commodity").value,aduana=$("alta-aduana").value,seed=$("alta-seed").checked;
     var msg=$("alta-msg");
-    if(!uid){msg.textContent="Falta el User ID del agricultor (ya invitado en Supabase Auth).";return;}
+    if(!uid){msg.textContent="Falta el identificador del agricultor.";return;}
     btnAltaCrear.disabled=true;msg.textContent="Creando...";
     apiCall("profiles-create",{token:SESSION_TOKEN,userId:uid,commodity:commodity,aduana:aduana,seedChecklist:seed}).then(function(res){
       btnAltaCrear.disabled=false;
-      if(!res.ok||!res.profile){msg.textContent="No se pudo crear (revisa el User ID o si ya tiene perfil con ese commodity/aduana).";return;}
+      if(!res.ok||!res.profile){msg.textContent="No se pudo crear. Revisa el identificador, o si ya existe un perfil con ese commodity y aduana.";return;}
       msg.textContent="Agricultor creado: "+(res.profile.agri_code||res.profile.id)+(seed?" con checklist de 14 documentos.":"");
       $("alta-userid").value="";
       loadProfile();
@@ -960,7 +1109,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       $("admin-access-body").innerHTML=html;
     });
   }
-  /* Supabase manda el QR de dos formas segun version: como data URL
+  /* El QR llega de dos formas segun la version del proveedor: como data URL
      (data:image/...) o como codigo SVG en texto. Se cubren ambas.
      El SVG se convierte a data URL para meterlo en un <img>: asi no se
      inyecta markup vivo en la pagina y la CSP (img-src data:) lo permite. */
@@ -1074,7 +1223,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     return '<select class="status-sel status-'+s+'" data-row="'+rowId+'" aria-label="Estatus">'+opts+'</select>';
   }
   /* Cambiar el estatus a mano SOLO cambia el color/etiqueta en pantalla por ahora.
-     Cuando armemos el expediente con documentos (checklist real en Supabase),
+     Cuando armemos el expediente con documentos (checklist real en el backend),
      este cambio se va a guardar ahi. Hoy es una vista, no hay tabla que lo reciba. */
   d.addEventListener("change",function(e){
     var sel=e.target.closest?e.target.closest(".status-sel"):null;
@@ -1129,9 +1278,11 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   $("sel-destino").addEventListener("change",function(){$("sum-destino").textContent=this.value;renderReq();});
   renderReq();
 
-  /* ===== modo admin: edicion de tarifa y descuento (el rol real lo valida Supabase) ===== */
+  /* ===== modo admin: edicion de tarifa y descuento (el rol real lo valida el backend) ===== */
   function setAdminMode(on){
     d.body.classList.toggle("admin",on);
+    /* En modo admin tambien se destapan las columnas de precio de la Gantt. */
+    if(window.ganttMostrarPrecios)window.ganttMostrarPrecios(on);
     var rows=$("checklist-body").querySelectorAll("tr:not(.fase)");
     for(var i=0;i<rows.length;i++){
       var nums=rows[i].querySelectorAll("td.num");
@@ -1164,17 +1315,11 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   function $(id){return d.getElementById(id)}
   var gantt=$("gantt-view"), checklistView=$("checklist-view");
   var btnGantt=$("btn-view-gantt"), btnChecklist=$("btn-view-checklist");
-  var ganttLoaded=false;
   if(btnGantt)btnGantt.addEventListener("click",function(){
     var show=gantt.style.display==="none";
     gantt.style.display=show?"block":"none";
     btnGantt.classList.toggle("on",show);
-    if(show&&!ganttLoaded){
-      var fr=$("gantt-frame");
-      fr.addEventListener("load",function(){if(window.avisarGanttTema)window.avisarGanttTema();});
-      fr.src="/produce/gantt.html";
-      ganttLoaded=true;
-    }else if(show&&window.avisarGanttTema){window.avisarGanttTema();}
+    if(show&&window.ganttRepintar)window.ganttRepintar();
     if(show){checklistView.style.display="none";if(btnChecklist)btnChecklist.classList.remove("on");}
   });
   if(btnChecklist)btnChecklist.addEventListener("click",function(){
@@ -1183,6 +1328,370 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     btnChecklist.classList.toggle("on",show);
     if(show){gantt.style.display="none";if(btnGantt)btnGantt.classList.remove("on");if(window.refreshAdminDocs)window.refreshAdminDocs();}
   });
+})();
+</script>
+<script>
+(function(){
+/* ===== Motor de la Carta Gantt, integrado nativo dentro de Produce =====
+   Va scoped a #gantt-scope. NO usa iframe: la CSP del sitio prohibe frames y
+   no se debilita la seguridad para acomodar una vista. */
+var GSCOPE = document.getElementById("gantt-scope");
+if (GSCOPE) {
+
+var DAYS = 28;
+var WEEKS = [
+  { label: "Semana 1", from: 1, to: 7 },
+  { label: "Semana 2", from: 8, to: 14 },
+  { label: "Semana 3", from: 15, to: 21 },
+  { label: "Semana 4+", from: 22, to: 28 }
+];
+var PHASES = [
+  { key: "f0", num: "F0", cvar: "--c0", name: "Regalo de bienvenida", note: "Reporte Forense de Auditoría de un pedimento + demo de Control Tower, gratis al prospecto. Explica la nueva Ley Aduanera y la importancia de conocer su DataStage." },
+  { key: "f1", num: "F1", cvar: "--c1", name: "Matriz de Seguridad + DataStage", note: "" },
+  { key: "f2", num: "F2", cvar: "--c2", name: "Solicitud de documentos al cliente", note: "Matriz de Seguridad vía ANAM + DataStage vía SAT + confirmar e.firma vigente. BondiaCT no solicita ni guarda e.firma, FIEL ni SAT ID." },
+  { key: "f3", num: "F3", cvar: "--c3", name: "Carga del histórico de 5 años en Control Tower", note: "DataStage SAT con datos reales del cliente, acceso solo al dashboard histórico referencial." },
+  { key: "f4", num: "F4", cvar: "--c4", name: "Alternativas y propuesta", note: "" },
+  { key: "f5", num: "F5", cvar: "--c5", name: "Propuesta Control Tower 360 Cloud + Validación Previa", note: "Entregables y opciones, sin montos." },
+  { key: "op", num: "OP", cvar: "--cop", name: "Operación (una vez en marcha)", note: "" }
+];
+var TASKS = [
+  { id: "0",   ph: 0, name: "Reporte Forense de Auditoría + demo de Control Tower", resp: "BondiaCT", start: 1, dur: 1, durTxt: "1 día", deps: [], deliv: "Reporte Forense de un pedimento (histórico o por despachar) y demo en vivo de Control Tower, sin costo para el prospecto. Checklist enviado al cliente, integración del expediente y contrato de confidencialidad." },
+  { id: "1.1", ph: 1, name: "Cotización de Matriz de Seguridad para MVE (si el cliente importa)", resp: "BondiaCT", start: 2, dur: 1, durTxt: "1 día", deps: [], deliv: "Cotización de Matriz de Seguridad, opcional si no cambia la ley." },
+  { id: "1.2", ph: 1, name: "DataStage Dashboard, análisis del histórico de comercio exterior", resp: "BondiaCT", start: 3, dur: 1, durTxt: "1 día", deps: ["1.1"], deliv: "Dashboard DataStage para analizar el histórico de operaciones de exportación y/o importación." },
+  { id: "1.3", ph: 1, name: "Diagnóstico y verificación de expedientes completos", resp: "BondiaCT", start: 4, dur: 1, durTxt: "1 día", deps: ["1.2"], deliv: "Diagnóstico de expedientes completos, en orden y secuencia." },
+  { id: "2.1", ph: 2, name: "Cliente tramita Matriz de Seguridad y comparte acuse", resp: "Cliente/SAT", start: 3, dur: 14, durTxt: "~10 días hábiles", deps: ["1.1"], deliv: "Acuse de Matriz de Seguridad tramitada vía ANAM." },
+  { id: "2.2", ph: 2, name: "Cliente solicita DataStage al SAT y comparte acuse", resp: "Cliente/SAT", start: 4, dur: 14, durTxt: "~10 días hábiles", deps: ["1.2"], deliv: "Acuse de solicitud de DataStage ante el SAT." },
+  { id: "2.3", ph: 2, name: "Alta de hasta 1 usuario por empresa", resp: "BondiaCT", start: 4, dur: 2, durTxt: "1 a 2 días", deps: ["1.2"], deliv: "Usuario dado de alta y validado en Control Tower (hasta 1 por empresa)." },
+  { id: "3.1", ph: 3, name: "Diagnóstico e interpretación de 5 años, propuesta SWOT y WIP", resp: "BondiaCT", start: 17, dur: 1, durTxt: "1 día", deps: ["1.1"], deliv: "Diagnóstico del histórico de 5 años con propuesta SWOT y WIP, sobre dashboard referencial." },
+  { id: "4.1", ph: 4, name: "Propuesta Control Tower 360 + Validación Previa", resp: "BondiaCT", start: 18, dur: 1, durTxt: "1 día", deps: ["3.1"], deliv: "Propuesta para cumplir Materialidad y Trazabilidad, con despachos en tiempo real." },
+  { id: "4.2", ph: 4, name: "Resolución del histórico caso por caso (si hay incidencias)", resp: "BondiaCT", start: 19, dur: 2, durTxt: "1 a 2 días", deps: ["4.1"], deliv: "Plan de resolución de incidencias del histórico, caso por caso." },
+  { id: "4.3", ph: 4, name: "Cliente verifica si sus expedientes están completos", resp: "Cliente", start: 21, dur: 1, durTxt: "1 día", deps: ["4.2"], deliv: "Confirmación del cliente sobre la completitud de sus expedientes." },
+  { id: "5.1", ph: 5, name: "Digitalizar y comprobar Materialidad y Trazabilidad (si falta expediente)", resp: "BondiaCT", start: 21, dur: 1, durTxt: "1 día", deps: ["4.3"], deliv: "Propuesta de digitalización y comprobación de Materialidad y Trazabilidad para expedientes incompletos." },
+  { id: "5.2", ph: 5, name: "Opción mensual: CT 360 Cloud + Validación Previa", resp: "BondiaCT", start: 22, dur: 1, durTxt: "1 día", deps: ["5.1"], deliv: "Control Tower 360 Cloud + Validación Previa de pedimentos históricos + modo en operación, hasta 100 pedimentos en los últimos 5 años." },
+  { id: "5.3", ph: 5, name: "Opción anual: mismo alcance que la mensual", resp: "BondiaCT", start: 22, dur: 1, durTxt: "1 día", deps: ["5.1"], deliv: "Mismo alcance que la opción mensual, con vigencia anual." },
+  { id: "5.4", ph: 5, name: "Sin hosting: Validación Previa de Pedimento en tiempo real", resp: "BondiaCT", start: 22, dur: 1, durTxt: "1 día", deps: ["5.1"], deliv: "Validación Previa en modo operación, sin obligar a usar la red de agentes aduanales de BondiaCT. Se emiten 2 dictámenes (cliente y técnico para el agente aduanal), con verificación de corrección y aviso automático para proceder al pago y despacho." },
+  { id: "5.5", ph: 5, name: "Presentación de MVE ante VUCEM", resp: "BondiaCT", start: 23, dur: 1, durTxt: "1 día", deps: [], deliv: "Trazabilidad y seguimiento de sellos eDocuments, cargo por evento. Solo disponible si el cliente usa Control Tower." },
+  { id: "5.6", ph: 5, name: "Acceso a la consulta LIGIE/TIGIE", resp: "BondiaCT", start: 23, dur: 1, durTxt: "1 día", deps: [], deliv: "Consulta de más de 11,000 fracciones arancelarias y NICOs vigentes." },
+  { id: "OP1", ph: 6, name: "Vinculación de pedimentos en tiempo real al repositorio", resp: "Control Tower", start: 23, dur: 1, durTxt: "1 día", deps: [], deliv: "Hasta 100 pedimentos anuales vinculados al repositorio. Excluye R1, IMMEX, maquila y depósito fiscal, que se cotizan aparte." },
+  { id: "OP2", ph: 6, name: "Configuración inicial de Control Tower", resp: "Control Tower", start: 23, dur: 1, durTxt: "Mismo día", deps: [], deliv: "Control Tower configurado para el cliente." },
+  { id: "OP3", ph: 6, name: "Cliente ve su histórico + pedimentos + repositorio documental", resp: "Control Tower", start: 24, dur: 2, durTxt: "1 a 2 días", deps: ["3.1", "4.1"], deliv: "Acceso del cliente a su histórico, pedimentos y repositorio documental." },
+  { id: "MVE", ph: 6, name: "Primera transmisión COVE de prueba (testing previo a operación)", resp: "CT/Cliente", start: 24, dur: 5, durTxt: "Día 24+", deps: ["2.1", "2.3"], milestone: true, deliv: "Primera transmisión COVE de prueba, si se autorizó Control Tower 360 All In. Requiere e.firma vigente del cliente y Matriz de Seguridad recibida." }
+];
+
+var PRICING = [
+  { id: "0",   label: "Reporte Forense + demo (regalo de bienvenida)", tarifa: 2500, netoMin: 0, gift: true, per: "por evento" },
+  { id: "1.1", label: "Matriz de Seguridad para MVE", tarifa: 5000, netoMin: 4000, per: "por servicio" },
+  { id: "1.2", label: "DataStage Dashboard (histórico de comercio exterior)", tarifa: 20000, netoMin: 16000, per: "por servicio" },
+  { id: "5.2", label: "Opción mensual: CT 360 Cloud + Validación Previa", tarifa: 8125, netoMin: 6500, per: "por mes" },
+  { id: "5.3", label: "Opción anual: CT 360 Cloud + Validación Previa", tarifa: 81250, netoMin: 65000, per: "por año" },
+  { id: "5.4", label: "Validación Previa de Pedimento en tiempo real (sin hosting)", tarifa: 2500, netoMin: 2500, per: "por evento" },
+  { id: "5.5", label: "Presentación de MVE ante VUCEM", tarifa: 3500, netoMin: 3500, per: "por evento" },
+  { id: "5.6", label: "Acceso a la consulta LIGIE/TIGIE", tarifa: 2500, netoMin: 2500, per: "por acceso" }
+];
+var INCLUDED = { "1.3": "Incluido", "2.1": "$0, trámite gratuito ante el SAT", "2.2": "$0, trámite gratuito ante el SAT", "2.3": "Incluido", "3.1": "Incluido", "4.1": "Incluido", "4.2": "Incluido", "4.3": "Incluido", "5.1": "Se cotiza por separado, caso por caso", "OP1": "Incluido en el cargo mensual o anual", "OP2": "Incluido", "OP3": "Incluido", "MVE": "Incluido (testing)" };
+var priceState = {};
+PRICING.forEach(function (p) { priceState[p.id] = p.gift ? 100 : Math.round((1 - p.netoMin / p.tarifa) * 100); });
+function fmt(n) { return "$" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+function priceInfo(id) {
+  var p = null;
+  PRICING.forEach(function (x) { if (x.id === id) p = x; });
+  return p;
+}
+
+var byId = {};
+TASKS.forEach(function (t) { byId[t.id] = t; });
+function phaseColor(ph) { return getComputedStyle(document.documentElement).getPropertyValue(PHASES[ph].cvar).trim(); }
+function dayW() { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--day")); }
+
+// legend
+var legendEl = GSCOPE.querySelector("#legend");
+PHASES.forEach(function (p, i) {
+  var s = document.createElement("span");
+  s.innerHTML = '<i data-ph="' + i + '"></i>' + p.num + " " + (i === 6 ? "Operación" : p.name.split(",")[0]);
+  legendEl.appendChild(s);
+});
+
+// grid build
+var grid = GSCOPE.querySelector("#grid");
+function trackWidth() { return DAYS * dayW(); }
+
+function buildHead() {
+  var row = document.createElement("div");
+  row.className = "row head";
+  row.innerHTML = '<div class="cell-label colhead">Fase / Tarea</div><div class="cell-resp colhead">Responsable</div><div class="cell-price cell-tar colhead">Tarifa</div><div class="cell-price cell-desc colhead">Desc. CEO</div><div class="cell-price cell-net colhead">Neto</div>';
+  var track = document.createElement("div");
+  track.className = "cell-track head-inner";
+  track.style.width = trackWidth() + "px";
+  var weeks = document.createElement("div");
+  weeks.className = "weeks";
+  WEEKS.forEach(function (w) {
+    var d = document.createElement("div");
+    d.className = "week";
+    d.style.width = ((w.to - w.from + 1) * dayW()) + "px";
+    d.textContent = w.label;
+    weeks.appendChild(d);
+  });
+  var days = document.createElement("div");
+  days.className = "days";
+  for (var i = 1; i <= DAYS; i++) {
+    var d2 = document.createElement("div");
+    d2.className = "day";
+    d2.textContent = i === 24 ? "24+" : i;
+    days.appendChild(d2);
+  }
+  track.appendChild(weeks); track.appendChild(days);
+  row.appendChild(track);
+  grid.appendChild(row);
+}
+
+function trackBg() {
+  var bg = document.createElement("div");
+  bg.className = "track-bg";
+  var acc = 0;
+  WEEKS.forEach(function (w) {
+    acc += (w.to - w.from + 1);
+    var l = document.createElement("div");
+    l.className = "wk";
+    l.style.left = (acc * dayW() - 1) + "px";
+    l.style.width = "0";
+    bg.appendChild(l);
+  });
+  return bg;
+}
+
+function buildRows() {
+  var lastPh = -1;
+  TASKS.forEach(function (t) {
+    if (t.ph !== lastPh) {
+      lastPh = t.ph;
+      var p = PHASES[t.ph];
+      var pr = document.createElement("div");
+      pr.className = "row phase-row";
+      pr.innerHTML =
+        '<div class="cell-label"><div class="phase-title"><span class="phase-num" data-ph="' + t.ph + '">' + p.num + '</span>' + p.name + '</div>' +
+        (p.note ? '<div class="phase-note">' + p.note + '</div>' : '') + '</div>' +
+        '<div class="cell-resp"></div><div class="cell-price cell-tar"></div><div class="cell-price cell-desc"></div><div class="cell-price cell-net"></div>';
+      var ptrack = document.createElement("div");
+      ptrack.className = "cell-track";
+      ptrack.style.width = trackWidth() + "px";
+      ptrack.appendChild(trackBg());
+      pr.appendChild(ptrack);
+      grid.appendChild(pr);
+    }
+    var row = document.createElement("div");
+    row.className = "row task-row";
+    row.style.height = "44px";
+    row.innerHTML =
+      '<div class="cell-label"><span class="task-id">' + t.id + '</span><div class="task-name">' + t.name + '</div></div>' +
+      '<div class="cell-resp"><span class="resp-chip">' + t.resp + '</span></div>' + priceCellsHTML(t.id);
+    var track = document.createElement("div");
+    track.className = "cell-track";
+    track.style.width = trackWidth() + "px";
+    track.appendChild(trackBg());
+    var bar = document.createElement("div");
+    bar.className = "bar" + (t.milestone ? " milestone" : "");
+    bar.dataset.id = t.id;
+    bar.style.left = ((t.start - 1) * dayW() + 3) + "px";
+    bar.style.width = (t.dur * dayW() - 6) + "px";
+    var barW = t.dur * dayW() - 6;
+    if (barW - 16 > t.durTxt.length * 6.2) bar.innerHTML = '<span class="dur">' + t.durTxt + '</span>';
+    bar.addEventListener("mouseenter", function (e) { showTooltip(t, e); hotDeps(t.id, true); });
+    bar.addEventListener("mousemove", moveTooltip);
+    bar.addEventListener("mouseleave", function () { hideTooltip(); hotDeps(t.id, false); });
+    bar.addEventListener("click", function () { openPanel(t); selectBar(bar); });
+    track.appendChild(bar);
+    row.appendChild(track);
+    grid.appendChild(row);
+  });
+}
+
+function priceCellsHTML(id) {
+  var p = priceInfo(id);
+  if (p) {
+    var maxD = p.gift ? 100 : Math.round((1 - p.netoMin / p.tarifa) * 100);
+    if (p.gift) return '<div class="cell-price cell-tar cut">' + fmt(p.tarifa) + '</div><div class="cell-price cell-desc"><span class="p-pct">100%</span></div><div class="cell-price cell-net floor">Regalo<small>' + p.per + '</small></div>';
+    if (maxD === 0) return '<div class="cell-price cell-tar">' + fmt(p.tarifa) + '</div><div class="cell-price cell-desc"><span class="p-pct">0%</span></div><div class="cell-price cell-net floor">' + fmt(p.tarifa) + '<small>+ IVA, ' + p.per + '</small></div>';
+    return '<div class="cell-price cell-tar" id="tar-' + cssId(id) + '">' + fmt(p.tarifa) + '</div>' +
+      '<div class="cell-price cell-desc"><input type="range" min="0" max="' + maxD + '" step="1" value="' + priceState[id] + '" data-id="' + id + '" aria-label="Descuento ' + id + '"><span class="p-pct" id="pct-' + cssId(id) + '">' + priceState[id] + '%</span></div>' +
+      '<div class="cell-price cell-net" id="net-' + cssId(id) + '"></div>';
+  }
+  var incl = INCLUDED[id] || "";
+  var short = incl.indexOf("SAT") > -1 ? "$0, gratuito SAT" : incl.indexOf("separado") > -1 ? "Cotiza aparte" : incl.indexOf("mensual o anual") > -1 ? "Incluido en fee" : "Incluido";
+  return '<div class="cell-price cell-tar"></div><div class="cell-price cell-desc"></div><div class="cell-price cell-net"><span class="cell-incl">' + short + '</span></div>';
+}
+function wirePrices() {
+  grid.querySelectorAll('.cell-desc input[type=range]').forEach(function (inp) {
+    inp.addEventListener("input", function () {
+      priceState[inp.dataset.id] = +inp.value;
+      paintPrice(inp.dataset.id);
+    });
+  });
+  PRICING.forEach(function (p) { if (!p.gift) paintPrice(p.id); });
+}
+
+function paintColors() {
+  GSCOPE.querySelectorAll(".bar").forEach(function (b) {
+    var t = byId[b.dataset.id];
+    b.style.background = phaseColor(t.ph);
+    b.style.color = phaseColor(t.ph);
+  });
+  GSCOPE.querySelectorAll(".phase-num").forEach(function (n) { n.style.background = phaseColor(+n.dataset.ph); });
+  GSCOPE.querySelectorAll(".legend i").forEach(function (n) { n.style.background = phaseColor(+n.dataset.ph); });
+  var ttId = document.querySelector("#gpanel .tt-id, #gtooltip .tt-id");
+  if (ttId && ttId.dataset.ph) ttId.style.background = phaseColor(+ttId.dataset.ph);
+}
+
+// dependency arrows
+var svg = null;
+function drawDeps() {
+  if (svg) svg.remove();
+  svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "deps");
+  var gRect = grid.getBoundingClientRect();
+  svg.setAttribute("width", grid.scrollWidth);
+  svg.setAttribute("height", grid.scrollHeight);
+  TASKS.forEach(function (t) {
+    var toBar = grid.querySelector('.bar[data-id="' + t.id + '"]');
+    if (!toBar) return;
+    t.deps.forEach(function (depId) {
+      var fromBar = grid.querySelector('.bar[data-id="' + depId + '"]');
+      if (!fromBar) return;
+      var f = fromBar.getBoundingClientRect(), o = toBar.getBoundingClientRect();
+      var x1 = f.right - gRect.left, y1 = f.top + f.height / 2 - gRect.top;
+      var x2 = o.left - gRect.left, y2 = o.top + o.height / 2 - gRect.top;
+      var midX = Math.max(x1 + 8, x2 - 10);
+      var d;
+      if (x2 > x1 + 14) d = "M" + x1 + " " + y1 + " H" + (x2 - 10) + " V" + y2 + " H" + (x2 - 3);
+      else d = "M" + x1 + " " + y1 + " H" + (x1 + 8) + " V" + ((y1 + y2) / 2) + " H" + (x2 - 10) + " V" + y2 + " H" + (x2 - 3);
+      var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      p.setAttribute("d", d);
+      p.dataset.to = t.id; p.dataset.from = depId;
+      svg.appendChild(p);
+      var ah = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+      ah.setAttribute("points", (x2 - 3) + "," + y2 + " " + (x2 - 9) + "," + (y2 - 3.5) + " " + (x2 - 9) + "," + (y2 + 3.5));
+      ah.dataset.to = t.id; ah.dataset.from = depId;
+      svg.appendChild(ah);
+    });
+  });
+  grid.appendChild(svg);
+}
+function hotDeps(id, on) {
+  if (!svg) return;
+  svg.querySelectorAll('[data-to="' + id + '"], [data-from="' + id + '"]').forEach(function (el) {
+    el.classList.toggle("hot", on);
+  });
+}
+
+// tooltip
+var tooltip = document.getElementById("gtooltip");
+function depNames(t) {
+  if (!t.deps.length) return "Sin dependencias";
+  return t.deps.map(function (d) { return d + (byId[d] ? " (" + byId[d].name + ")" : ""); }).join(", ");
+}
+function taskHTML(t, full) {
+  var p = PHASES[t.ph];
+  return '<span class="tt-id" data-ph="' + t.ph + '" style="background:' + phaseColor(t.ph) + '">' + p.num + ", " + t.id + '</span>' +
+    '<div class="tt-name">' + t.name + '</div>' +
+    '<dl class="tt-grid">' +
+    '<dt>Responsable</dt><dd>' + t.resp + '</dd>' +
+    '<dt>Duración</dt><dd>' + t.durTxt + '</dd>' +
+    '<dt>Ubicación</dt><dd>Día ' + t.start + (t.dur > 1 ? " a " + Math.min(t.start + t.dur - 1, DAYS) : "") + (t.milestone ? "+" : "") + '</dd>' +
+    '<dt>Dependencias</dt><dd>' + depNames(t) + '</dd>' +
+    priceRowHTML(t.id) +
+    '</dl>' +
+    (full ? '<div class="deliv"><h4>Entregable</h4>' + t.deliv + '</div>' : '');
+}
+function showTooltip(t, e) {
+  tooltip.innerHTML = taskHTML(t, false);
+  tooltip.classList.add("show");
+  moveTooltip(e);
+}
+function moveTooltip(e) {
+  var w = tooltip.offsetWidth, h = tooltip.offsetHeight;
+  var x = Math.min(e.clientX + 14, window.innerWidth - w - 12);
+  var y = e.clientY + 16;
+  if (y + h > window.innerHeight - 10) y = e.clientY - h - 12;
+  tooltip.style.left = x + "px"; tooltip.style.top = y + "px";
+}
+function hideTooltip() { tooltip.classList.remove("show"); }
+
+function priceRowHTML(id) {
+  if (GSCOPE.classList.contains("no-price")) return '';
+  var p = priceInfo(id);
+  if (p) {
+    if (p.gift) return '<dt>Inversión</dt><dd>Regalo de bienvenida (valor ' + fmt(p.tarifa) + ' + IVA)</dd>';
+    var d = priceState[id];
+    return '<dt>Inversión</dt><dd>' + fmt(p.tarifa * (1 - d / 100)) + ' + IVA ' + p.per + (d > 0 ? ' (tarifa ' + fmt(p.tarifa) + ', ' + d + '% desc.)' : '') + '</dd>';
+  }
+  if (INCLUDED[id]) return '<dt>Inversión</dt><dd>' + INCLUDED[id] + '</dd>';
+  return '';
+}
+
+function cssId(id) { return id.replace(".", "-"); }
+function paintPrice(id) {
+  var p = priceInfo(id);
+  var maxD = Math.round((1 - p.netoMin / p.tarifa) * 100);
+  if (maxD === 0) return;
+  var d = priceState[id];
+  var neto = p.tarifa * (1 - d / 100);
+  var pct = document.getElementById("pct-" + cssId(id));
+  var net = document.getElementById("net-" + cssId(id));
+  var tar = document.getElementById("tar-" + cssId(id));
+  if (pct) pct.textContent = d + "%";
+  if (tar) tar.classList.toggle("cut", d > 0);
+  if (net) {
+    net.innerHTML = fmt(neto) + '<small>+ IVA' + (d >= maxD ? ", piso CEO" : "") + '</small>';
+    net.classList.toggle("floor", d >= maxD);
+  }
+}
+
+// side panel
+var panel = document.getElementById("gpanel"), panelBody = document.getElementById("gpanelBody");
+function openPanel(t) {
+  panelBody.innerHTML = taskHTML(t, true);
+  panel.classList.add("open");
+  hideTooltip();
+}
+function selectBar(bar) {
+  GSCOPE.querySelectorAll(".bar.sel").forEach(function (b) { b.classList.remove("sel"); });
+  bar.classList.add("sel");
+}
+document.getElementById("gpanelClose").addEventListener("click", function () {
+  panel.classList.remove("open");
+  GSCOPE.querySelectorAll(".bar.sel").forEach(function (b) { b.classList.remove("sel"); });
+});
+document.addEventListener("keydown", function (e) { if (e.key === "Escape") panel.classList.remove("open"); });
+
+// responsable toggle
+var respToggle = GSCOPE.querySelector("#respToggle");
+function flipResp() {
+  var on = respToggle.classList.toggle("on");
+  respToggle.setAttribute("aria-checked", on);
+  GSCOPE.classList.toggle("no-resp", !on);
+  drawDeps();
+}
+respToggle.addEventListener("click", flipResp);
+respToggle.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flipResp(); } });
+
+buildHead();
+buildRows();
+wirePrices();
+paintColors();
+drawDeps();
+window.addEventListener("resize", drawDeps);
+GSCOPE.querySelector("#scroller").addEventListener("scroll", function () { hideTooltip(); });
+
+/* El interruptor de precios sigue al rol real de la sesion, no a una clave
+   escrita en el HTML (eso seria seguridad de mentiras). */
+function flipPrice(){
+  if(!document.body.classList.contains("rol-admin"))return;
+  setPrices(!priceToggle.classList.contains("on"));
+}
+priceToggle.addEventListener("click", flipPrice);
+priceToggle.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){e.preventDefault();flipPrice();} });
+window.ganttRepintar = function(){ paintColors(); drawDeps(); };
+window.ganttMostrarPrecios = function(on){ setPrices(!!on); };
+}
 })();
 </script>
 </body>
