@@ -218,10 +218,21 @@ export default async function handler(req, res) {
     if (action === 'profile') {
       const { token } = body;
       if (!token) return res.status(401).json({ ok: false });
-      const r = await fetch(
-        `${URLB}/rest/v1/produce_profiles?select=id,commodity,aduana,agri_code,contenido,created_at,updated_at`,
-        { headers: { apikey: ANON, Authorization: `Bearer ${token}` } }
+      // Se pide primero con las columnas nuevas (razon_social, operacion). Si la
+      // migracion todavia no se corrio, esas columnas no existen y se reintenta
+      // con el juego de columnas viejo, para no tumbar el panel mientras tanto.
+      const BASE = 'id,commodity,aduana,agri_code,contenido,created_at,updated_at';
+      const h = { apikey: ANON, Authorization: `Bearer ${token}` };
+      let r = await fetch(
+        `${URLB}/rest/v1/produce_profiles?select=${BASE},razon_social,operacion&order=created_at.asc`,
+        { headers: h }
       );
+      if (!r.ok) {
+        r = await fetch(
+          `${URLB}/rest/v1/produce_profiles?select=${BASE}&order=created_at.asc`,
+          { headers: h }
+        );
+      }
       if (!r.ok) return res.status(401).json({ ok: false });
       const rows = await r.json();
       // Nota: si el token es de admin, RLS regresa TODOS los perfiles (no solo
@@ -231,11 +242,17 @@ export default async function handler(req, res) {
     }
 
     if (action === 'profiles-create') {
-      // Alta de agricultor: SOLO admin (RLS produce_profiles_write lo exige de
-      // todos modos). userId debe ser el UUID de un usuario YA invitado en
-      // Supabase Auth (Rod lo crea a mano, esta accion no crea cuentas).
-      const { token, userId, commodity, aduana, seedChecklist } = body;
-      if (!token || !userId || !commodity || !aduana)
+      // Alta de expediente de exportador: SOLO admin (la RLS de escritura lo
+      // exige de todos modos). NO se crea cuenta de acceso aqui: el expediente
+      // nace sin usuario ligado y se vincula despues, cuando se invita a la
+      // persona. Por eso user_id va nulo (requiere la migracion de folio).
+      //
+      // El FOLIO no se calcula aqui: lo pone la base con un trigger, para que
+      // sea unico e irrepetible aunque se creen dos al mismo tiempo. Sufijo por
+      // tipo de operacion: exporta = X, importa = M, ambas = 2.
+      const { token, razonSocial, operacion, commodity, aduana, seedChecklist } = body;
+      const OPS = ['exporta', 'importa', 'ambas'];
+      if (!token || !razonSocial || !commodity || !aduana || !OPS.includes(operacion))
         return res.status(400).json({ ok: false });
       const r = await fetch(`${URLB}/rest/v1/produce_profiles`, {
         method: 'POST',
@@ -245,9 +262,23 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
           Prefer: 'return=representation',
         },
-        body: JSON.stringify({ user_id: userId, commodity, aduana }),
+        body: JSON.stringify({
+          razon_social: String(razonSocial).slice(0, 200),
+          operacion,
+          commodity,
+          aduana,
+        }),
       });
-      if (!r.ok) return res.status(400).json({ ok: false });
+      if (!r.ok) {
+        // 400 con columna/constraint desconocida = falta correr la migracion.
+        // Se distingue para que el panel pueda decirlo en cristiano.
+        const err = await r.text().catch(() => '');
+        const faltaMigracion = /razon_social|operacion|null value in column "user_id"|violates not-null/i.test(err);
+        console.error('[produce-access] profiles-create fallo, status', r.status, '| body:', err.slice(0, 300));
+        return res
+          .status(400)
+          .json({ ok: false, code: faltaMigracion ? 'SCHEMA' : 'BAD' });
+      }
       const rows = await r.json();
       const profile = rows && rows[0];
       if (seedChecklist && profile && profile.id) {

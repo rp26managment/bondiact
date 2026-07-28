@@ -83,10 +83,12 @@ input,select{font-family:inherit;color:var(--text)}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);font-weight:600}
 
 /* ===== toggles fijos ===== */
-.top-toggles{position:fixed;top:14px;right:16px;display:flex;gap:8px;z-index:60}
+.top-toggles{position:fixed;top:14px;right:16px;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:8px;z-index:60;max-width:calc(100vw - 32px)}
 .tgl{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:7px 13px;font-size:.75rem;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;transition:border-color .2s}
 .tgl:hover{border-color:var(--teal-line)}
-.themes{display:flex;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px;box-shadow:var(--dlg-shadow)}
+/* El selector de temas solo existe DENTRO (con sesion abierta). En la puerta no. */
+.themes{display:none;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px;box-shadow:var(--dlg-shadow)}
+body.sesion .themes{display:flex}
 .themes button{font-family:'JetBrains Mono',monospace;font-size:.7rem;padding:5px 11px;border:none;border-radius:999px;background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s,color .2s}
 .themes button .dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
 .themes button.on{background:var(--primary);color:#fff}
@@ -156,7 +158,9 @@ body.rol-admin #btn-admin{margin-left:auto}
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px}
 @media (max-width:900px){.kanban{grid-template-columns:repeat(2,1fr)}}
 .kcol{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px;min-height:80px;box-shadow:var(--dlg-shadow)}
-.kcol-h{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.06em;margin:-10px -10px 10px;padding:8px 12px;border-radius:14px 14px 0 0;color:#fff}
+.kcol-h{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.06em;margin:-10px -10px 10px;padding:8px 12px;border-radius:14px 14px 0 0;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kcount{background:rgba(255,255,255,.22);border-radius:999px;padding:2px 8px;font-size:.62rem;white-space:nowrap}
+.doc-contador{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:var(--primary);font-weight:700}
 .kcol[data-estatus="pendiente"] .kcol-h{background:#797E93}
 .kcol[data-estatus="proceso"] .kcol-h{background:#FDAB3D}
 .kcol[data-estatus="revision"] .kcol-h{background:#579BFC}
@@ -173,7 +177,7 @@ body.rol-admin #btn-admin{margin-left:auto}
 .avatar-empty{background:var(--surface2);color:var(--text2);border:1px dashed var(--border)}
 .persona-cell{display:flex;align-items:center;gap:8px}
 
-/* ===== Bateria estilo Monday (4 colores por estatus) ===== */
+/* ===== Bateria de avance (4 colores por estatus) ===== */
 .battery{display:flex;height:14px;border-radius:999px;overflow:hidden;background:var(--surface2);margin-top:10px;border:1px solid var(--border)}
 .battery i{display:block;height:100%}
 .battery.mini{height:8px;margin-top:6px}
@@ -328,7 +332,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       </svg>
     </div>
     <h1 data-i18n="gate_title">Acceso Produce</h1>
-    <p class="gate-sub" data-i18n="gate_sub">Perfil por commodity y aduana, bondiact.io</p>
+    <p class="gate-sub" data-i18n="gate_sub">Acceso a Partner CEO Agricola</p>
 
     <div id="gate-step-1">
       <div class="field">
@@ -414,7 +418,15 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       <h2 class="sec-title" style="margin-top:0" data-i18n="admin_title">Panel Admin</h2>
       <h3 class="eyebrow" style="margin:0 0 10px" data-i18n="admin_growers">Agricultores</h3>
       <div class="alta-box" style="margin-bottom:16px">
-        <div class="hdr-sel"><label for="alta-userid" data-i18n="alta_userid">Identificador del agricultor</label><input type="text" id="alta-userid" placeholder="Identificador interno" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.8rem;min-width:280px"></div>
+        <div class="hdr-sel"><label for="alta-razon" data-i18n="alta_razon">Razon social</label><input type="text" id="alta-razon" placeholder="Nombre o razon social del exportador" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.8rem;min-width:280px"></div>
+        <div class="hdr-sel">
+          <label for="alta-operacion" data-i18n="alta_operacion">Operacion</label>
+          <select id="alta-operacion">
+            <option value="exporta" data-i18n="op_exporta">Solo exporta (X)</option>
+            <option value="importa" data-i18n="op_importa">Solo importa (M)</option>
+            <option value="ambas" data-i18n="op_ambas">Exporta e importa (2)</option>
+          </select>
+        </div>
         <div class="hdr-sel">
           <label for="alta-commodity" data-i18n="lbl_commodity">Commodity</label>
           <select id="alta-commodity"><option>Aguacate</option><option>Berries</option><option>Limon persa</option><option>Mango</option><option>Cebolla</option></select>
@@ -474,17 +486,19 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
         <select id="admin-kanban-filter"><option value="" data-i18n="admin_filter_all">Todos los agricultores</option></select>
       </div>
       <div class="kanban" id="kanban-board">
-        <div class="kcol" data-estatus="pendiente"><div class="kcol-h" data-i18n="kanban_pendiente">Pendiente de subir</div><div class="kcards" id="kcol-pendiente"></div></div>
-        <div class="kcol" data-estatus="proceso"><div class="kcol-h" data-i18n="kanban_proceso">En proceso</div><div class="kcards" id="kcol-proceso"></div></div>
-        <div class="kcol" data-estatus="revision"><div class="kcol-h" data-i18n="kanban_revision">En revision</div><div class="kcards" id="kcol-revision"></div></div>
-        <div class="kcol" data-estatus="listo"><div class="kcol-h" data-i18n="kanban_listo">Listo</div><div class="kcards" id="kcol-listo"></div></div>
+        <div class="kcol" data-estatus="pendiente"><div class="kcol-h"><span data-i18n="kanban_pendiente">Pendiente de subir</span><span class="kcount" id="kcount-pendiente">0</span></div><div class="kcards" id="kcol-pendiente"></div></div>
+        <div class="kcol" data-estatus="proceso"><div class="kcol-h"><span data-i18n="kanban_proceso">En proceso</span><span class="kcount" id="kcount-proceso">0</span></div><div class="kcards" id="kcol-proceso"></div></div>
+        <div class="kcol" data-estatus="revision"><div class="kcol-h"><span data-i18n="kanban_revision">En revision</span><span class="kcount" id="kcount-revision">0</span></div><div class="kcards" id="kcol-revision"></div></div>
+        <div class="kcol" data-estatus="listo"><div class="kcol-h"><span data-i18n="kanban_listo">Listo</span><span class="kcount" id="kcount-listo">0</span></div><div class="kcards" id="kcol-listo"></div></div>
       </div>
 
       <h3 class="eyebrow" style="margin:24px 0 10px" data-i18n="admin_checklist">Checklist por agricultor</h3>
       <div class="hdr-sel" style="margin-bottom:12px">
         <label for="admin-doc-grower" data-i18n="admin_pick_grower">Agricultor</label>
         <select id="admin-doc-grower"><option value="">-</option></select>
+        <span id="doc-contador" class="doc-contador"></span>
       </div>
+      <div class="battery" id="doc-bateria" style="margin:0 0 12px;display:none"></div>
       <div class="tbl-wrap" style="margin-bottom:12px">
         <table style="min-width:640px">
           <thead>
@@ -504,6 +518,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       <div class="hdr-sel" id="doc-agregar-wrap" style="margin-bottom:22px">
         <input type="text" id="doc-nuevo-tipo" placeholder="Ej. INE, Acta constitutiva" style="padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.84rem;min-width:220px">
         <button class="btn-primary" id="btn-doc-agregar" type="button" style="width:auto;padding:9px 16px" data-i18n="doc_agregar">Agregar documento</button>
+        <span id="doc-agregar-msg" class="muted" style="font-size:.78rem"></span>
       </div>
     </div>
   </section>
@@ -738,7 +753,11 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     plan_alta_title:{es:"Plan de alta del agricultor",en:"Grower onboarding plan"},
     mis_docs_title:{es:"Mi expediente de documentos",en:"My document file"},
     mis_docs_vacio:{es:"Aun no hay documentos en tu expediente",en:"No documents in your file yet"},
-    alta_userid:{es:"Identificador del agricultor",en:"Grower identifier"},
+    alta_razon:{es:"Razon social",en:"Legal name"},
+    alta_operacion:{es:"Operacion",en:"Operation"},
+    op_exporta:{es:"Solo exporta (X)",en:"Export only (X)"},
+    op_importa:{es:"Solo importa (M)",en:"Import only (M)"},
+    op_ambas:{es:"Exporta e importa (2)",en:"Export and import (2)"},
     alta_seed:{es:"Sembrar checklist estandar (14 documentos)",en:"Seed standard checklist (14 documents)"},
     alta_crear:{es:"Crear agricultor",en:"Create grower"},
     admin_access:{es:"Accesos",en:"Access log"},
@@ -904,7 +923,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     var safe=String(name).replace(/"/g,"&quot;");
     return '<span class="avatar" style="background:'+avatarColor(name)+'" title="'+safe+'">'+initials(name)+'</span>';
   }
-  /* Bateria estilo Monday: 4 segmentos de color por estatus + leyenda con conteos */
+  /* Bateria de avance: 4 segmentos de color por estatus + leyenda con conteos */
   function batteryData(docs){
     var c={pendiente:0,proceso:0,revision:0,listo:0};
     (docs||[]).forEach(function(d){if(c[d.estatus]!==undefined)c[d.estatus]++;});
@@ -999,7 +1018,9 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     var filterSel=$("admin-kanban-filter");
     var filterId=filterSel?filterSel.value:"";
     var cols={pendiente:"",proceso:"",revision:"",listo:""};
+    var cuenta={pendiente:0,proceso:0,revision:0,listo:0},total=0;
     ALL_DOCS.filter(function(d){return !filterId||d.profile_id===filterId;}).forEach(function(d){
+      if(cuenta[d.estatus]!==undefined){cuenta[d.estatus]++;total++;}
       var p=PROFILES[d.profile_id]||{};
       var card='<div class="kcard"><div class="kcard-top">'+avatarHtml(d.subido_por)+'<span class="kcard-code">'+(p.agri_code||"-")+'</span></div><span class="kcard-tipo">'+d.tipo_documento+'</span>'+docStatusHtml(d.id,d.estatus)+'</div>';
       if(cols[d.estatus]!==undefined)cols[d.estatus]+=card;
@@ -1007,16 +1028,31 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     Object.keys(cols).forEach(function(k){
       var el=$("kcol-"+k);
       if(el)el.innerHTML=cols[k]||'<span class="muted" style="font-size:.76rem;padding:0 4px">-</span>';
+      var c=$("kcount-"+k);
+      if(c)c.textContent=total?(cuenta[k]+" de "+total):"0";
     });
+  }
+  // Contador tipo "3 de 14 listos", mas los que faltan por subir. Es el mismo
+  // numero que alimenta la bateria y el kanban, para que cuadren entre si.
+  function pintarContadorChecklist(docs){
+    var cont=$("doc-contador"),bat=$("doc-bateria");
+    if(!cont)return;
+    if(!docs||!docs.length){cont.textContent="";if(bat)bat.style.display="none";return;}
+    var listos=docs.filter(function(d){return d.estatus==="listo";}).length;
+    var faltan=docs.filter(function(d){return d.estatus==="pendiente";}).length;
+    cont.textContent=listos+" de "+docs.length+" listos, "+faltan+" sin subir";
+    if(bat){bat.style.display="flex";bat.innerHTML=batterySegsHtml(docs);}
   }
   function renderChecklistFor(profileId){
     var body=$("admin-doc-checklist");
     if(!body)return;
     if(!profileId){
       body.innerHTML='<tr><td colspan="5" class="muted" style="text-align:center;padding:22px" data-i18n="admin_pick_grower_hint">Elige un agricultor arriba</td></tr>';
+      pintarContadorChecklist(null);
       return;
     }
     var docs=ALL_DOCS.filter(function(d){return d.profile_id===profileId;});
+    pintarContadorChecklist(docs);
     if(!docs.length){
       body.innerHTML='<tr><td colspan="5" class="muted" style="text-align:center;padding:22px">Sin documentos, agrega el primero abajo</td></tr>';
       return;
@@ -1051,24 +1087,33 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   if(kanbanFilterSel)kanbanFilterSel.addEventListener("change",function(){renderKanban();});
   var btnAltaCrear=$("btn-alta-crear");
   if(btnAltaCrear)btnAltaCrear.addEventListener("click",function(){
-    var uid=$("alta-userid").value.trim(),commodity=$("alta-commodity").value,aduana=$("alta-aduana").value,seed=$("alta-seed").checked;
+    var razon=$("alta-razon").value.trim(),operacion=$("alta-operacion").value,
+        commodity=$("alta-commodity").value,aduana=$("alta-aduana").value,seed=$("alta-seed").checked;
     var msg=$("alta-msg");
-    if(!uid){msg.textContent="Falta el identificador del agricultor.";return;}
+    if(!razon){msg.textContent="Escribe la razon social del exportador.";return;}
     btnAltaCrear.disabled=true;msg.textContent="Creando...";
-    apiCall("profiles-create",{token:SESSION_TOKEN,userId:uid,commodity:commodity,aduana:aduana,seedChecklist:seed}).then(function(res){
+    apiCall("profiles-create",{token:SESSION_TOKEN,razonSocial:razon,operacion:operacion,commodity:commodity,aduana:aduana,seedChecklist:seed}).then(function(res){
       btnAltaCrear.disabled=false;
-      if(!res.ok||!res.profile){msg.textContent="No se pudo crear. Revisa el identificador, o si ya existe un perfil con ese commodity y aduana.";return;}
-      msg.textContent="Agricultor creado: "+(res.profile.agri_code||res.profile.id)+(seed?" con checklist de 14 documentos.":"");
-      $("alta-userid").value="";
+      if(!res.ok||!res.profile){
+        msg.textContent=res.code==="SCHEMA"
+          ? "El expediente no se pudo crear: falta correr la migracion de folio de exportador."
+          : "No se pudo crear. Revisa que no exista ya un expediente igual.";
+        return;
+      }
+      msg.textContent="Expediente creado con folio "+(res.profile.agri_code||res.profile.id)+(seed?", con checklist de 14 documentos.":".");
+      $("alta-razon").value="";
       loadProfile();
     });
   });
   var btnDocAgregar=$("btn-doc-agregar");
   if(btnDocAgregar)btnDocAgregar.addEventListener("click",function(){
-    var sel=$("admin-doc-grower"),tipo=$("doc-nuevo-tipo");
-    if(!sel.value||!tipo.value.trim())return;
+    var sel=$("admin-doc-grower"),tipo=$("doc-nuevo-tipo"),aviso=$("doc-agregar-msg");
+    if(!sel.value){if(aviso)aviso.textContent="Primero elige un agricultor en el selector de arriba.";return;}
+    if(!tipo.value.trim()){if(aviso)aviso.textContent="Escribe el nombre del documento que quieres agregar.";return;}
+    if(aviso)aviso.textContent="Agregando...";
     apiCall("documents-add",{token:SESSION_TOKEN,profileId:sel.value,tipoDocumento:tipo.value.trim()}).then(function(res){
-      if(res.ok){tipo.value="";refreshAdminDocs();}
+      if(res.ok){tipo.value="";if(aviso)aviso.textContent="";refreshAdminDocs();}
+      else if(aviso)aviso.textContent="No se pudo agregar el documento.";
     });
   });
   d.addEventListener("change",function(e){
@@ -1100,7 +1145,15 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   });
   function loadAccessLog(){
     apiCall("access-log",{token:SESSION_TOKEN}).then(function(res){
-      if(!res.ok||!res.rows||!res.rows.length)return;
+      var vacio=$("admin-access-body");
+      if(!res.ok){
+        if(vacio)vacio.innerHTML='<tr><td colspan="3" class="muted" style="text-align:center;padding:22px">No se pudo leer la bitacora de accesos con esta sesion.</td></tr>';
+        return;
+      }
+      if(!res.rows||!res.rows.length){
+        if(vacio)vacio.innerHTML='<tr><td colspan="3" class="muted" style="text-align:center;padding:22px">Sin accesos registrados todavia. Se registran al terminar la verificacion de dos pasos.</td></tr>';
+        return;
+      }
       var html="";
       res.rows.forEach(function(r){
         var fecha=r.created_at?new Date(r.created_at).toLocaleString():"-";
@@ -1134,7 +1187,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     $("gate-step-1").style.display="block";
     $("gate-enroll").style.display="none";
     $("btn-admin").style.display="none";
-    d.body.classList.remove("rol-admin","admin");
+    d.body.classList.remove("rol-admin","admin","sesion");
     if(window.showAdminPanel)window.showAdminPanel(false);
     $("gate-pass").value="";$("gate-totp").value="";
   }
@@ -1179,6 +1232,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       $("profile-root").style.display="flex";
       $("btn-admin").style.display=IS_ADMIN?"inline-flex":"none";
       d.body.classList.toggle("rol-admin",IS_ADMIN);
+      d.body.classList.add("sesion");
       loadProfile();
       if(IS_ADMIN){
         if(window.showAdminPanel)window.showAdminPanel(true);
