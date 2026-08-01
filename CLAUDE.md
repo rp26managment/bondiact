@@ -1,6 +1,45 @@
 # Memory — bondíaCT / Control Tower
 
-> Última actualización: 2026-04-20 (Sprint 28 ✅ cerrado)
+> Última actualización: 2026-08-01 (landing /oversize montada + skill de auditoría creado)
+
+---
+
+## Hilo [2026-08-01]
+
+### Contexto
+Rod trajo un export de Claude Design para una landing nueva, `/oversize` (carga sobredimensionada,
+sobrepeso y breakbulk), que calificó de "nivel no mames". Pidió: adaptarla cross-browser/cross-device
+(Mac, PC, Android, iOS), verificar que no se haya expuesto ningún token/endpoint/dato personal en el
+código fuente, montarla, actualizar CLAUDE.md/reglas de oro, y crear un skill de auditoría de
+ciberseguridad que corra cada vez que se monte una landing.
+
+### Ejecutado
+- **Auditoría de seguridad** sobre el `index.html` entregado (490 KB, 6 imágenes en base64 incrustadas):
+  cero guion largo/medio, cero PII (Shekhina/WhatsApp/Rodrigo/correo personal/teléfono), cero riesgo
+  CSP (blob/eval/CDNs/localStorage), único externo Google Fonts, formulario correctamente cableado a
+  `/api/submit-lead` con honeypot y `source="bondiact.io/oversize"`. **7 falsos positivos** de
+  patrón de API key/JWT (`AIza...`, `eyJ...`) — verificados uno por uno, los 7 caen dentro de las
+  imágenes base64 (ruido del alfabeto), no son credenciales reales.
+- **Hallazgo real corregido:** 29 usos de `&middot;` (punto medio como entidad HTML, invisible a un
+  grep de bytes Unicode) — violaba la regla dura "sin punto medio". Corregido por contexto (coma o
+  paréntesis). Reporte completo en `security-audits/landings/oversize-2026-08-01.md`.
+- **Cross-browser/device:** agregado `-webkit-backdrop-filter`, inputs a 16px (evita zoom iOS),
+  `-webkit-appearance:none`, `-webkit-tap-highlight-color:transparent`, `-webkit-text-size-adjust`,
+  `env(safe-area-inset-*)` en header/footer sticky, `prefers-reduced-motion`, meta `theme-color`. Diseño
+  visual de Claude Design intacto, solo hardening técnico.
+- **Montada** en `oversize/index.html` (sin tocar git — Rod pushea por GitHub Desktop).
+- **Skill nuevo:** `audita-landing-bondiact` — corre siempre antes de montar/pushear cualquier landing,
+  incluye el manejo de falsos positivos de base64 y el reporte estándar en `security-audits/landings/`.
+- **`.gitignore`:** se agregó `security-audits/` — cierra el hallazgo carry-over que llevaba 3+ semanas
+  abierto en las auditorías semanales (esa carpeta se veía en el repo público). Los 5 archivos ya
+  commiteados antes siguen trackeados hasta que Rod los quite a mano en GitHub Desktop.
+
+### Pendiente / decisión de Rod
+- [ ] `/oversize` no trae toggle ES/EN ni toggle claro/oscuro, y usa paleta y tipografía distintas al
+      sistema documentado (Newsreader + Hanken Grotesk + IBM Plex Mono, tema oscuro fijo). Es el diseño
+      que Rod aprobó — queda como excepción deliberada o Rod pide agregar los toggles.
+- [ ] Untrackear a mano en GitHub Desktop los 5 archivos de `security-audits/` ya commiteados
+      (2026-04-06 a 2026-07-06) — el `.gitignore` nuevo solo evita que se sumen más.
 
 ---
 
@@ -147,6 +186,10 @@ WhatsApp Business: +52 33 2200 0539
 - Archivos críticos: NUNCA tocar sin Claude → `ligie/index.html`, `CNAME`, `index.html`
 - Deploy: siempre via GitHub Desktop desde `~/Desktop/BondiaCT respaldo`
 - Convención items Monday: `SXX-NN: descripción técnica`
+- **Landings nuevas (regla desde 2026-08-01):** SIEMPRE correr el skill `audita-landing-bondiact`
+  antes de montar o entregar cualquier `index.html` de landing (venga de Claude Design o escrito
+  directo). No es opcional. Reporte queda en `security-audits/landings/<slug>-<fecha>.md`
+  (carpeta en `.gitignore`, nunca al repo público).
 
 ---
 

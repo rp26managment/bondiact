@@ -29,3 +29,6 @@ Thumbs.db
 
 # Diseños en sandbox — solo locales, no desplegar a Vercel
 sandbox/
+
+# Auditorías de seguridad — solo locales, jamás al repo público (hallazgo carry-over cerrado 2026-08-01)
+security-audits/

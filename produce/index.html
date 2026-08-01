@@ -155,6 +155,12 @@ body.rol-admin #btn-admin{margin-left:auto}
 #admin-panel-root .admin-inner{max-width:1240px;margin:0 auto;padding:22px 26px 26px}
 .alta-box{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--dlg-shadow)}
 .alta-box .hdr-sel select{padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);font-size:.84rem}
+/* Selectores de "que agricultor estoy viendo": letra mas grande a proposito,
+   son la referencia principal de en que expediente esta parado el usuario. */
+.filtro-grande{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:10px 14px}
+.filtro-grande label{font-size:.68rem}
+.filtro-grande select{padding:10px 14px;border:1px solid var(--border);border-radius:10px;
+  background:var(--surface);font-size:1rem;font-weight:600;color:var(--text);min-width:260px}
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px}
 @media (max-width:900px){.kanban{grid-template-columns:repeat(2,1fr)}}
 .kcol{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px;min-height:80px;box-shadow:var(--dlg-shadow)}
@@ -428,6 +434,13 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
           </select>
         </div>
         <div class="hdr-sel">
+          <label for="alta-persona" data-i18n="alta_persona">Tipo de persona</label>
+          <select id="alta-persona">
+            <option value="moral" data-i18n="persona_moral">Persona moral</option>
+            <option value="fisica" data-i18n="persona_fisica">Persona fisica</option>
+          </select>
+        </div>
+        <div class="hdr-sel">
           <label for="alta-commodity" data-i18n="lbl_commodity">Commodity</label>
           <select id="alta-commodity"><option>Aguacate</option><option>Berries</option><option>Limon persa</option><option>Mango</option><option>Cebolla</option></select>
         </div>
@@ -435,7 +448,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
           <label for="alta-aduana" data-i18n="lbl_aduana">Aduana</label>
           <select id="alta-aduana"><option>Nuevo Laredo</option><option>Colombia NL</option><option>Reynosa-McAllen</option><option>Manzanillo</option><option>Veracruz</option><option>Lazaro Cardenas</option></select>
         </div>
-        <label class="hdr-sel" style="cursor:pointer"><input type="checkbox" id="alta-seed" checked><span data-i18n="alta_seed" style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-weight:600">Sembrar checklist estandar (14 documentos)</span></label>
+        <label class="hdr-sel" style="cursor:pointer"><input type="checkbox" id="alta-seed" checked><span data-i18n="alta_seed" style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-weight:600">Sembrar checklist segun operacion y tipo de persona</span></label>
         <button class="btn-primary" id="btn-alta-crear" type="button" style="width:auto;padding:9px 16px" data-i18n="alta_crear">Crear agricultor</button>
         <p id="alta-msg" class="muted" style="font-size:.78rem;margin-top:8px"></p>
       </div>
@@ -444,6 +457,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
           <thead>
             <tr>
               <th data-i18n="th_code">Codigo</th>
+              <th data-i18n="alta_razon">Razon social</th>
               <th data-i18n="lbl_commodity">Commodity</th>
               <th data-i18n="lbl_aduana">Aduana</th>
               <th data-i18n="lbl_avance">Avance</th>
@@ -481,7 +495,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     <div class="admin-inner" style="max-width:1240px;margin:0 auto;padding:22px 26px 6px">
       <h2 class="sec-title" style="margin-top:0" data-i18n="checklist_view_title">Modo Checklist</h2>
       <h3 class="eyebrow" style="margin:24px 0 10px" data-i18n="admin_kanban">Tablero de Kan Ban de Documentacion de los agricultores</h3>
-      <div class="hdr-sel" style="margin:0 0 12px">
+      <div class="hdr-sel filtro-grande" style="margin:0 0 20px">
         <label for="admin-kanban-filter" data-i18n="admin_filter_view">Ver informacion de</label>
         <select id="admin-kanban-filter"><option value="" data-i18n="admin_filter_all">Todos los agricultores</option></select>
       </div>
@@ -492,8 +506,8 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
         <div class="kcol" data-estatus="listo"><div class="kcol-h"><span data-i18n="kanban_listo">Listo</span><span class="kcount" id="kcount-listo">0</span></div><div class="kcards" id="kcol-listo"></div></div>
       </div>
 
-      <h3 class="eyebrow" style="margin:24px 0 10px" data-i18n="admin_checklist">Checklist por agricultor</h3>
-      <div class="hdr-sel" style="margin-bottom:12px">
+      <h3 class="eyebrow" style="margin:32px 0 10px;padding-top:18px;border-top:1px solid var(--border)" data-i18n="admin_checklist">Checklist por agricultor</h3>
+      <div class="hdr-sel filtro-grande" style="margin-bottom:12px">
         <label for="admin-doc-grower" data-i18n="admin_pick_grower">Agricultor</label>
         <select id="admin-doc-grower"><option value="">-</option></select>
         <span id="doc-contador" class="doc-contador"></span>
@@ -758,7 +772,10 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     op_exporta:{es:"Solo exporta (X)",en:"Export only (X)"},
     op_importa:{es:"Solo importa (M)",en:"Import only (M)"},
     op_ambas:{es:"Exporta e importa (2)",en:"Export and import (2)"},
-    alta_seed:{es:"Sembrar checklist estandar (14 documentos)",en:"Seed standard checklist (14 documents)"},
+    alta_persona:{es:"Tipo de persona",en:"Entity type"},
+    persona_moral:{es:"Persona moral",en:"Corporate entity"},
+    persona_fisica:{es:"Persona fisica",en:"Individual"},
+    alta_seed:{es:"Sembrar checklist segun operacion y tipo de persona",en:"Seed checklist by operation and entity type"},
     alta_crear:{es:"Crear agricultor",en:"Create grower"},
     admin_access:{es:"Accesos",en:"Access log"},
     admin_empty:{es:"Sin datos, se cargan al conectar el servicio",en:"No data, loaded once the service is connected"},
@@ -984,7 +1001,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     var html='<option value="">'+placeholder+'</option>';
     Object.keys(PROFILES).forEach(function(id){
       var p=PROFILES[id];
-      html+='<option value="'+id+'">'+(p.agri_code||id)+' / '+(p.commodity||"-")+'</option>';
+      html+='<option value="'+id+'">'+(p.agri_code||id)+' / '+(p.razon_social||p.commodity||"-")+'</option>';
     });
     sel.innerHTML=html;
     if(actual&&(PROFILES[actual]||actual===""))sel.value=actual;
@@ -998,7 +1015,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     if(!body)return;
     var ids=Object.keys(PROFILES);
     if(!ids.length){
-      body.innerHTML='<tr><td colspan="6" class="muted" style="text-align:center;padding:22px">Sin agricultores dados de alta todavia, usa el formulario de arriba</td></tr>';
+      body.innerHTML='<tr><td colspan="7" class="muted" style="text-align:center;padding:22px">Sin agricultores dados de alta todavia, usa el formulario de arriba</td></tr>';
       return;
     }
     var html="";
@@ -1008,7 +1025,7 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
       var pct=calcAvance(docs);
       var creado=r.created_at?new Date(r.created_at).toLocaleString():"-";
       var actualizado=r.updated_at?new Date(r.updated_at).toLocaleString():"-";
-      html+='<tr><td class="code">'+(r.agri_code||"-")+'</td><td>'+(r.commodity||"-")+'</td><td>'+(r.aduana||"-")+'</td>'
+      html+='<tr><td class="code">'+(r.agri_code||"-")+'</td><td style="font-weight:600">'+esc(r.razon_social||"-")+'</td><td>'+(r.commodity||"-")+'</td><td>'+(r.aduana||"-")+'</td>'
         +'<td style="min-width:130px"><div style="font-weight:600">'+pct+'%</div><div class="battery mini">'+batterySegsHtml(docs)+'</div></td>'
         +'<td class="muted">'+creado+'</td><td class="muted">'+actualizado+'</td></tr>';
     });
@@ -1088,19 +1105,26 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
   var btnAltaCrear=$("btn-alta-crear");
   if(btnAltaCrear)btnAltaCrear.addEventListener("click",function(){
     var razon=$("alta-razon").value.trim(),operacion=$("alta-operacion").value,
+        tipoPersona=$("alta-persona").value,
         commodity=$("alta-commodity").value,aduana=$("alta-aduana").value,seed=$("alta-seed").checked;
     var msg=$("alta-msg");
     if(!razon){msg.textContent="Escribe la razon social del exportador.";return;}
     btnAltaCrear.disabled=true;msg.textContent="Creando...";
-    apiCall("profiles-create",{token:SESSION_TOKEN,razonSocial:razon,operacion:operacion,commodity:commodity,aduana:aduana,seedChecklist:seed}).then(function(res){
+    apiCall("profiles-create",{token:SESSION_TOKEN,razonSocial:razon,operacion:operacion,tipoPersona:tipoPersona,commodity:commodity,aduana:aduana,seedChecklist:seed}).then(function(res){
       btnAltaCrear.disabled=false;
       if(!res.ok||!res.profile){
         msg.textContent=res.code==="SCHEMA"
-          ? "El expediente no se pudo crear: falta correr la migracion de folio de exportador."
+          ? "El expediente no se pudo crear: falta correr la migracion de tipo de persona / folio de exportador."
           : "No se pudo crear. Revisa que no exista ya un expediente igual.";
         return;
       }
-      msg.textContent="Expediente creado con folio "+(res.profile.agri_code||res.profile.id)+(seed?", con checklist de 14 documentos.":".");
+      var folio="Expediente creado con folio "+(res.profile.agri_code||res.profile.id)+".";
+      if(seed){
+        if(res.checklistError==="SCHEMA")folio+=" El checklist no se sembro: falta correr la migracion de documentos.";
+        else if(res.checklistError)folio+=" El checklist no se pudo sembrar, revisa el registro del servidor.";
+        else folio+=" Checklist sembrado: "+(res.checklistCreado||0)+" documentos segun operacion y tipo de persona.";
+      }
+      msg.textContent=folio;
       $("alta-razon").value="";
       loadProfile();
     });
@@ -1112,8 +1136,10 @@ tbody tr:not(.fase):hover td{background:var(--teal-soft)}
     if(!tipo.value.trim()){if(aviso)aviso.textContent="Escribe el nombre del documento que quieres agregar.";return;}
     if(aviso)aviso.textContent="Agregando...";
     apiCall("documents-add",{token:SESSION_TOKEN,profileId:sel.value,tipoDocumento:tipo.value.trim()}).then(function(res){
-      if(res.ok){tipo.value="";if(aviso)aviso.textContent="";refreshAdminDocs();}
-      else if(aviso)aviso.textContent="No se pudo agregar el documento.";
+      if(res.ok){tipo.value="";if(aviso)aviso.textContent="";refreshAdminDocs();return;}
+      if(aviso)aviso.textContent=res.code==="SCHEMA"
+        ? "Falta correr la migracion de documentos en la base de datos."
+        : "No se pudo agregar el documento, revisa el registro del servidor.";
     });
   });
   d.addEventListener("change",function(e){

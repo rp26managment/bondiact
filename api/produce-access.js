@@ -16,25 +16,54 @@
 // de tablas). Regla de higiene anti-reconocimiento. Rate limit por IP.
 // ──────────────────────────────────────────────────────────────────────────
 
-// Checklist estandar de documentos para exportacion/importacion MX (mismo
-// listado del "Requisitos 2026" que se usa para tramitar despachos aduanales).
-// Se siembra completo al dar de alta a un agricultor, con estatus 'pendiente'.
-const CHECKLIST_ESTANDAR = [
-  'Constancia de situacion fiscal (del mes en curso)',
-  'Comprobante de domicilio fiscal (no mayor a 2 meses)',
-  'Acta constitutiva con Registro Publico de la Propiedad',
-  'Poder del representante legal (actos de administracion, pleitos y cobranza)',
-  'Identificacion oficial del representante legal (pasaporte, INE o FM2-FM3)',
-  'Constancia de Situacion Fiscal del representante legal (SAT, del mes en curso)',
-  'Opinion del Cumplimiento de Obligaciones Fiscales (SAT, del mes en curso)',
-  'IMMEX, PROSEC, Certificacion IVA/IEPS, ECEX, etc. (cuando aplique)',
-  'Cartas encomienda (en original)',
-  'Encargo conferido al Agente Aduanal ante el SAT',
-  'Sello digital para ventanilla unica: COVE/VUCEM (.CER, .KEY, contrasena y clave web)',
-  'Verificacion de domicilio fiscal (acta SAT o estatus en el portal SAT)',
-  'Fotografias del domicilio fiscal (fachada, maquinaria, oficina, personal, transporte)',
-  'Documento que acredite la legal propiedad o posesion del inmueble y activos',
+// Checklist "Requisitos 2026" (Listado de Documentos para Despachos Aduanales).
+// Matriz EXACTA del documento que Rod comparte a sus clientes: 14 documentos,
+// cada uno aplica distinto segun el tipo de operacion (importa/exporta) y el
+// tipo de persona (moral/fisica). 'aplica' marca los 4 casos posibles;
+// 'condicional:true' es el renglon 8 (IMMEX/PROSEC/etc, "cuando aplique" en
+// el PDF): se siembra igual pero con nota, no se descarta por regla dura.
+const CHECKLIST_MATRIZ = [
+  { tipo: 'Constancia de situacion fiscal (del mes en curso)',
+    aplica: { importa_moral: true,  importa_fisica: false, exporta_moral: true,  exporta_fisica: false } },
+  { tipo: 'Comprobante de domicilio fiscal (no mayor a 2 meses)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'Acta constitutiva con Registro Publico de la Propiedad',
+    aplica: { importa_moral: true,  importa_fisica: false, exporta_moral: true,  exporta_fisica: false } },
+  { tipo: 'Poder del representante legal (actos de administracion, pleitos y cobranza)',
+    aplica: { importa_moral: true,  importa_fisica: false, exporta_moral: true,  exporta_fisica: false } },
+  { tipo: 'Identificacion oficial del representante legal (pasaporte, INE o FM2-FM3)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'Constancia de Situacion Fiscal del representante legal (SAT, del mes en curso)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'Opinion del Cumplimiento de Obligaciones Fiscales (SAT, del mes en curso)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'IMMEX, PROSEC, Certificacion IVA/IEPS, ECEX, etc. (cuando aplique)',
+    aplica: { importa_moral: true,  importa_fisica: false, exporta_moral: true,  exporta_fisica: false },
+    condicional: true },
+  { tipo: 'Cartas encomienda (en original)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'Encargo conferido al Agente Aduanal ante el SAT',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: false, exporta_fisica: false } },
+  { tipo: 'Sello digital para ventanilla unica: COVE/VUCEM (.CER, .KEY, contrasena y clave web)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'Verificacion de domicilio fiscal (acta SAT o estatus en el portal SAT)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'Fotografias del domicilio fiscal (fachada, maquinaria, oficina, personal, transporte)',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
+  { tipo: 'Documento que acredite la legal propiedad o posesion del inmueble y activos',
+    aplica: { importa_moral: true,  importa_fisica: true,  exporta_moral: true,  exporta_fisica: true } },
 ];
+
+// Filtra la matriz segun operacion (exporta/importa/ambas) + tipo de persona
+// (moral/fisica). 'ambas' = se pide el documento si aplica en CUALQUIERA de
+// los dos regimenes (el expediente tiene que sostener ambas operaciones).
+function checklistPara(operacion, tipoPersona) {
+  const persona = tipoPersona === 'fisica' ? 'fisica' : 'moral';
+  const regimenes = operacion === 'ambas' ? ['importa', 'exporta'] : [operacion];
+  return CHECKLIST_MATRIZ.filter((d) =>
+    regimenes.some((r) => d.aplica[r + '_' + persona])
+  ).map((d) => (d.condicional ? d.tipo + ' [segun corresponda]' : d.tipo));
+}
 
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 60_000;
@@ -250,9 +279,13 @@ export default async function handler(req, res) {
       // El FOLIO no se calcula aqui: lo pone la base con un trigger, para que
       // sea unico e irrepetible aunque se creen dos al mismo tiempo. Sufijo por
       // tipo de operacion: exporta = X, importa = M, ambas = 2.
-      const { token, razonSocial, operacion, commodity, aduana, seedChecklist } = body;
+      const { token, razonSocial, operacion, tipoPersona, commodity, aduana, seedChecklist } = body;
       const OPS = ['exporta', 'importa', 'ambas'];
-      if (!token || !razonSocial || !commodity || !aduana || !OPS.includes(operacion))
+      const PERSONAS = ['moral', 'fisica'];
+      if (
+        !token || !razonSocial || !commodity || !aduana ||
+        !OPS.includes(operacion) || !PERSONAS.includes(tipoPersona)
+      )
         return res.status(400).json({ ok: false });
       const r = await fetch(`${URLB}/rest/v1/produce_profiles`, {
         method: 'POST',
@@ -265,6 +298,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           razon_social: String(razonSocial).slice(0, 200),
           operacion,
+          tipo_persona: tipoPersona,
           commodity,
           aduana,
         }),
@@ -273,7 +307,7 @@ export default async function handler(req, res) {
         // 400 con columna/constraint desconocida = falta correr la migracion.
         // Se distingue para que el panel pueda decirlo en cristiano.
         const err = await r.text().catch(() => '');
-        const faltaMigracion = /razon_social|operacion|null value in column "user_id"|violates not-null/i.test(err);
+        const faltaMigracion = /razon_social|operacion|tipo_persona|null value in column "user_id"|violates not-null/i.test(err);
         console.error('[produce-access] profiles-create fallo, status', r.status, '| body:', err.slice(0, 300));
         return res
           .status(400)
@@ -281,12 +315,15 @@ export default async function handler(req, res) {
       }
       const rows = await r.json();
       const profile = rows && rows[0];
+      let checklistCreado = 0;
+      let checklistError = null;
       if (seedChecklist && profile && profile.id) {
-        const docs = CHECKLIST_ESTANDAR.map((tipo) => ({
+        const tipos = checklistPara(operacion, tipoPersona);
+        const docs = tipos.map((tipo) => ({
           profile_id: profile.id,
           tipo_documento: tipo,
         }));
-        await fetch(`${URLB}/rest/v1/produce_documents`, {
+        const rDocs = await fetch(`${URLB}/rest/v1/produce_documents`, {
           method: 'POST',
           headers: {
             apikey: ANON,
@@ -295,9 +332,24 @@ export default async function handler(req, res) {
             Prefer: 'return=minimal',
           },
           body: JSON.stringify(docs),
-        }).catch(() => {});
+        }).catch((e) => {
+          console.error('[produce-access] seeding de checklist: excepcion de red', e && e.message);
+          return null;
+        });
+        if (!rDocs) {
+          checklistError = 'RED';
+        } else if (!rDocs.ok) {
+          const errBody = await rDocs.text().catch(() => '');
+          console.error(
+            '[produce-access] seeding de checklist fallo, status', rDocs.status,
+            '| body:', errBody.slice(0, 300)
+          );
+          checklistError = /relation .* does not exist/i.test(errBody) ? 'SCHEMA' : 'BAD';
+        } else {
+          checklistCreado = tipos.length;
+        }
       }
-      return res.status(200).json({ ok: true, profile });
+      return res.status(200).json({ ok: true, profile, checklistCreado, checklistError });
     }
 
     if (action === 'access-log') {
@@ -348,7 +400,12 @@ export default async function handler(req, res) {
           tipo_documento: String(tipoDocumento).slice(0, 120),
         }),
       });
-      if (!r.ok) return res.status(400).json({ ok: false });
+      if (!r.ok) {
+        const err = await r.text().catch(() => '');
+        console.error('[produce-access] documents-add fallo, status', r.status, '| body:', err.slice(0, 300));
+        const faltaMigracion = /relation .* does not exist/i.test(err);
+        return res.status(400).json({ ok: false, code: faltaMigracion ? 'SCHEMA' : 'BAD' });
+      }
       const rows = await r.json();
       return res.status(200).json({ ok: true, rows });
     }
