@@ -35,11 +35,22 @@ ciberseguridad que corra cada vez que se monte una landing.
   commiteados antes siguen trackeados hasta que Rod los quite a mano en GitHub Desktop.
 
 ### Pendiente / decisión de Rod
-- [ ] `/oversize` no trae toggle ES/EN ni toggle claro/oscuro, y usa paleta y tipografía distintas al
-      sistema documentado (Newsreader + Hanken Grotesk + IBM Plex Mono, tema oscuro fijo). Es el diseño
-      que Rod aprobó — queda como excepción deliberada o Rod pide agregar los toggles.
 - [ ] Untrackear a mano en GitHub Desktop los 5 archivos de `security-audits/` ya commiteados
       (2026-04-06 a 2026-07-06) — el `.gitignore` nuevo solo evita que se sumen más.
+
+### Actualización misma fecha — toggle ES/EN agregado, sin tema claro (decisión de Rod)
+Rod decidió: `/oversize` se queda con **tema oscuro fijo** (sin toggle claro/oscuro, excepción
+deliberada al sistema de diseño), pero **sí quiere el toggle de idioma**. Ejecutado:
+- **Hallazgo nuevo:** todo el español del entregable de Claude Design estaba **sin acentos**
+  (`Mexico`, `operacion`, `tuberia`, etc., incluyendo 6 `alt=""` de imagen escondidos en las líneas
+  de base64). Corregido en el 100% del texto visible.
+- **Toggle ES/EN** implementado con el mismo patrón de `/procurement` (`data-i18n`, `-html`, `-ph`,
+  `-aria`, más un `data-i18n-alt` nuevo para textos alternativos de imagen). Diccionario embebido de
+  189 llaves, ES/EN completas, sin llaves huérfanas. **Sin `localStorage`** a propósito (a diferencia
+  de `/procurement`) — la regla dura de `crea-landing-bondiact` lo prohíbe; el idioma no se recuerda
+  entre visitas, siempre abre en español. Los mensajes del formulario también cambian de idioma.
+- Detalle completo y verificación en `security-audits/landings/oversize-2026-08-01.md` (sección
+  "ACTUALIZACIÓN").
 
 ---
 
